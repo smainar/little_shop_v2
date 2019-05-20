@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "navigation bar", type: :feature do
-  describe 'visitor navigation' do
+  it 'visitor navigation' do
     visit root_path
 
     within("#nav") do
