@@ -6,4 +6,6 @@ Rails.application.routes.draw do
   resources :items, only: [:index]
 
   get '/login', to: "sessions#new"
+
+  get '/register', to: "users#new"
 end
