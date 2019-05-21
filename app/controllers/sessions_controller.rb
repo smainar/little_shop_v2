@@ -2,14 +2,19 @@ class SessionsController < ApplicationController
   def new
   end
   def create
-    binding.pry
     user = User.find_by(email: params[:email])
-    if user && user.password_digest == params[:password]
+    if user && user.authenticate(params[:password])
       session[:user_id] = user.id
-      # current_user
-      redirect_to profile_path
+      flash[:welcome] = "Welcome, #{user.name}!"
+      if current_user.admin?
+        redirect_to root_path
+      elsif current_user.merchant?
+        redirect_to dashboard_path
+      else
+        redirect_to profile_path
+      end
     else
-      flash[:login_failed] = "Login Failed!"
+      flash[:login_failed] = "Incorrect Username/Password Combination"
       render :new
     end
   end
