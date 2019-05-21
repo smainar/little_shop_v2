@@ -17,8 +17,8 @@ RSpec.describe Item, type: :model do
 
   describe 'class methods' do
     before :each do
-      @user_1 = User.create!(name: 'User 1', email: 'user_1@email.com', password_digest: 'password1', active: true, address: '1 Street', city: 'City 1', state: 'CO', zip: '00001', role: 1)
-      @user_2 = User.create!(name: 'User 2', email: 'user_2@email.com', password_digest: 'password2', active: true, address: '2 Street', city: 'City 2', state: 'CO', zip: '00002', role: 1)
+      @user_1 = User.create!(name: 'User 1', email: 'user_1@email.com', password: 'password1', active: true, address: '1 Street', city: 'City 1', state: 'CO', zip: '00001', role: 1)
+      @user_2 = User.create!(name: 'User 2', email: 'user_2@email.com', password: 'password2', active: true, address: '2 Street', city: 'City 2', state: 'CO', zip: '00002', role: 1)
 
       @item_1 = @user_1.items.create!(name: 'Item 1', active: true, price: 1.00, description: 'Stuff 1', image: 'https://luciteacrylic.com/wp-content/uploads/2018/01/Product-Image-Coming-Soon.png', inventory: 1)
       @item_2 = @user_1.items.create!(name: 'Item 2', active: true, price: 2.00, description: 'Stuff 2', image: 'https://luciteacrylic.com/wp-content/uploads/2018/01/Product-Image-Coming-Soon.png', inventory: 2)

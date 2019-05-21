@@ -2,10 +2,10 @@
 
 <% @items.each do |item| %>
   <section id="test-items-index-<%= item.id %>">
-    <p>Name: <%= link_to item.name, item_path(item) %></p>
-    <p>Price: $<%= item.price %></p>
+    <p><%= link_to item.name, item_path(item) %></p>
+    <p>$<%= item.price %></p>
     <p>Description: <%= item.description %></p>
-    <p><%= item.image %></p>
-    <p>Inventory: <%= item.inventory %></p>
+    <%= image_tag item.image || @default_image, alt: "image of #{item.name}" %>
+    <p><%= item.inventory %> in stock</p>
   </section>
 <% end %>
