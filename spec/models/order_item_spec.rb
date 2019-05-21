@@ -1,7 +1,7 @@
 RSpec.describe OrderItem, type: :model do
   describe "Validations" do
     it { should validate_presence_of :order_price}
-    it { should validate_presence_of :fulfilled}
+    it { should validate_presence_of :quantity}
   end
 
   describe "relationships" do

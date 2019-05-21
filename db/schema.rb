@@ -32,8 +32,8 @@ ActiveRecord::Schema.define(version: 20190520220022) do
     t.bigint "item_id"
     t.bigint "order_id"
     t.integer "quantity"
-    t.decimal "price"
-    t.boolean "fulfilled"
+    t.decimal "order_price"
+    t.boolean "fulfilled", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["item_id"], name: "index_order_items_on_item_id"
