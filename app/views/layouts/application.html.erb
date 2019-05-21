@@ -17,6 +17,12 @@
       <%= link_to "Login", login_path %>
       <%= link_to "Register", register_path %>
     </div>
+    <section class="flash">
+      <% flash.each do |type,message| %>
+      <%= content_tag :div, message, class: type %>
+      <% end %>
+    </section>
+
     <%= yield %>
   </body>
 </html>

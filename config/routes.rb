@@ -3,11 +3,15 @@ Rails.application.routes.draw do
 
   root to: "welcome#index"
 
-  resources :items, only: [:index]
+  resources :items, only: [:index, :show]
 
   get '/login', to: "sessions#new"
 
   get '/register', to: "users#new", as: :register
 
   get '/merchants', to: "merchants#index", as: :merchants
+
+  get '/profile', to: 'users#show'
+
+  resources :users, only: [:create]
 end

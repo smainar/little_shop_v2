@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 20190520220022) do
   create_table "items", force: :cascade do |t|
     t.bigint "user_id"
     t.string "name"
-    t.boolean "active"
+    t.boolean "active", default: true
     t.decimal "price"
     t.text "description"
     t.string "image"
