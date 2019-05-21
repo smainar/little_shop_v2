@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
       # current_user
       redirect_to profile_path
-    elsif !user || !user.authenticate(params[:password])
+    else
       flash[:login_failed] = "Login Failed!"
       render :new
     end
