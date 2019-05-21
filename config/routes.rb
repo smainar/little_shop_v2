@@ -7,5 +7,7 @@ Rails.application.routes.draw do
 
   get '/login', to: "sessions#new"
 
-  get '/register', to: "users#new"
+  get '/register', to: "users#new", as: :register
+
+  get '/merchants', to: "merchants#index", as: :merchants
 end
