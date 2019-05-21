@@ -11,7 +11,7 @@ class User < ApplicationRecord
   has_many :items
 
   enum role: ['user', 'merchant', 'admin']
-  
+
   validates :email, uniqueness: true, presence: true
   validates_presence_of :password, require: true
 
