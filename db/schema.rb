@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 20190520220022) do
   create_table "items", force: :cascade do |t|
     t.bigint "user_id"
     t.string "name"
-    t.boolean "active"
+    t.boolean "active", default: true
     t.decimal "price"
     t.text "description"
     t.string "image"
@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(version: 20190520220022) do
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "password_digest"
-    t.boolean "active"
+    t.boolean "active", default: true
     t.string "name"
     t.string "address"
     t.string "city"
