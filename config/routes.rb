@@ -7,5 +7,8 @@ Rails.application.routes.draw do
 
   get '/login', to: "sessions#new"
 
+  get '/profile', to: 'users#show'
+
   get '/register', to: "users#new"
+  resources :users, only: [:create]
 end
