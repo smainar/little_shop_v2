@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 20190520220022) do
     t.bigint "item_id"
     t.bigint "order_id"
     t.integer "quantity"
-    t.decimal "order_price"
+    t.decimal "quantity_price"
     t.boolean "fulfilled", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
