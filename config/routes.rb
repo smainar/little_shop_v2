@@ -6,9 +6,10 @@ Rails.application.routes.draw do
   resources :items, only: [:index, :show]
 
   get '/login', to: "sessions#new"
+  post '/login', to: "sessions#create"
 
-  get '/profile', to: 'users#show'
-
+  get '/profile', to: "users#show"
   get '/register', to: "users#new"
+  get '/dashboard', to: "merchants#show"
   resources :users, only: [:create]
 end
