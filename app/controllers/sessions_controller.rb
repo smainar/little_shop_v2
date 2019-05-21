@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
         redirect_to profile_path
       end
     else
-      flash[:login_failed] = "Incorrect Username/Password Combination"
+      flash[:error] = "Incorrect Username/Password Combination"
       render :new
     end
   end

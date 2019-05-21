@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe "User Login Workflow", type: :feature do
 
-  scenario 'correct login information entered' do
-    user = User.create!(email: "abc@abc.com", password: "password", name: "user1", address: "kgysdfklvysgu", city: 'city town', state: 'state place', zip: '987123', role: 0)
+  scenario 'correct user login information entered' do
+    user = User.create!(email: "abc@abc.com", password: "password", name: "user1", address: "kgysdfklvysgu", city: 'city town', state: 'state place', zip: '987123', role: 'user')
 
     visit root_path
     click_on 'Login'
@@ -19,7 +19,7 @@ RSpec.describe "User Login Workflow", type: :feature do
     expect(page).to have_content("Welcome, #{user.name}!")
   end
 
-  scenario 'incorrect login information entered' do
+  scenario 'incorrect user login information entered' do
     user = User.create!(email: "abc@abc.com", password: "password", name: "user1", address: "kgysdfklvysgu", city: 'city town', state: 'state place', zip: '987123', role: 'user')
 
     visit login_path
