@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-
-RSpec.describe "User Registration form" do
+RSpec.describe "User registration form" do
   it "can create new user" do
     visit root_path
 
@@ -25,7 +24,6 @@ RSpec.describe "User Registration form" do
     new_user = User.last
 
     expect(page).to have_content("Welcome, #{new_user.name}")
-
   end
 
   context "put in wrong confirmation password" do
@@ -51,8 +49,4 @@ RSpec.describe "User Registration form" do
       expect(page).to have_content("Failed to create account")
     end
   end
-
-
-
-
 end
