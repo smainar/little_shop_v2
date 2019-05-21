@@ -1,0 +1,11 @@
+<h1>All Items</h1>
+
+<% @items.each do |item| %>
+  <section id="test-items-index-<%= item.id %>">
+    <p>Name: <%= item.name %></p>
+    <p>Price: $<%= item.price %></p>
+    <p>Description: <%= item.description %></p>
+    <p><%= item.image %></p>
+    <p>Inventory: <%= item.inventory %></p>
+  </section>
+<% end %>
