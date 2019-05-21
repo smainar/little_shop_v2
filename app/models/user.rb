@@ -6,8 +6,10 @@ class User < ApplicationRecord
                         :address,
                         :city,
                         :state,
-                        :zip
-  has_many :orders                      
+                        :zip,
+                        :role
+  has_many :orders
   has_many :items
 
+  enum role: ['visitor', 'merchant', 'admin']
 end
