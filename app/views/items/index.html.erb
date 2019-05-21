@@ -2,7 +2,7 @@
 
 <% @items.each do |item| %>
   <section id="test-items-index-<%= item.id %>">
-    <p>Name: <%= item.name %></p>
+    <p>Name: <%= link_to item.name, item_path(item) %></p>
     <p>Price: $<%= item.price %></p>
     <p>Description: <%= item.description %></p>
     <p><%= item.image %></p>

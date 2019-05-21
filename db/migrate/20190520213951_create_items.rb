@@ -3,7 +3,7 @@ class CreateItems < ActiveRecord::Migration[5.1]
     create_table :items do |t|
       t.references :user, foreign_key: true
       t.string :name
-      t.boolean :active
+      t.boolean :active, default: true
       t.decimal :price
       t.text :description
       t.string :image

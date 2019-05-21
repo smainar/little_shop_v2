@@ -1,6 +1,5 @@
 class Item < ApplicationRecord
   validates_presence_of :name,
-                       :active,
                        :price,
                        :description,
                        :image,
@@ -9,4 +8,8 @@ class Item < ApplicationRecord
   belongs_to :user
   has_many :order_items
   has_many :orders, through: :order_items
+
+  def self.active_items
+    self.where(active: true)
+  end
 end
