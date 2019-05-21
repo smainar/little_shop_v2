@@ -32,8 +32,8 @@ ActiveRecord::Schema.define(version: 20190520220022) do
     t.bigint "item_id"
     t.bigint "order_id"
     t.integer "quantity"
-    t.decimal "price"
-    t.boolean "fulfilled"
+    t.decimal "price_per_item"
+    t.boolean "fulfilled", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["item_id"], name: "index_order_items_on_item_id"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 20190520220022) do
 
   create_table "orders", force: :cascade do |t|
     t.bigint "user_id"
+    t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_orders_on_user_id"
@@ -56,6 +57,7 @@ ActiveRecord::Schema.define(version: 20190520220022) do
     t.string "city"
     t.string "state"
     t.string "zip"
+    t.integer "role", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

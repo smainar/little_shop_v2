@@ -5,10 +5,13 @@ class User < ApplicationRecord
                         :address,
                         :city,
                         :state,
-                        :zip
+                        :zip,
+                        :role
   has_many :orders
   has_many :items
 
+  enum role: ['user', 'merchant', 'admin']
+  
   validates :email, uniqueness: true, presence: true
   validates_presence_of :password, require: true
 
