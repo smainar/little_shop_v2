@@ -23,7 +23,6 @@ RSpec.describe "User logout, " do
     expect(page).to have_link("Login")
     expect(page).to have_link("Register")
     expect(page).to_not have_link("Log Out")
-    #to-do: clear cart.
   end
 
   it 'empties cart on logout' do
