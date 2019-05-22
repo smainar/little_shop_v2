@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  before_save { self.email = email.downcase }
+
   validates_presence_of :email,
                         :active,
                         :name,
@@ -11,7 +13,7 @@ class User < ApplicationRecord
   has_many :items
 
   enum role: ['user', 'merchant', 'admin']
-  
+
   validates :email, uniqueness: true, presence: true
   validates_presence_of :password, require: true
 
