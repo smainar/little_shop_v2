@@ -20,12 +20,12 @@ RSpec.describe "cart show page", type: :feature do
     it 'shows all items in the cart' do
       visit cart_path
 
-      expect(page).to have_link("Empty Cart")
+      expect(page).to have_button("Empty Cart")
 
       within("#item-#{@item_1.id}") do
         expect(page).to have_link(@item_1.name)
         expect(page).to have_css("img[src*='#{@item_1.image}']")
-        expect(page).to have_link(@item_1.user.name)
+        expect(page).to have_content(@item_1.user.name)
         expect(page).to have_content("$#{@item_1.price}")
         expect(page).to have_content("Quantity: 2")
         expect(page).to have_content("Subtotal: $#{2 * @item_1.price}")
@@ -34,7 +34,7 @@ RSpec.describe "cart show page", type: :feature do
       within("#item-#{@item_2.id}") do
         expect(page).to have_link(@item_2.name)
         expect(page).to have_css("img[src*='#{@item_2.image}']")
-        expect(page).to have_link(@item_2.user.name)
+        expect(page).to have_content(@item_2.user.name)
         expect(page).to have_content("$#{@item_2.price}")
         expect(page).to have_content("Quantity: 1")
         expect(page).to have_content("Subtotal: $#{@item_2.price}")
@@ -66,12 +66,12 @@ RSpec.describe "cart show page", type: :feature do
     it 'shows all items in the cart' do
       visit cart_path
 
-      expect(page).to have_link("Empty Cart")
+      expect(page).to have_button("Empty Cart")
 
       within("#item-#{@item_1.id}") do
         expect(page).to have_link(@item_1.name)
         expect(page).to have_css("img[src*='#{@item_1.image}']")
-        expect(page).to have_link(@item_1.user.name)
+        expect(page).to have_content(@item_1.user.name)
         expect(page).to have_content("$#{@item_1.price}")
         expect(page).to have_content("Quantity: 2")
         expect(page).to have_content("Subtotal: $#{2 * @item_1.price}")
@@ -80,7 +80,7 @@ RSpec.describe "cart show page", type: :feature do
       within("#item-#{@item_2.id}") do
         expect(page).to have_link(@item_2.name)
         expect(page).to have_css("img[src*='#{@item_2.image}']")
-        expect(page).to have_link(@item_2.user.name)
+        expect(page).to have_content(@item_2.user.name)
         expect(page).to have_content("$#{@item_2.price}")
         expect(page).to have_content("Quantity: 1")
         expect(page).to have_content("Subtotal: $#{@item_2.price}")

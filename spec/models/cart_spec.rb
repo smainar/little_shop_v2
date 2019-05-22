@@ -23,4 +23,25 @@ RSpec.describe Cart do
       expect(subject.contents).to eq({'1' => 2, '2' => 3, '3' => 1})
     end
   end
+
+  describe "#subtotal" do
+    it "calculates the subtotal for a particular item" do
+      item_1 = create(:item)
+      item_2 = create(:item)
+      cart_1 = Cart.new({item_1.id.to_s => 2, item_2.id.to_s => 3})
+
+      expect(cart_1.subtotal(item_1)).to eq(2 * item_1.price)
+      expect(cart_1.subtotal(item_2)).to eq(3 * item_2.price)
+    end
+  end
+
+  describe "#grand_total" do
+    it "calculates the grand total cost for all items" do
+      item_1 = create(:item)
+      item_2 = create(:item)
+      cart_1 = Cart.new({item_1.id.to_s => 2, item_2.id.to_s => 3})
+
+      expect(cart_1.grand_total).to eq(2 * item_1.price + 3 * item_2.price)
+    end
+  end
 end
