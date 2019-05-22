@@ -16,7 +16,7 @@ RSpec.describe "As any user, " do
   it "I see all active items only" do
     visit items_path
 
-    within "#test-items-index-#{@item_1.id}" do
+    within "#item-id-#{@item_1.id}" do
       expect(page).to have_link(@item_1.name)
       expect(page).to have_content("$#{@item_1.price}")
       expect(page).to have_content("Description: #{@item_1.description}")
@@ -24,7 +24,7 @@ RSpec.describe "As any user, " do
       expect(page).to have_content("#{@item_1.inventory} in stock")
     end
 
-    within "#test-items-index-#{@item_2.id}" do
+    within "#item-id-#{@item_2.id}" do
       expect(page).to have_link(@item_2.name)
       expect(page).to have_content("$#{@item_2.price}")
       expect(page).to have_content("Description: #{@item_2.description}")
