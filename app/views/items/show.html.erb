@@ -4,5 +4,6 @@
 <p>Merchant Name: <%= @merchant.name %></p>
 <p><%= @item.inventory %> in stock</p>
 <p>$<%= @item.price %></p>
+<p>Average Fulfillment Time: <%= @item.average_fulfillment_time %> days</p>
 
 <%= button_to "Add to Cart", carts_path(item_id: @item.id) %>
