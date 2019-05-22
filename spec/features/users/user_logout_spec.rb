@@ -1,19 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe "User logout, " do
-  before :each do
-    @user = create(:user)
+  user = create(:user)
 
-    visit login_path
+  visit login_path
 
-    within(".login-form") do
-      fill_in "Email", with: @user.email
-      fill_in "Password", with: @user.password
-      click_on "Login"
-    end
+  within(".login-form") do
+    fill_in "Email", with: user.email
+    fill_in "Password", with: user.password
+    click_on "Login"
   end
-  it "can log out any user who is logged in" do
 
+  it "can log out any user who is logged in" do
+    
     expect(current_path).to eq(profile_path)
 
     click_link "Log Out"
@@ -40,6 +39,5 @@ RSpec.describe "User logout, " do
 
     expect(current_path).to eq(root_path)
     expect(page).to have_content("Cart: 0")
-
   end
 end
