@@ -15,6 +15,7 @@ RSpec.describe "navigation bar", type: :feature do
         click_link "Browse All Merchants"
         expect(current_path).to eq(merchants_path)
 
+        # to-do:
         # click_link "My Cart"
         # expect(current_path).to eq("/cart")
 
@@ -23,10 +24,13 @@ RSpec.describe "navigation bar", type: :feature do
 
         click_link "Register"
         expect(current_path).to eq(register_path)
+
+        expect(page).to_not have_content "Logged in as"
       end
     end
 
     it "Next to the shopping cart link I see a count of the items in my cart"
+    # to-do
   end
 
   context "as a user" do
@@ -56,6 +60,7 @@ RSpec.describe "navigation bar", type: :feature do
         click_link "Browse All Merchants"
         expect(current_path).to eq(merchants_path)
 
+        # to-do:
         # click_link "My Cart"
         # expect(current_path).to eq("/cart")
 
@@ -69,11 +74,10 @@ RSpec.describe "navigation bar", type: :feature do
 
         click_link "Log Out"
         expect(current_path).to eq(root_path)
-
-        expect(page).to_not have_content "Logged in as #{user.name}"
       end
     end
 
     it "Next to the shopping cart link I see a count of the items in my cart"
+    # to-do
   end
 end

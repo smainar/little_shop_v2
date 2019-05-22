@@ -6,7 +6,7 @@ RSpec.describe "User logout, " do
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
 
     visit profile_path
-    click_on "Logout"
+    click_on "Log Out"
 
     expect(current_path).to eq(root_path)
     #to-do: check session destruction.

@@ -19,15 +19,15 @@
         <%= link_to "Register", register_path %>
       <% end %>
 
-      <% if current_user.default? %>
+      <% if current_user && current_user.user? %>
         <%= link_to "My Profile", profile_path %>
         <%= link_to "Log Out", logout_path %>
         Logged in as <%= current_user.name %>
       <% end %>
     </nav>
     <section class="flash">
-      <% flash.each do |type,message| %>
-      <%= content_tag :div, message, class: type %>
+      <% flash.each do |type, message| %>
+        <%= content_tag :div, message, class: type %>
       <% end %>
     </section>
     <%= yield %>
