@@ -2,6 +2,10 @@ class ItemsController < ApplicationController
 
   def index
     @items = Item.active_items
-    @default_image = Item::DEFAULT_IMAGE
+  end
+
+  def show
+    @item = Item.find(params[:id])
+    @merchant = @item.user
   end
 end
