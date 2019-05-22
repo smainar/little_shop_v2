@@ -4,3 +4,5 @@
 <p>Merchant Name: <%= @merchant.name %></p>
 <p><%= @item.inventory %> in stock</p>
 <p>$<%= @item.price %></p>
+
+<%= button_to "Add to Cart", carts_path(item_id: @item.id) %>
