@@ -54,7 +54,7 @@ RSpec.describe "User Registration form" do
 
   context 'email in use already' do
     it 'gives flash error email in use' do
-      User.create!(email: "123@gmail.com",
+      User.create!(email: "ABC@gmail.com",
                   name: "billy",
                   city: "miami",
                   state: "colorado",
@@ -68,12 +68,26 @@ RSpec.describe "User Registration form" do
       fill_in "user[address]", with: "123 go to santa lane"
       fill_in "user[city]", with: "aurora"
       fill_in "user[state]", with: "colorado"
-      fill_in "user[email]", with: "123@gmail.com"
+      fill_in "user[email]", with: "abc@gmail.com"
       fill_in "user[zip]", with: "123311"
       fill_in "user[password]", with: "1233"
-      fill_in "user[password_confirmation]", with: "123"
+      fill_in "user[password_confirmation]", with: "1233"
 
-      expect(current_path).to eq('/register')
+      click_on "Register User"
+
+      expect(page).to have_content("Email Already Taken!")
+
+      fill_in 'user[email]', with: "abc123@gmail.com"
+      fill_in "user[password]", with: "1233"
+      fill_in "user[password_confirmation]", with: "1233"
+
+      click_on "Register User"
+      
+      expect(current_path).to eq('/profile')
+
+      new_user = User.last
+
+      expect(page).to have_content("Welcome, #{new_user.name}")
     end
   end
 
