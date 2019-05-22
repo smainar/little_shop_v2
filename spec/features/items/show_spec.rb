@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe "As any kind of user, " do
   describe  "I visit the item show page" do
     before :each do
-      @merchant_1 = create!(:merchant)
-      @item_1 = @merchant_1.items(:item)
+      @merchant_1 = create(:merchant)
+      @item_1 = create(:item, user: @merchant_1, inventory: 15)
     end
 
     it "I can see all the information for the item" do
@@ -16,7 +16,12 @@ RSpec.describe "As any kind of user, " do
       expect(page).to have_content(@item_1.description)
       expect(page).to have_css("img[src*='#{@item_1.image}']")
       expect(page).to have_content(@merchant_1.name)
-      #to-do need to check how many in stock.
+      expect(page).to have_content(@item_1.inventory)
+      expect(page).to have_content(@item_1.price)
+    end
+
+    xit "it can display average fulfillment time" do
+
     end
   end
 end
