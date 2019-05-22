@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get '/merchants', to: "merchants#index"
 
   resources :carts, only: [:create]
+  get '/cart', to: "carts#show"
 
   resources :users, only: [:create]
 
