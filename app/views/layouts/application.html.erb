@@ -17,6 +17,7 @@
       <% unless current_user %>
         <%= link_to "Login", login_path %>
         <%= link_to "Register", register_path %>
+        Cart: <%= cart.total_count %>
       <% end %>
 
       <% if current_user %>
