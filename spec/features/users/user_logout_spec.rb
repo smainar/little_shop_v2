@@ -1,15 +1,46 @@
 require 'rails_helper'
 
 RSpec.describe "User logout, " do
-  it "can log out any user who is logged in" do
-    user = create(:user)
-    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
+  before :each do
+    @user = create(:user)
 
-    visit profile_path
+    visit login_path
+
+    within(".login-form") do
+      fill_in "Email", with: @user.email
+      fill_in "Password", with: @user.password
+      click_on "Login"
+    end
+  end
+  it "can log out any user who is logged in" do
+
+    expect(current_path).to eq(profile_path)
+
+    click_link "Log Out"
+
+    expect(current_path).to eq(root_path)
+    expect(page).to have_content("You are logged out!")
+    expect(page).to have_link("Login")
+    expect(page).to have_link("Register")
+    expect(page).to_not have_link("Log Out")
+    #to-do: clear cart.
+  end
+
+  it 'empties cart on logout' do
+    merchant = create(:merchant)
+    item_1 = create(:item, user: merchant)
+
+    visit item_path(item_1)
+
+    click_on "Add to Cart"
+
+    expect(current_path).to eq(items_path)
+    expect(page).to have_content("Cart: 1")
+
     click_on "Log Out"
 
     expect(current_path).to eq(root_path)
-    #to-do: check session destruction.
-    #to-do: clear cart.
+    expect(page).to have_content("Cart: 0")
+
   end
 end
