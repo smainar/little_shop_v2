@@ -13,6 +13,7 @@ RSpec.describe "User logout, " do
       click_on "Login"
     end
 
+
     expect(current_path).to eq(profile_path)
 
     click_link "Log Out"
