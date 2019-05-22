@@ -15,9 +15,8 @@ RSpec.describe "navigation bar", type: :feature do
         click_link "Browse All Merchants"
         expect(current_path).to eq(merchants_path)
 
-        # to-do:
-        # click_link "My Cart"
-        # expect(current_path).to eq("/cart")
+        click_link "My Cart"
+        expect(current_path).to eq(cart_path)
 
         click_link "Login"
         expect(current_path).to eq(login_path)
@@ -31,8 +30,37 @@ RSpec.describe "navigation bar", type: :feature do
       end
     end
 
-    it "Next to the shopping cart link I see a count of the items in my cart"
-    # to-do
+    it "Next to the shopping cart link I see a count of the items in my cart" do
+      item_1 = create(:item)
+      item_2 = create(:item)
+
+      visit items_path
+
+      within("nav") do
+        expect(page).to have_content("0")
+      end
+
+      click_link item_1.name
+      click_button "Add to Cart"
+
+      within("nav") do
+        expect(page).to have_content("1")
+      end
+
+      click_link item_2.name
+      click_button "Add to Cart"
+
+      within("nav") do
+        expect(page).to have_content("2")
+      end
+
+      click_link item_1.name
+      click_button "Add to Cart"
+
+      within("nav") do
+        expect(page).to have_content("3")
+      end
+    end
   end
 
   context "as a user" do
@@ -63,9 +91,8 @@ RSpec.describe "navigation bar", type: :feature do
         click_link "Browse All Merchants"
         expect(current_path).to eq(merchants_path)
 
-        # to-do:
-        # click_link "My Cart"
-        # expect(current_path).to eq("/cart")
+        click_link "My Cart"
+        expect(current_path).to eq(cart_path)
 
         expect(page).to_not have_link("Login")
         expect(page).to_not have_link("Register")
@@ -94,8 +121,40 @@ RSpec.describe "navigation bar", type: :feature do
       end
     end
 
-    it "Next to the shopping cart link I see a count of the items in my cart"
-    # to-do
+    it "Next to the shopping cart link I see a count of the items in my cart" do
+      allow_any_instance_of(ApplicationController).to receive(:current_user)
+        .and_return(@user)
+
+      item_1 = create(:item)
+      item_2 = create(:item)
+
+      visit items_path
+
+      within("nav") do
+        expect(page).to have_content("0")
+      end
+
+      click_link item_1.name
+      click_button "Add to Cart"
+
+      within("nav") do
+        expect(page).to have_content("1")
+      end
+
+      click_link item_2.name
+      click_button "Add to Cart"
+
+      within("nav") do
+        expect(page).to have_content("2")
+      end
+
+      click_link item_1.name
+      click_button "Add to Cart"
+
+      within("nav") do
+        expect(page).to have_content("3")
+      end
+    end
   end
 
   context "as a merchant user" do
