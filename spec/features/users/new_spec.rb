@@ -45,8 +45,7 @@ RSpec.describe "User Registration form" do
 
       click_on "Register User"
 
-      expect(current_path).to eq('/register')
-      expect(page).to have_content("Failed to create account")
+      expect(page).to have_content("Password confirmation doesn't match Password")
     end
   end
 
@@ -73,14 +72,14 @@ RSpec.describe "User Registration form" do
 
       click_on "Register User"
 
-      expect(page).to have_content("Email Already Taken!")
+      expect(page).to have_content("Email has already been taken")
 
       fill_in 'user[email]', with: "abc123@gmail.com"
       fill_in "user[password]", with: "1233"
       fill_in "user[password_confirmation]", with: "1233"
 
       click_on "Register User"
-      
+
       expect(current_path).to eq('/profile')
 
       new_user = User.last
@@ -88,8 +87,4 @@ RSpec.describe "User Registration form" do
       expect(page).to have_content("Welcome, #{new_user.name}")
     end
   end
-
-
-
-
 end

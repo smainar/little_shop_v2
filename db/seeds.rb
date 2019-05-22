@@ -8,6 +8,14 @@
 
 User.destroy_all
 
+User.create!(email: "ABC@gmail.com",
+            name: "billy",
+            city: "miami",
+            state: "colorado",
+            password: "123",
+            zip: "111",
+            address: "1233 s way")
+
 User.create!(email:    "abc@def.com",
              password: "pw123",
              name:     "Abc Def",
