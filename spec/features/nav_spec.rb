@@ -25,6 +25,8 @@ RSpec.describe "navigation bar", type: :feature do
         click_link "Register"
         expect(current_path).to eq(register_path)
 
+        expect(page).to_not have_link "My Profile"
+        expect(page).to_not have_link "Log Out"
         expect(page).to_not have_content "Logged in as"
       end
     end
@@ -43,11 +45,12 @@ RSpec.describe "navigation bar", type: :feature do
                            state:    "NY",
                            zip:      "12345"
                           )
-      allow_any_instance_of(ApplicationController).to receive(:current_user)
-                                                  .and_return(@user)
     end
 
     it 'has working links' do
+      allow_any_instance_of(ApplicationController).to receive(:current_user)
+      .and_return(@user)
+
       visit items_path
 
       within("nav") do
@@ -71,9 +74,23 @@ RSpec.describe "navigation bar", type: :feature do
         expect(current_path).to eq(profile_path)
 
         expect(page).to have_content "Logged in as #{@user.name}"
+      end
+    end
 
+    it "has a working log out link" do
+      visit login_path
+
+      within('.login-form') do
+        fill_in "Email", with: @user.email
+        fill_in "Password", with: @user.password
+        click_on "Login"
+      end
+
+      within("nav") do
         click_link "Log Out"
+
         expect(current_path).to eq(root_path)
+        expect(page).to_not have_content "Logged in as"
       end
     end
 
