@@ -97,4 +97,120 @@ RSpec.describe "navigation bar", type: :feature do
     it "Next to the shopping cart link I see a count of the items in my cart"
     # to-do
   end
+
+  context "as a merchant user" do
+    before(:each) do
+      @merchant = User.create!(email:    "abc@def.com",
+                               password: "pw123",
+                               name:     "Abc Def",
+                               address:  "123 Abc St",
+                               city:     "NYC",
+                               state:    "NY",
+                               zip:      "12345",
+                               role:     :merchant
+                              )
+    end
+
+    it 'has working links' do
+      allow_any_instance_of(ApplicationController).to receive(:current_user)
+      .and_return(@merchant)
+
+      visit items_path
+
+      within("nav") do
+        click_link "Home"
+        expect(current_path).to eq(root_path)
+
+        click_link "Browse All Items"
+        expect(current_path).to eq(items_path)
+
+        click_link "Browse All Merchants"
+        expect(current_path).to eq(merchants_path)
+
+        expect(page).to_not have_link("My Cart")
+        expect(page).to_not have_link("Login")
+        expect(page).to_not have_link("Register")
+
+        click_link "Dashboard"
+        expect(current_path).to eq(dashboard_path)
+
+        expect(page).to have_content "Logged in as #{@merchant.name}"
+      end
+    end
+
+    it "has a working log out link" do
+      visit login_path
+
+      within('.login-form') do
+        fill_in "Email", with: @merchant.email
+        fill_in "Password", with: @merchant.password
+        click_on "Login"
+      end
+
+      within("nav") do
+        click_link "Log Out"
+
+        expect(current_path).to eq(root_path)
+        expect(page).to_not have_content "Logged in as"
+      end
+    end
+  end
+
+  context "as an admin user" do
+    before(:each) do
+      @admin = User.create!(email:    "abc@def.com",
+                            password: "pw123",
+                            name:     "Abc Def",
+                            address:  "123 Abc St",
+                            city:     "NYC",
+                            state:    "NY",
+                            zip:      "12345",
+                            role:     :admin
+                           )
+    end
+
+    it 'has working links' do
+      allow_any_instance_of(ApplicationController).to receive(:current_user)
+      .and_return(@admin)
+
+      visit items_path
+
+      within("nav") do
+        click_link "Home"
+        expect(current_path).to eq(root_path)
+
+        click_link "Browse All Items"
+        expect(current_path).to eq(items_path)
+
+        click_link "Browse All Merchants"
+        expect(current_path).to eq(merchants_path)
+
+        expect(page).to_not have_link("My Cart")
+        expect(page).to_not have_link("Login")
+        expect(page).to_not have_link("Register")
+
+        click_link "Dashboard"
+        expect(current_path).to eq(admin_dashboard_path)
+
+        expect(page).to have_content "Logged in as #{@admin.name}"
+      end
+    end
+
+    it "has a working log out link" do
+      visit login_path
+
+      within('.login-form') do
+        fill_in "Email", with: @admin.email
+        fill_in "Password", with: @admin.password
+        click_on "Login"
+      end
+
+      within("nav") do
+        click_link "Log Out"
+
+        expect(current_path).to eq(root_path)
+        expect(page).to_not have_content "Logged in as"
+      end
+    end
+  end
 end

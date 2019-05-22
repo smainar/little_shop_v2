@@ -15,4 +15,8 @@ Rails.application.routes.draw do
   get '/merchants', to: "merchants#index"
 
   resources :users, only: [:create]
+
+  namespace :admin do
+    get '/dashboard', to: "users#show"
+  end
 end
