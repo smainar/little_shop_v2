@@ -7,7 +7,6 @@ RSpec.describe "User visits show page of empty cart", type: :feature do
 
     visit cart_path
 
-
     expect(page).to have_content("There is nothing in your cart!")
     expect(page).to_not have_link("Empty Cart")
     expect(page).to_not have_content("Grand Total")
