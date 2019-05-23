@@ -1,17 +1,21 @@
 <h1>All Items</h1>
 
+<h2>Most Popular Items</h2>
+
 <section id="statistics-most-popular">
    <ol>
      <% @most_popular_items.each do |item| %>
-      <li><%= item.name %>, Total quantity fulfilled: <%= item.total_quantity %></li>
+      <li>Item: <%= item.name %>, Total quantity fulfilled: <%= item.total_quantity %></li>
      <% end %>
    </ol>
 </section>
 
+<h2>Least Popular Items</h2>
+
 <section id="statistics-least-popular">
   <ol>
     <% @least_popular_items.each do |item| %>
-      <li><%= item.name %>, Total quantity fulfilled: <%= item.total_quantity %></li>
+      <li>Item: <%= item.name %>, Total quantity fulfilled: <%= item.total_quantity %></li>
     <% end %>
   </ol>
 </section>
