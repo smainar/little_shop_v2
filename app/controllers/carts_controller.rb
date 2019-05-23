@@ -13,4 +13,10 @@ class CartsController < ApplicationController
 
   def show
   end
+
+  def destroy
+    reset_session
+    flash[:message] = "Your cart is now empty, anti-capitalist!"
+    redirect_to cart_path
+  end
 end
