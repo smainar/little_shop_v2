@@ -44,4 +44,12 @@ RSpec.describe Cart do
       expect(cart_1.grand_total).to eq(2 * item_1.price + 3 * item_2.price)
     end
   end
+
+  describe "#is_not_empty" do
+    it "returns true unless the cart is empty" do
+      cart_1 = Cart.new({})
+      expect(cart_1.is_not_empty).to eq(false)
+    end
+  end
+
 end
