@@ -19,7 +19,7 @@ RSpec.describe "User Login Workflow", type: :feature do
     expect(page).to have_content("Welcome, #{user.name}!")
   end
 
-  scenario 'incorrect user login information entered' do
+  scenario 'incorrect user login password entered' do
     user = User.create!(email: "abc@abc.com", password: "password", name: "user1", address: "kgysdfklvysgu", city: 'city town', state: 'state place', zip: '987123', role: 'user')
 
     visit login_path
@@ -27,6 +27,19 @@ RSpec.describe "User Login Workflow", type: :feature do
     within('.login-form') do
       fill_in "Email", with: user.email
       fill_in "Password", with: 'wrongpassword'
+      click_on "Login"
+    end
+
+    expect(current_path).to eq(login_path)
+    expect(page).to have_content("Incorrect Username/Password Combination")
+  end
+
+  scenario 'incorrect user email entered' do
+    visit login_path
+
+    within('.login-form') do
+      fill_in "Email", with: "stella@gmail.com"
+      fill_in "Password", with: 'Password'
       click_on "Login"
     end
 
