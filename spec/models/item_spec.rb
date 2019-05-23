@@ -32,4 +32,18 @@ RSpec.describe Item, type: :model do
       expect(Item.active_items).to eq([@item_1, @item_2, @item_3])
     end
   end
+
+  describe "instance methods" do
+    before :each do
+      @merchant_1 = create(:merchant)
+      @item_1 = create(:item, user: @merchant_1)
+      @order_item_1 = create(:fulfilled_order_item, item: @item_1, created_at: 3.days.ago, updated_at: 1.days.ago)
+      @order_item_2 = create(:fulfilled_order_item, item: @item_1, created_at: 2.days.ago, updated_at: 1.days.ago)
+      @order_item_3 = create(:fulfilled_order_item, item: @item_1, created_at: 4.days.ago, updated_at: 1.days.ago)
+    end
+
+    it "can calculate average fulfillment time per item" do
+      expect(@item_1.average_fulfillment_time).to eq(2)
+    end
+  end
 end
