@@ -31,6 +31,42 @@ RSpec.describe Item, type: :model do
     it "can filter active items only" do
       expect(Item.active_items).to eq([@item_1, @item_2, @item_3])
     end
+
+    it "can filter the most/least popular items by quantity purchased" do
+      merchant = create(:merchant)
+
+      user_1 = create(:user)
+      user_2 = create(:user)
+      user_3 = create(:user)
+
+      item_1 = create(:item, user: merchant, inventory: 20)
+      item_2 = create(:item, user: merchant, inventory: 20)
+      item_3 = create(:item, user: merchant, inventory: 20)
+      item_4 = create(:item, user: merchant, inventory: 20)
+      item_5 = create(:item, user: merchant, inventory: 20)
+      item_6 = create(:item, user: merchant, inventory: 20)
+
+      order_1 = create(:shipped_order, user: user_1)
+      order_2 = create(:shipped_order, user: user_2)
+      order_3 = create(:shipped_order, user: user_3)
+      order_4 = create(:shipped_order, user: user_1)
+      order_5 = create(:shipped_order, user: user_1)
+      order_6 = create(:shipped_order, user: user_2)
+      order_7 = create(:cancelled_order, user: user_2)
+      order_8 = create(:order, user: user_2)
+
+      order_items_1 = create(:fulfilled_order_item, item: item_1, order: order_1, quantity: 100)
+      order_items_2 = create(:fulfilled_order_item, item: item_2 , order: order_2, quantity: 99)
+      order_items_3 = create(:fulfilled_order_item, item: item_3, order: order_3 , quantity: 98)
+      order_items_4 = create(:fulfilled_order_item, item: item_4 , order: order_4, quantity: 97)
+      order_items_5 = create(:order_item, item: item_5, order: order_5, quantity: 96)
+      order_items_6 = create(:order_item, item: item_3, order: order_6, quantity: 95)
+      order_items_7 = create(:order_item, item: item_6, order: order_7, quantity: 101)
+      order_items_8 = create(:order_item, item: item_6, order: order_8, quantity: 102)
+
+      expect(Item.sort_by_popularity(3, :desc)).to eq([item_1, item_2, item_3])
+      expect(Item.sort_by_popularity(3, :asc)).to eq([item_4, item_3, item_2])
+    end
   end
 
   describe "instance methods" do
