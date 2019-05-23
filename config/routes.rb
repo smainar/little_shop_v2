@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   get '/dashboard', to: "merchants#show"
   get '/merchants', to: "merchants#index"
 
-  resources :carts, only: [:create]
+  resources :carts, only: :create
   get '/cart', to: "carts#show"
   delete '/cart', to: "carts#destroy"
 
