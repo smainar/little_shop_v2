@@ -9,24 +9,21 @@ RSpec.describe "Merchant Index", type: :feature do
 
       visit merchants_path
 
-      within("#merchant-id#{active_merchant_1}") do
+      within("#merchant-id-#{active_merchant_1.id}") do
         expect(page).to have_content(active_merchant_1.name)
         expect(page).to have_content(active_merchant_1.city)
         expect(page).to have_content(active_merchant_1.state)
-        expect(page).to have_content(active_merchant_1.created_at)
+        expect(page).to have_content(Date.strptime(active_merchant_1.created_at.to_s))
       end
-      within("#merchant-id#{active_merchant_2}") do
+      within("#merchant-id-#{active_merchant_2.id}") do
         expect(page).to have_content(active_merchant_2.name)
         expect(page).to have_content(active_merchant_2.city)
         expect(page).to have_content(active_merchant_2.state)
-        expect(page).to have_content(active_merchant_2.created_at)
+        expect(page).to have_content(Date.strptime(active_merchant_2.created_at.to_s))
       end
-      within("#merchant-id#{inactive_merchant}") do
         expect(page).to_not have_content(inactive_merchant.name)
         expect(page).to_not have_content(inactive_merchant.city)
         expect(page).to_not have_content(inactive_merchant.state)
-        expect(page).to_not have_content(inactive_merchant.created_at)
-      end
     end
   end
 end
