@@ -19,8 +19,13 @@ RSpec.describe "profile edit page" do
                            zip:      @zip
                           )
 
-      allow_any_instance_of(ApplicationController).to receive(:current_user)
-        .and_return(@user)
+      visit login_path
+
+      within('.login-form') do
+        fill_in "Email", with: @email
+        fill_in "Password", with: @password
+        click_on "Login"
+      end
     end
 
     it "shows a form to edit my profile data" do
@@ -56,19 +61,6 @@ RSpec.describe "profile edit page" do
 
       expect(page).to have_content(new_name)
       expect(page).to_not have_content(@name)
-      expect(@user.password).to eq(@password)
-    end
-
-    it "I can edit my email" do
-      visit profile_edit_path
-
-      new_email = "Bob@Bob.com"
-
-      fill_in :email, with: new_email
-      click_button "Submit Changes"
-
-      expect(page).to have_content(new_email)
-      expect(page).to_not have_content(@email)
       expect(@user.password).to eq(@password)
     end
 
@@ -121,6 +113,35 @@ RSpec.describe "profile edit page" do
 
       expect(page).to have_content(new_zip)
       expect(page).to_not have_content(@zip)
+      expect(@user.password).to eq(@password)
+    end
+
+    it "I can change my email to an unused email address" do
+      visit profile_edit_path
+
+      new_email = "Bob@Bobbin.com"
+
+      fill_in :email, with: new_email
+      click_button "Submit Changes"
+
+      expect(page).to have_content(new_email.downcase)
+      expect(page).to_not have_content(@email)
+      expect(@user.password).to eq(@password)
+    end
+
+    it "I cannot change my email to an already used email address" do
+      new_email = "Bob@Bobbin.com"
+      create(:user, email: new_email)
+
+      visit profile_edit_path
+
+      fill_in :email, with: new_email
+      click_button "Submit Changes"
+
+      expect(current_path).to eq(profile_edit_path)
+
+      expect(page).to_not have_content(new_email)
+      expect(page).to have_content("Email already taken")
       expect(@user.password).to eq(@password)
     end
   end
