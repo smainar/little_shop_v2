@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get '/logout', to: "sessions#destroy"
 
   get '/profile', to: "users#show"
+  get '/profile/edit', to: "users#edit"
   get '/register', to: "users#new"
   get '/dashboard', to: "merchants#show"
   get '/merchants', to: "merchants#index"

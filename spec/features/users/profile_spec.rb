@@ -26,12 +26,12 @@ RSpec.describe "profile page" do
       expect(page).to have_content(@user.zip)
     end
 
-    xit "has a link to edit my profile data" do
+    it "has a link to edit my profile data" do
       visit profile_path
 
       click_link "Edit My Profile or Password"
 
-      expect(current_path).to eq("/profile/edit")
+      expect(current_path).to eq(profile_edit_path)
     end
   end
 end
