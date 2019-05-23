@@ -109,7 +109,7 @@ RSpec.describe "cart show page", type: :feature do
       expect(page).to have_content("Your cart is now empty, anti-capitalist!")
 
       expect(page).to have_content("Cart: 0")
-    save_and_open_page
+
       expect(page).to_not have_link(@item_1.name)
       expect(page).to_not have_link(@item_2.name)
     end
