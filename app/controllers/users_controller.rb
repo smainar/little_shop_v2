@@ -23,6 +23,7 @@ class UsersController < ApplicationController
   end
 
   def update
+    current_user.update(current_user_params)
     redirect_to profile_path
   end
 
@@ -30,6 +31,10 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :email, :address, :city, :state, :zip, :password, :password_confirmation)
+  end
+
+  def current_user_params
+    params.permit(:name, :email, :address, :city, :state, :zip, :password, :password_confirmation)
   end
 
   def show
