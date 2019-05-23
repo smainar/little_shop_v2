@@ -50,7 +50,17 @@ RSpec.configure do |config|
   #     RSpec.describe UsersController, :type => :controller do
   #       # ...
   #     end
-  #
+  def login(user)
+    client = create(user.to_s)
+
+    visit login_path
+
+    within('.login-form') do
+      fill_in "Email", with: user.email
+      fill_in "Password", with: user.password
+      click_on "Login"
+    end
+  end
   # The different available types are documented in the features, such as in
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
