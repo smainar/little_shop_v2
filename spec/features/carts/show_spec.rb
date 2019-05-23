@@ -42,6 +42,18 @@ RSpec.describe "cart show page", type: :feature do
 
       expect(page).to have_content("Grand Total: $#{ 2 * @item_1.price +  @item_2.price }")
     end
+
+    it "I click on Empty Cart, all items are removed" do
+      visit cart_path
+      click_button "Empty Cart"
+
+      expect(current_path).to eq(cart_path)
+      expect(page).to have_content("Your cart is now empty, anti-capitalist!")
+
+      expect(page).to have_content("Cart: 0")
+      expect(page).to_not have_link(@item_1.name)
+      expect(page).to_not have_link(@item_2.name)
+    end
   end
 
   context "as a user" do
@@ -87,6 +99,19 @@ RSpec.describe "cart show page", type: :feature do
       end
 
       expect(page).to have_content("Grand Total: $#{ 2 * @item_1.price +  @item_2.price }")
+    end
+
+    it "I click on Empty Cart, all items are removed" do
+      visit cart_path
+      click_button "Empty Cart"
+
+      expect(current_path).to eq(cart_path)
+      expect(page).to have_content("Your cart is now empty, anti-capitalist!")
+
+      expect(page).to have_content("Cart: 0")
+    save_and_open_page
+      expect(page).to_not have_link(@item_1.name)
+      expect(page).to_not have_link(@item_2.name)
     end
   end
 end
