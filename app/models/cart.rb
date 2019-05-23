@@ -33,4 +33,8 @@ class Cart
       item.price * quantity
     end
   end
+
+  def is_not_empty
+    @contents.keys.any?
+  end
 end
