@@ -26,7 +26,7 @@ Rails.application.routes.draw do
     get '/dashboard', to: "users#show"
   end
 
-  scope :dashboard do
-    get 'items', to: "merchants#items_index", as: :merchant_items_index
+  scope :dashboard, module: :merchant, as: :merchant do
+    resources :items, only: [:index]
   end
 end

@@ -21,10 +21,10 @@ RSpec.describe "Merchant Index", type: :feature do
         expect(page).to have_content(active_merchant_2.state)
         expect(page).to have_content(Date.strptime(active_merchant_2.created_at.to_s))
       end
-        expect(page).to_not have_content(inactive_merchant.name)
-        expect(page).to_not have_content(inactive_merchant.city)
-        expect(page).to_not have_content(inactive_merchant.state)
-        expect(page).to_not have_content(Date.strptime(inactive_merchant.created_at.to_s))
+
+      expect(page).to_not have_content(inactive_merchant.name)
+      expect(page).to_not have_content(inactive_merchant.city)
+      expect(page).to_not have_content(inactive_merchant.state)
     end
   end
 end
