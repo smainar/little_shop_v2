@@ -4,13 +4,13 @@
       <%= link_to item.name, item_path(item) %>
       <%= image_tag item.image || @default_image, alt: "image of #{item.name}" %>
       <p><%= item.user.name %></p>
-      <p>$<%= item.price %></p>
+      <p><%= number_to_currency(item.price) %></p>
       <p>Quantity: <%= quantity %></p>
-      <p>Subtotal: $<%= cart.subtotal(item) %></p>
+      <p>Subtotal: <%= number_to_currency(cart.subtotal(item)) %></p>
     </div>
   <% end %>
 
-  <h2>Grand Total: $<%= cart.grand_total %></h2>
+  <h2>Grand Total: <%= number_to_currency(cart.grand_total) %></h2>
 
   <%= button_to "Empty Cart", { controller: :carts, action: :destroy }, method: :delete %>
 <% else %>
