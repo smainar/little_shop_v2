@@ -2,7 +2,6 @@ class User < ApplicationRecord
   before_save { self.email = email.downcase }
 
   validates_presence_of :email,
-                        :active,
                         :name,
                         :address,
                         :city,
@@ -18,4 +17,8 @@ class User < ApplicationRecord
   validates_presence_of :password, require: true
 
   has_secure_password
+
+  def self.active_merchants
+    where(active: true, role: 'merchant')
+  end
 end
