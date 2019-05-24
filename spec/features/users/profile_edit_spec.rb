@@ -141,7 +141,7 @@ RSpec.describe "profile edit page" do
       expect(current_path).to eq(profile_edit_path)
 
       expect(page).to_not have_content(new_email)
-      expect(page).to have_content("Email already taken")
+      expect(page).to have_content("That email address is already in use")
       expect(@user.password).to eq(@password)
     end
   end

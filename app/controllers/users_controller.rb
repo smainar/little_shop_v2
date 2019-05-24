@@ -23,15 +23,10 @@ class UsersController < ApplicationController
   end
 
   def update
-    # to-do: use update_attributes to combine all these
-    current_user.update_attribute(:name, params[:name])
-    current_user.update_attribute(:address, params[:address])
-    current_user.update_attribute(:city, params[:city])
-    current_user.update_attribute(:state, params[:state])
-    current_user.update_attribute(:zip, params[:zip])
+    current_user.update_attributes(name: params[:name], address: params[:address], city: params[:city], state: params[:state], zip: params[:zip])
 
     if User.find_by(email: params[:email].downcase) && current_user.email != params[:email].downcase
-      flash[:error] = "Email already taken"
+      flash[:error] = "That email address is already in use"
       redirect_to profile_edit_path
     else
       current_user.update_attribute(:email, params[:email])
@@ -43,8 +38,5 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :email, :address, :city, :state, :zip, :password, :password_confirmation)
-  end
-
-  def show
   end
 end
