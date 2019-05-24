@@ -1,9 +1,29 @@
 <h1>All Items</h1>
 
+<h2>Most Popular Items</h2>
+
+<section id="statistics-most-popular">
+   <ol>
+     <% @most_popular_items.each do |item| %>
+      <li>Item: <%= item.name %>, Total quantity fulfilled: <%= item.total_quantity %></li>
+     <% end %>
+   </ol>
+</section>
+
+<h2>Least Popular Items</h2>
+
+<section id="statistics-least-popular">
+  <ol>
+    <% @least_popular_items.each do |item| %>
+      <li>Item: <%= item.name %>, Total quantity fulfilled: <%= item.total_quantity %></li>
+    <% end %>
+  </ol>
+</section>
+
 <% @items.each do |item| %>
   <section id="item-id-<%= item.id %>">
     <p><%= link_to item.name, item_path(item) %></p>
-    <p>$<%= item.price %></p>
+    <p><%= number_to_currency(item.price) %></p>
     <p>Description: <%= item.description %></p>
     <%= image_tag item.image || @default_image, alt: "image of #{item.name}" %>
     <p><%= item.inventory %> in stock</p>

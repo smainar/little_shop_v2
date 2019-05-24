@@ -26,21 +26,21 @@ RSpec.describe "cart show page", type: :feature do
         expect(page).to have_link(@item_1.name)
         expect(page).to have_css("img[src*='#{@item_1.image}']")
         expect(page).to have_content(@item_1.user.name)
-        expect(page).to have_content("$#{@item_1.price}")
+        expect(page).to have_content(number_to_currency(@item_1.price))
         expect(page).to have_content("Quantity: 2")
-        expect(page).to have_content("Subtotal: $#{2 * @item_1.price}")
+        expect(page).to have_content("Subtotal: #{number_to_currency(2 * @item_1.price)}")
       end
 
       within("#item-#{@item_2.id}") do
         expect(page).to have_link(@item_2.name)
         expect(page).to have_css("img[src*='#{@item_2.image}']")
         expect(page).to have_content(@item_2.user.name)
-        expect(page).to have_content("$#{@item_2.price}")
+        expect(page).to have_content(number_to_currency(@item_2.price))
         expect(page).to have_content("Quantity: 1")
-        expect(page).to have_content("Subtotal: $#{@item_2.price}")
+        expect(page).to have_content("Subtotal: #{number_to_currency(@item_2.price)}")
       end
 
-      expect(page).to have_content("Grand Total: $#{ 2 * @item_1.price +  @item_2.price }")
+      expect(page).to have_content("Grand Total: #{number_to_currency(2 * @item_1.price +  @item_2.price)}")
     end
 
     it "I click on Empty Cart, all items are removed" do
@@ -84,21 +84,21 @@ RSpec.describe "cart show page", type: :feature do
         expect(page).to have_link(@item_1.name)
         expect(page).to have_css("img[src*='#{@item_1.image}']")
         expect(page).to have_content(@item_1.user.name)
-        expect(page).to have_content("$#{@item_1.price}")
+        expect(page).to have_content(number_to_currency(@item_1.price))
         expect(page).to have_content("Quantity: 2")
-        expect(page).to have_content("Subtotal: $#{2 * @item_1.price}")
+        expect(page).to have_content("Subtotal: #{number_to_currency(2 * @item_1.price)}")
       end
 
       within("#item-#{@item_2.id}") do
         expect(page).to have_link(@item_2.name)
         expect(page).to have_css("img[src*='#{@item_2.image}']")
         expect(page).to have_content(@item_2.user.name)
-        expect(page).to have_content("$#{@item_2.price}")
+        expect(page).to have_content(number_to_currency(@item_2.price))
         expect(page).to have_content("Quantity: 1")
-        expect(page).to have_content("Subtotal: $#{@item_2.price}")
+        expect(page).to have_content("Subtotal: #{number_to_currency(@item_2.price)}")
       end
 
-      expect(page).to have_content("Grand Total: $#{ 2 * @item_1.price +  @item_2.price }")
+      expect(page).to have_content("Grand Total: #{number_to_currency(2 * @item_1.price +  @item_2.price)}")
     end
 
     it "I click on Empty Cart, all items are removed" do
