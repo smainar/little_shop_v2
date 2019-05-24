@@ -12,7 +12,7 @@ RSpec.describe "Merchant Items Index", type: :feature do
 
       click_link "View all items for sale"
 
-      expect(current_path).to eq(merchant_items_index_path)
+      expect(current_path).to eq(merchant_items_path)
     end
   end
 end
