@@ -15,7 +15,7 @@ class User < ApplicationRecord
   enum role: ['user', 'merchant', 'admin']
 
   validates :email, uniqueness: true, presence: true
-  validates_presence_of :password, require: true
+  validates_presence_of :password_digest
 
   has_secure_password
 end
