@@ -12,13 +12,19 @@ Rails.application.routes.draw do
   get '/profile', to: "users#show"
   patch '/profile', to: "users#update"
   get '/profile/edit', to: "users#edit"
+
+  scope :profile, module: :user, as: :user do
+    resources :orders, only: :index
+  end
+
   get '/register', to: "users#new"
   get '/dashboard', to: "merchants#show"
   get '/merchants', to: "merchants#index"
 
-  resources :carts, only: [:create]
+  resources :carts, only: :create
   get '/cart', to: "carts#show"
   delete '/cart', to: "carts#destroy"
+  post '/cart', to: 'carts#checkout'
 
   resources :users, only: [:create]
 
