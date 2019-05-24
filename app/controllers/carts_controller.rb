@@ -19,4 +19,12 @@ class CartsController < ApplicationController
     flash[:message] = "Your cart is now empty, anti-capitalist!"
     redirect_to cart_path
   end
+
+  def checkout
+    #contents = items
+    #contents.each, add to the same order
+    binding.pry
+    flash[:message] = "Your order was created!"
+    redirect_to user_orders_path
+  end
 end

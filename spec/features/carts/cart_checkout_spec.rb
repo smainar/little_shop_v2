@@ -26,17 +26,19 @@ RSpec.describe "Cart checkout functionality: " do
       expect(page).to have_button("Check Out")
     end
 
-    it "I can check out and see my order" do
+    xit "I can check out and see my order" do
       visit cart_path
       click_button 'Check Out'
-
       expect(page).to have_content("Your order was created!")
+
+      expect(current_path).to eq(user_orders_path)
+      expect(page).to have_link("Order #{Order.last.id}")
+      expect(page).to have_content("Pending")
+      expect(page).to have_content("Total Price: #{number_to_currency(@item_1.price + @item_2.price)}")
     end
   end
 end
-# And I click the button or link to check out
+
 # An order is created in the system, which has a status of "pending"
-# I am taken to my orders page ("/profile/orders")
-# I see a flash message telling me my order was created
 # I see my new order listed on my profile orders page
 # My cart is now empty
