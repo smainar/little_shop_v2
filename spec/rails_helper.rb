@@ -81,4 +81,5 @@ RSpec.configure do |config|
     end
   end
 
+  include ActionView::Helpers::NumberHelper
 end
