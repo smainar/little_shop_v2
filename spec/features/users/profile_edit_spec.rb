@@ -116,9 +116,9 @@ RSpec.describe "profile edit page" do
       expect(page).to_not have_content(@zip)
 
       expect(page).to have_content("Your profile has been updated")
-      updated_user = User.find(@user.id)
-      expect(updated_user.zip).to eq(new_zip)
-      expect(updated_user.password_digest).to eq(original_pw_digest)
+      @user.reload
+      expect(@user.zip).to eq(new_zip)
+      expect(@user.password_digest).to eq(original_pw_digest)
     end
 
     it "I can change my email to an unused email address" do
@@ -161,8 +161,8 @@ RSpec.describe "profile edit page" do
       click_button "Submit Changes"
 
       expect(page).to have_content("Your profile has been updated")
-      updated_user = User.find(@user.id)
-      expect(updated_user.password_digest).to_not eq(original_pw_digest)
+      @user.reload
+      expect(@user.password_digest).to_not eq(original_pw_digest)
     end
 
     it "my password doesn't change when confirmation doesn't match" do
@@ -179,8 +179,8 @@ RSpec.describe "profile edit page" do
       expect(page).to have_content("Password confirmation doesn't match Password")
       expect(current_path).to eq(profile_edit_path)
 
-      updated_user = User.find(@user.id)
-      expect(updated_user.password_digest).to eq(original_pw_digest)
+      @user.reload
+      expect(@user.password_digest).to eq(original_pw_digest)
     end
   end
 end
