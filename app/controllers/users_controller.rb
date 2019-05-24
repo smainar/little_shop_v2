@@ -23,17 +23,17 @@ class UsersController < ApplicationController
   end
 
   def update
-    user = User.find(session[:user_id])
-    if User.find_by(email: params[:email].downcase) && user.email != params[:email].downcase
+    if current_user.email != params[:email].downcase && User.find_by(email: params[:email].downcase)
       flash[:error] = "That email address is already in use"
       redirect_to profile_edit_path
       return
     else
-      if user.update(update_params.to_h)
+      if current_user.update(update_params.to_h)
         redirect_to profile_path
       else
-        flash[:error] = user.errors.full_messages.join(". ")
+        flash[:error] = current_user.errors.full_messages.join(". ")
         redirect_to profile_edit_path
+        return
       end
     end
   end
