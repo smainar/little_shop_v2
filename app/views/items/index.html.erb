@@ -23,7 +23,7 @@
 <% @items.each do |item| %>
   <section id="item-id-<%= item.id %>">
     <p><%= link_to item.name, item_path(item) %></p>
-    <p>$<%= item.price %></p>
+    <p><%= number_to_currency(item.price) %></p>
     <p>Description: <%= item.description %></p>
     <%= image_tag item.image || @default_image, alt: "image of #{item.name}" %>
     <p><%= item.inventory %> in stock</p>
