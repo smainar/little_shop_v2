@@ -59,6 +59,7 @@ RSpec.describe "profile edit page" do
       fill_in :name, with: new_name
       click_button "Submit Changes"
 
+      expect(page).to have_content("Your profile has been updated")
       expect(page).to have_content(new_name)
       expect(page).to_not have_content(@name)
     end
@@ -71,6 +72,7 @@ RSpec.describe "profile edit page" do
       fill_in :address, with: new_address
       click_button "Submit Changes"
 
+      expect(page).to have_content("Your profile has been updated")
       expect(page).to have_content(new_address)
       expect(page).to_not have_content(@address)
     end
@@ -83,6 +85,7 @@ RSpec.describe "profile edit page" do
       fill_in :city, with: new_city
       click_button "Submit Changes"
 
+      expect(page).to have_content("Your profile has been updated")
       expect(page).to have_content(new_city)
       expect(page).to_not have_content(@city)
     end
@@ -95,6 +98,7 @@ RSpec.describe "profile edit page" do
       fill_in :state, with: new_state
       click_button "Submit Changes"
 
+      expect(page).to have_content("Your profile has been updated")
       expect(page).to have_content(new_state)
       expect(page).to_not have_content(@state)
     end
@@ -111,6 +115,7 @@ RSpec.describe "profile edit page" do
       expect(page).to have_content(new_zip)
       expect(page).to_not have_content(@zip)
 
+      expect(page).to have_content("Your profile has been updated")
       updated_user = User.find(@user.id)
       expect(updated_user.zip).to eq(new_zip)
       expect(updated_user.password_digest).to eq(original_pw_digest)
@@ -124,6 +129,7 @@ RSpec.describe "profile edit page" do
       fill_in :email, with: new_email
       click_button "Submit Changes"
 
+      expect(page).to have_content("Your profile has been updated")
       expect(page).to have_content(new_email.downcase)
       expect(page).to_not have_content(@email)
     end
@@ -139,6 +145,7 @@ RSpec.describe "profile edit page" do
 
       expect(current_path).to eq(profile_edit_path)
 
+      expect(page).to_not have_content("Your profile has been updated")
       expect(page).to_not have_content(new_email)
       expect(page).to have_content("That email address is already in use")
     end
@@ -153,6 +160,7 @@ RSpec.describe "profile edit page" do
       fill_in :password_confirmation, with: new_password
       click_button "Submit Changes"
 
+      expect(page).to have_content("Your profile has been updated")
       updated_user = User.find(@user.id)
       expect(updated_user.password_digest).to_not eq(original_pw_digest)
     end
@@ -167,6 +175,7 @@ RSpec.describe "profile edit page" do
       fill_in :password_confirmation, with: new_password.upcase
       click_button "Submit Changes"
 
+      expect(page).to_not have_content("Your profile has been updated")
       expect(page).to have_content("Password confirmation doesn't match Password")
       expect(current_path).to eq(profile_edit_path)
 

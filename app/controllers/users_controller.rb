@@ -29,6 +29,7 @@ class UsersController < ApplicationController
       return
     else
       if current_user.update(update_params.to_h)
+        flash[:notice] = "Your profile has been updated"
         redirect_to profile_path
       else
         flash[:error] = current_user.errors.full_messages.join(". ")
