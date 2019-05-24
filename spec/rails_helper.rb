@@ -51,8 +51,6 @@ RSpec.configure do |config|
   #       # ...
   #     end
   def login(user)
-    
-
     visit login_path
 
     within('.login-form') do
