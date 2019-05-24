@@ -144,5 +144,29 @@ RSpec.describe "profile edit page" do
       expect(page).to have_content("That email address is already in use")
       expect(@user.password).to eq(@password)
     end
+
+    it "I can edit my password (when confirmation matches)" do
+      visit profile_edit_path
+
+      new_password = "newPassword"
+
+      fill_in :password, with: new_password
+      fill_in :password_confirmation, with: new_password
+      click_button "Submit Changes"
+
+      expect(@user.password).to eq(new_password)
+    end
+
+    it "my password doesn't change when confirmation doesn't match" do
+      visit profile_edit_path
+
+      new_password = "newPassword"
+
+      fill_in :password, with: new_password.downcase
+      fill_in :password_confirmation, with: new_password.upcase
+      click_button "Submit Changes"
+
+      expect(@user.password).to eq(@password)
+    end
   end
 end

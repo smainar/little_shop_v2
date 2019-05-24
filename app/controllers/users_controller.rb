@@ -28,6 +28,7 @@ class UsersController < ApplicationController
     if User.find_by(email: params[:email].downcase) && current_user.email != params[:email].downcase
       flash[:error] = "That email address is already in use"
       redirect_to profile_edit_path
+      return
     else
       current_user.update_attribute(:email, params[:email])
       redirect_to profile_path
