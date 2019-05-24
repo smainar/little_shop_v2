@@ -61,7 +61,6 @@ RSpec.describe "profile edit page" do
 
       expect(page).to have_content(new_name)
       expect(page).to_not have_content(@name)
-      expect(@user.password).to eq(@password)
     end
 
     it "I can edit my address" do
@@ -74,7 +73,6 @@ RSpec.describe "profile edit page" do
 
       expect(page).to have_content(new_address)
       expect(page).to_not have_content(@address)
-      expect(@user.password).to eq(@password)
     end
 
     it "I can edit my city" do
@@ -87,7 +85,6 @@ RSpec.describe "profile edit page" do
 
       expect(page).to have_content(new_city)
       expect(page).to_not have_content(@city)
-      expect(@user.password).to eq(@password)
     end
 
     it "I can edit my state" do
@@ -100,20 +97,23 @@ RSpec.describe "profile edit page" do
 
       expect(page).to have_content(new_state)
       expect(page).to_not have_content(@state)
-      expect(@user.password).to eq(@password)
     end
 
-    it "I can edit my zip" do
+    it "I can edit my zip (and my password is unchanged)" do
       visit profile_edit_path
 
       new_zip = "83649"
+      original_pw_digest = @user.password_digest
 
       fill_in :zip, with: new_zip
       click_button "Submit Changes"
 
       expect(page).to have_content(new_zip)
       expect(page).to_not have_content(@zip)
-      expect(@user.password).to eq(@password)
+
+      updated_user = User.find(@user.id)
+      expect(updated_user.zip).to eq(new_zip)
+      expect(updated_user.password_digest).to eq(original_pw_digest)
     end
 
     it "I can change my email to an unused email address" do
@@ -126,7 +126,6 @@ RSpec.describe "profile edit page" do
 
       expect(page).to have_content(new_email.downcase)
       expect(page).to_not have_content(@email)
-      expect(@user.password).to eq(@password)
     end
 
     it "I cannot change my email to an already used email address" do
@@ -142,31 +141,37 @@ RSpec.describe "profile edit page" do
 
       expect(page).to_not have_content(new_email)
       expect(page).to have_content("That email address is already in use")
-      expect(@user.password).to eq(@password)
     end
 
     it "I can edit my password (when confirmation matches)" do
       visit profile_edit_path
 
       new_password = "newPassword"
+      original_pw_digest = @user.password_digest
 
       fill_in :password, with: new_password
       fill_in :password_confirmation, with: new_password
       click_button "Submit Changes"
 
-      expect(@user.password).to eq(new_password)
+      updated_user = User.find(@user.id)
+      expect(updated_user.password_digest).to_not eq(original_pw_digest)
     end
 
     it "my password doesn't change when confirmation doesn't match" do
       visit profile_edit_path
 
       new_password = "newPassword"
+      original_pw_digest = @user.password_digest
 
       fill_in :password, with: new_password.downcase
       fill_in :password_confirmation, with: new_password.upcase
       click_button "Submit Changes"
 
-      expect(@user.password).to eq(@password)
+      expect(page).to have_content("Password confirmation doesn't match Password")
+      expect(current_path).to eq(profile_edit_path)
+
+      updated_user = User.find(@user.id)
+      expect(updated_user.password_digest).to eq(original_pw_digest)
     end
   end
 end
