@@ -4,4 +4,7 @@ class MerchantsController < ApplicationController
 
   def show
   end
+
+  def items_index
+  end 
 end

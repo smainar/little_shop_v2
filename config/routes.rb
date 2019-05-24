@@ -23,4 +23,8 @@ Rails.application.routes.draw do
   namespace :admin do
     get '/dashboard', to: "users#show"
   end
+
+  scope :dashboard do
+    get 'items', to: "merchants#items_index", as: :merchant_items_index
+  end
 end
