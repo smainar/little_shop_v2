@@ -34,8 +34,6 @@ RSpec.describe "Cart checkout functionality: " do
     end
   end
 end
-
-
 # And I click the button or link to check out
 # An order is created in the system, which has a status of "pending"
 # I am taken to my orders page ("/profile/orders")
