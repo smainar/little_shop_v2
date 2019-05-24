@@ -51,7 +51,7 @@ RSpec.configure do |config|
   #       # ...
   #     end
   def login(user)
-    client = create(user.to_s)
+    
 
     visit login_path
 
