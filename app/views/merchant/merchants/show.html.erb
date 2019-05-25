@@ -7,3 +7,5 @@
     <% end %>
   </ol>
 </div>
+
+<p>Sold <%= @merchant.total_sold %> items, which is <%= number_to_percentage(@merchant.inventory_ratio, precision: 0) %> of your total inventory.</p>

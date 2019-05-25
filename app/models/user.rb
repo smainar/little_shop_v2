@@ -43,6 +43,6 @@ class User < ApplicationRecord
   end
 
   def inventory_ratio
-    total_sold / total_inventory
+    (total_sold / total_inventory.to_f) * 100
   end
 end

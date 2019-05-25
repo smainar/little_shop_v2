@@ -99,9 +99,9 @@ RSpec.describe User, type: :model do
 
     it "can calculate total quantities sold and inventory ratio" do
       total_sold = 38
-      inventory_ratio = (38/120)
+      inventory_ratio = (38/120.0)*100
       expect(@merchant_1.total_sold).to eq(total_sold)
-      expect(number_to_percentage(@merchant_1.inventory_ratio, precision: 0)).to eq(number_to_percentage(inventory_ratio, precision: 0))
+      expect(number_to_percentage(@merchant_1.inventory_ratio)).to eq(number_to_percentage(inventory_ratio))
     end
   end
 end
