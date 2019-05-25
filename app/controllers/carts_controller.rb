@@ -3,11 +3,25 @@ class CartsController < ApplicationController
 
   def create
     item = Item.find(params[:item_id])
-    cart.add_item(item.id)
-    session[:cart] = cart.contents
-    quantity = cart.count_of(item.id)
 
-    flash[:notice] = "You now have #{pluralize(quantity, item.name)} in your cart."
+    if params[:quantity] == "more"
+      if cart.count_of(item.id) + 1 <= item.inventory
+        cart.add_item(item.id)
+        quantity = cart.count_of(item.id)
+        flash[:notice] = "You now have #{pluralize(quantity, item.name)} in your cart."
+      else
+        flash[:error] = "Merchant does not have any more #{item.name}"
+      end
+    elsif params[:quantity] == "less"
+      cart.remove_item(item.id)
+      flash[:notice] = "You now removed 1 #{pluralize(item.name)} in your cart."
+    elsif params[:quantity] == "none"
+      cart.remove_all_item(item.id)
+      flash[:notice] = "You now removed all #{pluralize(item.name)} in your cart."
+    else
+      render :destroy
+    end
+    session[:cart] = cart.contents
     redirect_to items_path
   end
 
@@ -29,4 +43,6 @@ class CartsController < ApplicationController
     flash[:message] = "Your order was created!"
     redirect_to user_orders_path
   end
+
+
 end
