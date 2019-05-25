@@ -45,8 +45,8 @@ RSpec.describe "User Profile Order Show Page", type: :feature do
         expect(page).to have_content(@item_1.description)
         expect(page).to have_css("img[src*='#{@item_1.image}']")
         expect(page).to have_content("Price: #{number_to_currency(@oi_1.price_per_item)} each")
-        expect(page).to have_content(@oi_1.quantity)
-        expect(page).to have_content("Subtotal: #{number_to_currency(@order.subtotal(@item_1))} each")
+        expect(page).to have_content("Quantity: #{@oi_1.quantity}")
+        expect(page).to have_content("Subtotal: #{number_to_currency(@order.subtotal(@item_1))}")
       end
 
       within("#item-#{@item_3.id}") do
@@ -54,8 +54,8 @@ RSpec.describe "User Profile Order Show Page", type: :feature do
         expect(page).to have_content(@item_3.description)
         expect(page).to have_css("img[src*='#{@item_3.image}']")
         expect(page).to have_content("Price: #{number_to_currency(@oi_2.price_per_item)} each")
-        expect(page).to have_content(@oi_2.quantity)
-        expect(page).to have_content("Subtotal: #{number_to_currency(@order.subtotal(@item_3))} each")
+        expect(page).to have_content("Quantity: #{@oi_2.quantity}")
+        expect(page).to have_content("Subtotal: #{number_to_currency(@order.subtotal(@item_3))}")
       end
 
       expect(page).to_not have_content(@item_2.name)
