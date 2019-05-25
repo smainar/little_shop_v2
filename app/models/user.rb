@@ -45,4 +45,10 @@ class User < ApplicationRecord
   def inventory_ratio
     (total_sold / total_inventory.to_f) * 100
   end
+
+  def top_three_states
+    # items.select("users.*, sum(order_items.quantity) as item_quantity").joins(:orders).group("users.state").order("item_quantity").limit(3)
+    require "pry"; binding.pry
+    # self.items.joins(:orders).joins(:users).select("sum(order_items.quantity) as total_quantity").select("users.state, users.city")
+  end
 end

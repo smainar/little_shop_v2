@@ -14,9 +14,10 @@ require 'rails_helper'
 RSpec.describe "As a merchant" do
   describe "When I visit my dashboard, I see an area with statistics" do
     before :each do
-      @user_1 = create(:user)
-      @user_2 = create(:user)
-      @user_3 = create(:user)
+      @user_1 = create(:user, city: "Glendale", state: "CO")
+      @user_2 = create(:user, city: "Glendale", state: "IA")
+      @user_3 = create(:user, city: "Glendale", state: "CA")
+      @user_4 = create(:user, city: "Golden", state: "CO")
 
       @merchant_1 = create(:merchant)
       @item_1 = create(:item, user: @merchant_1, inventory: 20)
@@ -34,8 +35,8 @@ RSpec.describe "As a merchant" do
       @order_1 = create(:shipped_order, user: @user_1)
       @order_2 = create(:shipped_order, user: @user_2)
       @order_3 = create(:shipped_order, user: @user_3)
-      @order_4 = create(:shipped_order, user: @user_1)
-      @order_5 = create(:shipped_order, user: @user_2)
+      @order_4 = create(:shipped_order, user: @user_4)
+      @order_5 = create(:shipped_order, user: @user_3)
 
       #pending order
       @order_6 = create(:order, user: @user_3)

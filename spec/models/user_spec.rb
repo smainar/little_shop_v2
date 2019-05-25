@@ -36,9 +36,10 @@ RSpec.describe User, type: :model do
 
   describe 'instance methods' do
     before :each do
-      @user_1 = create(:user)
-      @user_2 = create(:user)
-      @user_3 = create(:user)
+      @user_1 = create(:user, city: "Glendale", state: "CO")
+      @user_2 = create(:user, city: "Glendale", state: "IA")
+      @user_3 = create(:user, city: "Glendale", state: "CA")
+      @user_4 = create(:user, city: "Golden", state: "CO")
 
       @merchant_1 = create(:merchant)
       @item_1 = create(:item, user: @merchant_1, inventory: 20)
@@ -56,8 +57,8 @@ RSpec.describe User, type: :model do
       @order_1 = create(:shipped_order, user: @user_1)
       @order_2 = create(:shipped_order, user: @user_2)
       @order_3 = create(:shipped_order, user: @user_3)
-      @order_4 = create(:shipped_order, user: @user_1)
-      @order_5 = create(:shipped_order, user: @user_2)
+      @order_4 = create(:shipped_order, user: @user_4)
+      @order_5 = create(:shipped_order, user: @user_3)
 
       #pending order
       @order_6 = create(:order, user: @user_3)
@@ -102,6 +103,12 @@ RSpec.describe User, type: :model do
       inventory_ratio = (38/120.0)*100
       expect(@merchant_1.total_sold).to eq(total_sold)
       expect(number_to_percentage(@merchant_1.inventory_ratio)).to eq(number_to_percentage(inventory_ratio))
+    end
+# top 3 states where my items were shipped, and their quantities
+# - top 3 city/state where my items were shipped, and their quantities (Springfield, MI should not be grouped with Springfield, CO)
+    it "calculates top 3 city/state where items were shipped and their quantities " do
+      top_three = ["CO", "CA", "IA"]
+      expect(@merchant_1.top_three_states).to eq(top_three)
     end
   end
 end
