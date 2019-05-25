@@ -21,4 +21,13 @@ class User < ApplicationRecord
   def self.active_merchants
     where(active: true, role: 'merchant')
   end
+
+  def top_five_items
+    items.select("items.* , sum(order_items.quantity) as total_sold")
+         .joins(:orders)
+         .group(:id)
+         .where("orders.status = 2" )
+         .order("total_sold desc")
+         .limit(5)
+  end
 end
