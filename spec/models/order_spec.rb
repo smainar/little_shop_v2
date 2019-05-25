@@ -29,5 +29,9 @@ RSpec.describe Order, type: :model do
 
       expect(@order_1.grand_total).to eq(total_cost)
     end
+
+    it "#total_quantity" do
+      expect(@order_1.total_quantity).to eq(@oi_1.quantity + @oi_2.quantity)
+    end
   end
 end

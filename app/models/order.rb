@@ -12,4 +12,8 @@ class Order < ApplicationRecord
       order_item.price_per_item * order_item.quantity
     end
   end
+
+  def total_quantity
+    order_items.sum(:quantity)
+  end
 end
