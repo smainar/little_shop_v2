@@ -19,6 +19,7 @@ RSpec.describe Order, type: :model do
       @order_1 = create(:order, user: @user)
       @item_1 = create(:item, user: @merchant, price: 4.50)
       @item_2 = create(:item, user: @merchant, price: 2.33)
+      @item_3 = create(:item, user: @merchant, price: 1.99)
       @oi_1 = create(:order_item, item: @item_1, order: @order_1, quantity: 3, price_per_item: @item_1.price)
       # note: in @oi_2 below, the price_per_item is intentionally different than the item's price, to make sure that the methods are using the price_per_item instead of the price in certain methods
       @oi_2 = create(:order_item, item: @item_2, order: @order_1, quantity: 1, price_per_item: @item_2.price - 0.33)
@@ -37,6 +38,12 @@ RSpec.describe Order, type: :model do
     it "#item_price returns the purchase price for a particular item in the order" do
       expect(@order_1.item_price(@item_2)).to eq(@oi_2.price_per_item)
       expect(@order_1.item_price(@item_2)).to_not eq(@item_2.price)
+      expect(@order_1.item_price(@item_3)).to eq(nil)
+    end
+
+    it "#item_quantity returns the quantity of a particular item in the order" do
+      expect(@order_1.item_quantity(@item_2)).to eq(@oi_2.quantity)
+      expect(@order_1.item_quantity(@item_3)).to eq(0)
     end
   end
 end

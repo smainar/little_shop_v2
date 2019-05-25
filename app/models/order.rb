@@ -22,4 +22,12 @@ class Order < ApplicationRecord
       order_items.where(item: item).first.price_per_item
     end
   end
+
+  def item_quantity(item)
+    if items.include?(item)
+      order_items.where(item: item).first.quantity
+    else
+      0
+    end
+  end
 end
