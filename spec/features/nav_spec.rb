@@ -191,7 +191,7 @@ RSpec.describe "navigation bar", type: :feature do
         expect(page).to_not have_link("Register")
 
         click_link "Dashboard"
-        expect(current_path).to eq(dashboard_path)
+        expect(current_path).to eq(merchant_dashboard_path)
 
         expect(page).to have_content "Logged in as #{@merchant.name}"
       end
