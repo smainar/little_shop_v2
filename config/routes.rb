@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get '/logout', to: "sessions#destroy"
 
   get '/profile', to: "user/users#show"
-  patch '/profile', to: "users#update" # to-do: move to "user/users#update" using the profile scope / user module
+  patch '/profile', to: "user/users#update"
   get '/profile/edit', to: "users#edit" # to-do: move to "user/users#edit" using the profile scope / user module
 
   scope :profile, module: :user, as: :user do
