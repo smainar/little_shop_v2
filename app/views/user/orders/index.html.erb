@@ -2,7 +2,7 @@
 
 <% current_user.orders.each do |order| %>
   <div id="order-<%= order.id %>">
-    <%= link_to "Order #{order.id}", user_order_path(order) %>
+    <h3><%= link_to "Order #{order.id}", user_order_path(order) %></h3>
     <p>Placed on: <%= order.created_at %></p>
     <p>Last Updated: <%= order.updated_at %></p>
     <p>Status: <%= order.status %></p>

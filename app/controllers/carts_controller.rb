@@ -15,15 +15,17 @@ class CartsController < ApplicationController
   end
 
   def destroy
-    reset_session
+    session.delete(:cart)
     flash[:message] = "Your cart is now empty, anti-capitalist!"
     redirect_to cart_path
   end
 
   def checkout
-    #contents = items
-    #contents.each, add to the same order
-    binding.pry
+    new_order = current_user.orders.create
+    cart.item_and_quantity_hash.each do |item, quantity|
+      OrderItem.create(item: item, order: new_order, quantity: quantity, price_per_item: item.price)
+    end
+    session.delete(:cart)
     flash[:message] = "Your order was created!"
     redirect_to user_orders_path
   end
