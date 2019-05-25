@@ -26,6 +26,12 @@ Rails.application.routes.draw do
   delete '/cart', to: "carts#destroy"
   post '/cart', to: 'carts#checkout'
 
+  post '/cart/:id', to: 'carts#add_from_show_page',  as: :add_to_cart
+  patch '/cart/:id/increment', to: 'carts#increment', as: :increment
+  patch '/cart/:id/decrement', to: 'carts#decrement', as: :decrement
+  patch '/cart/:id/remove', to: 'carts#remove', as: :remove
+
+
   resources :users, only: [:create]
 
   namespace :admin do
