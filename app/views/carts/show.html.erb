@@ -5,7 +5,11 @@
       <%= image_tag item.image || @default_image, alt: "image of #{item.name}" %>
       <p><%= item.user.name %></p>
       <p><%= number_to_currency(item.price) %></p>
-      <p>Quantity: <%= quantity %></p>
+      <div class="quantities" >
+      Quantity:<%= button_to "-", carts_path(item_id: item.id), method: :update, params: {quantity: :less} %><%= quantity %>
+        <%= button_to "+", carts_path(item_id: item.id), method: :update , params: {quantity: :more}  %>
+        <%= button_to "Remove", carts_path(item_id: item.id), method: :update, params: {quantity: :remove}  %>
+      </div>
       <p>Subtotal: <%= number_to_currency(cart.subtotal(item)) %></p>
     </div>
   <% end %>
