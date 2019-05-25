@@ -37,4 +37,16 @@ class Cart
   def is_not_empty
     @contents.keys.any?
   end
+
+  def remove_item(item_id)
+    @contents[item_id.to_s] = count_of(item_id.to_s) - 1
+    if @contents[item_id.to_s] <= 0
+      @contents.delete(item_id.to_s)
+    end
+  end
+
+  def remove_all_item(item_id)
+    @contents.delete(item_id.to_s)
+  end
+
 end
