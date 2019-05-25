@@ -1,28 +1,36 @@
 class CartsController < ApplicationController
   include ActionView::Helpers::TextHelper
 
-  def create
-    item = Item.find(params[:item_id])
-
-    if params[:quantity] == "more"
-      if cart.count_of(item.id) + 1 <= item.inventory
-        cart.add_item(item.id)
-        quantity = cart.count_of(item.id)
-        flash[:notice] = "You now have #{pluralize(quantity, item.name)} in your cart."
-      else
-        flash[:error] = "Merchant does not have any more #{item.name}"
-      end
-    elsif params[:quantity] == "less"
-      cart.remove_item(item.id)
-      flash[:notice] = "You now removed 1 #{pluralize(item.name)} in your cart."
-    elsif params[:quantity] == "none"
-      cart.remove_all_item(item.id)
-      flash[:notice] = "You now removed all #{pluralize(item.name)} in your cart."
-    else
-      render :destroy
-    end
+  def add_from_show_page
+    item = Item.find(params[:id])
+    add_to_cart(item)
     session[:cart] = cart.contents
     redirect_to items_path
+  end
+
+
+  def increment
+    item = Item.find(params[:id])
+    add_to_cart(item)
+    session[:cart] = cart.contents
+    flash[:notice] = "You have added 1 #{item.name} to your cart."
+    redirect_back fallback_location: cart_path
+  end
+
+  def decrement
+    item = Item.find(params[:id])
+    cart.remove_item(item.id)
+    flash[:notice] = "You now removed 1 #{item.name} in your cart."
+    session[:cart] = cart.contents
+    redirect_back fallback_location: cart_path
+  end
+
+  def remove
+    item = Item.find(params[:id])
+    cart.remove_all_item(item.id)
+    flash[:notice] = "You now removed all #{item.name} in your cart."
+    session[:cart] = cart.contents
+    redirect_back fallback_location: cart_path
   end
 
   def show
@@ -44,5 +52,15 @@ class CartsController < ApplicationController
     redirect_to user_orders_path
   end
 
+  private
 
+  def add_to_cart(item)
+    if cart.count_of(item.id) + 1 <= item.inventory
+      cart.add_item(item.id)
+      quantity = cart.count_of(item.id)
+      flash[:notice] = "You now have #{pluralize(quantity, item.name)} in your cart."
+    else
+      flash[:error] = "Merchant does not have any more #{item.name}"
+    end
+  end
 end
