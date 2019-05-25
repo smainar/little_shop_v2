@@ -12,4 +12,31 @@ class Order < ApplicationRecord
       order_item.price_per_item * order_item.quantity
     end
   end
+
+  def total_quantity
+    order_items.sum(:quantity)
+  end
+
+  def item_price(item)
+    if items.include?(item)
+      order_items.where(item: item).first.price_per_item
+    end
+  end
+
+  def item_quantity(item)
+    if items.include?(item)
+      order_items.where(item: item).first.quantity
+    else
+      0
+    end
+  end
+
+  def item_subtotal(item)
+    if items.include?(item)
+      order_item = order_items.where(item: item).first
+      order_item.quantity * order_item.price_per_item
+    else
+      0
+    end
+  end
 end
