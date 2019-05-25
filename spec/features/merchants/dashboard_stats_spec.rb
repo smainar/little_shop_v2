@@ -73,7 +73,6 @@ RSpec.describe "As a merchant" do
     it "displays top five items sold by quantity" do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_1)
       visit merchant_dashboard_path
-      save_and_open_page
 
       within "#stats-top-five" do
         expect(page.all('li')[0]).to have_content("Item: #{@item_2.name}, Quantity: #{@merchant_1.top_five_items[0].total_sold}")

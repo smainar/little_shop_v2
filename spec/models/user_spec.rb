@@ -1,4 +1,5 @@
 require 'rails_helper'
+include ActionView::Helpers::NumberHelper
 
 RSpec.describe User, type: :model do
 
@@ -94,6 +95,13 @@ RSpec.describe User, type: :model do
     it "can find top five items by quantity" do
       top_five = [@item_2, @item_5, @item_3, @item_4, @item_6]
       expect(@merchant_1.top_five_items).to eq(top_five)
+    end
+
+    it "can calculate total quantities sold and inventory ratio" do
+      total_sold = 38
+      inventory_ratio = (38/120)
+      expect(@merchant_1.total_sold).to eq(total_sold)
+      expect(number_to_percentage(@merchant_1.inventory_ratio, precision: 0)).to eq(number_to_percentage(inventory_ratio, precision: 0))
     end
   end
 end

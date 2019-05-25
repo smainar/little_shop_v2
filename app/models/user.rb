@@ -30,4 +30,19 @@ class User < ApplicationRecord
          .order("total_sold desc")
          .limit(5)
   end
+
+  def total_sold
+    items.joins(:orders)
+          .where(active: true)
+          .where("orders.status = 2")
+          .sum("order_items.quantity")
+  end
+
+  def total_inventory
+    items.where(active: true).sum(:inventory)
+  end
+
+  def inventory_ratio
+    total_sold / total_inventory
+  end
 end
