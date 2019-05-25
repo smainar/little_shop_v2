@@ -30,4 +30,13 @@ class Order < ApplicationRecord
       0
     end
   end
+
+  def item_subtotal(item)
+    if items.include?(item)
+      order_item = order_items.where(item: item).first
+      order_item.quantity * order_item.price_per_item
+    else
+      0
+    end
+  end
 end
