@@ -24,14 +24,19 @@ RSpec.describe Order, type: :model do
       @oi_2 = create(:order_item, item: @item_2, order: @order_1, quantity: 1, price_per_item: @item_2.price - 0.33)
     end
 
-    it "#grand_total" do
+    it "#grand_total returns the total cost" do
       total_cost = @oi_1.price_per_item * @oi_1.quantity + @oi_2.price_per_item * @oi_2.quantity
 
       expect(@order_1.grand_total).to eq(total_cost)
     end
 
-    it "#total_quantity" do
+    it "#total_quantity returns the total count of all items' quantities" do
       expect(@order_1.total_quantity).to eq(@oi_1.quantity + @oi_2.quantity)
+    end
+
+    it "#item_price returns the purchase price for a particular item in the order" do
+      expect(@order_1.item_price(@item_2)).to eq(@oi_2.price_per_item)
+      expect(@order_1.item_price(@item_2)).to_not eq(@item_2.price)
     end
   end
 end

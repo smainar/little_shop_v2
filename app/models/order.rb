@@ -16,4 +16,10 @@ class Order < ApplicationRecord
   def total_quantity
     order_items.sum(:quantity)
   end
+
+  def item_price(item)
+    if items.include?(item)
+      order_items.where(item: item).first.price_per_item
+    end
+  end
 end
