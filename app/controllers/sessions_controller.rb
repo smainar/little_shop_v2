@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
       if current_user.admin?
         redirect_to root_path
       elsif current_user.merchant?
-        redirect_to dashboard_path
+        redirect_to merchant_dashboard_path
       else
         redirect_to profile_path
       end

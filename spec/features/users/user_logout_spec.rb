@@ -58,7 +58,7 @@ RSpec.describe "User logout, " do
       click_on "Login"
     end
 
-    expect(current_path).to eq(dashboard_path)
+    expect(current_path).to eq(merchant_dashboard_path)
 
     click_link "Log Out"
 

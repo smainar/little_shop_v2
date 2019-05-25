@@ -19,9 +19,7 @@ Rails.application.routes.draw do
     resources :orders, only: [:index, :show]
   end
 
-
   get '/register', to: "users#new"
-  get '/dashboard', to: "merchants#show"
   get '/merchants', to: "merchants#index"
 
   resources :carts, only: :create
@@ -36,6 +34,7 @@ Rails.application.routes.draw do
   end
 
   scope :dashboard, module: :merchant, as: :merchant do
+    get '/', to: "merchants#show", as: :dashboard
     resources :items, only: [:index]
   end
 end

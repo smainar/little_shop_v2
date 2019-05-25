@@ -73,7 +73,7 @@ RSpec.describe "User Login Workflow", type: :feature do
       click_on "Login"
     end
 
-    expect(current_path).to eq(dashboard_path)
+    expect(current_path).to eq(merchant_dashboard_path)
     expect(page).to have_content("Welcome, #{merchant.name}!")
   end
 end

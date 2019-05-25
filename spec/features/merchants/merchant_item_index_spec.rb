@@ -8,7 +8,7 @@ RSpec.describe "Merchant Items Index", type: :feature do
 
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(merchant)
 
-      visit dashboard_path
+      visit merchant_dashboard_path
 
       click_link "View all items for sale"
 
