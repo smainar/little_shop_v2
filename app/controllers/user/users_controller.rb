@@ -2,6 +2,9 @@ class User::UsersController < User::BaseController
   def show
   end
 
+  def edit
+  end
+
   def update
     if current_user.email != params[:email].downcase && User.find_by(email: params[:email].downcase)
       flash[:error] = "That email address is already in use"

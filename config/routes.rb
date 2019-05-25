@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   get '/profile', to: "user/users#show"
   patch '/profile', to: "user/users#update"
-  get '/profile/edit', to: "users#edit" # to-do: move to "user/users#edit" using the profile scope / user module
+  get '/profile/edit', to: "user/users#edit"
 
   scope :profile, module: :user, as: :user do
     resources :orders, only: [:index, :show]
