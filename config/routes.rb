@@ -9,9 +9,11 @@ Rails.application.routes.draw do
   post '/login', to: "sessions#create"
   get '/logout', to: "sessions#destroy"
 
-  get '/profile', to: "user/users#show"
-  patch '/profile', to: "user/users#update"
-  get '/profile/edit', to: "user/users#edit"
+  scope :profile, module: :user, as: :profile do
+    get '/', to: "users#show"
+    patch '/', to: "users#update"
+    get '/edit', to: "users#edit"
+  end
 
   scope :profile, module: :user, as: :user do
     resources :orders, only: [:index, :show]
