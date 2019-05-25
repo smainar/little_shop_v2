@@ -1,11 +1,11 @@
 <h1><%= "#{current_user.name}'s Orders" %></h1>
 
-<% current_user.orders.each do |order| %>
+<% @user_orders.each do |order| %>
   <div id="order-<%= order.id %>">
     <h3><%= link_to "Order #{order.id}", user_order_path(order) %></h3>
     <p>Placed on: <%= order.created_at %></p>
     <p>Last Updated: <%= order.updated_at %></p>
     <p>Status: <%= order.status %></p>
-    <p>Total Cost: <%= order.grand_total %></p>
+    <p>Total Cost: <%= number_to_currency(order.grand_total) %></p>
   </div>
 <% end %>

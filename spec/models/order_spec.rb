@@ -20,6 +20,7 @@ RSpec.describe Order, type: :model do
       @item_1 = create(:item, user: @merchant, price: 4.50)
       @item_2 = create(:item, user: @merchant, price: 2.33)
       @oi_1 = create(:order_item, item: @item_1, order: @order_1, quantity: 3, price_per_item: @item_1.price)
+      # note: in @oi_2 below, the price_per_item is intentionally different than the item's price, to make sure that the methods are using the price_per_item instead of the price in certain methods
       @oi_2 = create(:order_item, item: @item_2, order: @order_1, quantity: 1, price_per_item: @item_2.price - 0.33)
     end
 
