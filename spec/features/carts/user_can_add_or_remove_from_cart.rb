@@ -20,7 +20,7 @@ RSpec.describe "As a Registered User ", type: :feature do
     it 'I see a button or link to remove that item from my cart' do
 
       visit cart_path
-      
+
       expect(page).to have_button("+")
       expect(page).to have_button("-")
       expect(page).to have_button("Remove")
@@ -28,7 +28,7 @@ RSpec.describe "As a Registered User ", type: :feature do
       within "#item-#{@item_1.id}" do
         click_button '+'
         click_button '+'
-        expect(page).to have_content("Quantity: #{@item_1.inventory}")
+        expect(page).to have_content(@item_1.inventory)
       end
 
       within "#item-#{@item_2.id}" do
@@ -38,7 +38,7 @@ RSpec.describe "As a Registered User ", type: :feature do
 
       within "#item-#{@item_1.id}" do
         click_button '-'
-        expect(page).to have_content("Quantity: #{@item_1.inventory}")
+        expect(page).to have_content(@item_1.inventory)
         click_button '-'
         expect(page).to_not have_content("#{@item_1.name}")
       end
