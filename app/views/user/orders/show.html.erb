@@ -6,7 +6,6 @@
 <p>Total Items Ordered: <%= @order.total_quantity %></p>
 <p>Total Cost: <%= number_to_currency(@order.grand_total) %></p>
 
-
 <% @items.each do |item| %>
   <div id="item-<%= item.id %>">
     <h3><%= link_to item.name, item_path(item) %></h3>
