@@ -6,4 +6,10 @@ class Order < ApplicationRecord
   validates_presence_of :status
 
   enum status: ['pending', 'packaged', 'shipped', 'cancelled']
+
+  def grand_total
+    order_items.sum do |order_item|
+      order_item.price_per_item * order_item.quantity
+    end
+  end
 end
