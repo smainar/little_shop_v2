@@ -1,0 +1,6 @@
+<h1>My Orders</h1>
+
+<% @user_orders.each do |order| %>
+  <h3><%= link_to "Order #{order.id}" %></h3>
+  <p><%= order.status.titleize %></p>
+<% end %>
