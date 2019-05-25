@@ -14,8 +14,9 @@ Rails.application.routes.draw do
   get '/profile/edit', to: "users#edit" # to-do: move to "user/users#edit" using the profile scope / user module
 
   scope :profile, module: :user, as: :user do
-    resources :orders, only: :index
+    resources :orders, only: [:index, :show]
   end
+
 
   get '/register', to: "users#new"
   get '/dashboard', to: "merchants#show"
