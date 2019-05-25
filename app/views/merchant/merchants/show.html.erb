@@ -1,1 +1,11 @@
 <%= link_to 'View all items for sale', merchant_items_path %>
+
+<div id="stats-top-five">
+  <ol>
+    <% @merchant.top_five_items.each do |item|  %>
+      <li>Item: <%= item.name %>, Quantity: <%= item.total_sold %></li>
+    <% end %>
+  </ol>
+</div>
+
+<p>Sold <%= @merchant.total_sold %> items, which is <%= number_to_percentage(@merchant.inventory_ratio, precision: 0) %> of your total inventory.</p>

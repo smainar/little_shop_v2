@@ -1,40 +1,18 @@
 require 'rails_helper'
-include ActionView::Helpers::NumberHelper
 
-RSpec.describe User, type: :model do
+# As a merchant
+# When I visit my dashboard, I see an area with statistics:
+# - top 5 items I have sold by quantity, and the quantity of each that I've sold
+# - total quantity of items I've sold, and as a percentage against my sold units plus remaining inventory (eg, if I have sold 1,000 things and still have 9,000 things in inventory, the message would say something like "Sold 1,000 items, which is 10% of your total inventory")
+# - top 3 states where my items were shipped, and their quantities
+# - top 3 city/state where my items were shipped, and their quantities (Springfield, MI should not be grouped with Springfield, CO)
+# - name of the user with the most orders from me (pick one if there's a tie), and number of orders
+# - name of the user who bought the most total items from me (pick one if there's a tie), and the total quantity
+# - top 3 users who have spent the most money on my items, and the total amount they've spent
 
-  describe 'validations' do
-    it {should validate_presence_of :email}
-    it {should validate_presence_of :role}
-    it {should validate_presence_of :name}
-    it {should validate_presence_of :address}
-    it {should validate_presence_of :city}
-    it {should validate_presence_of :state}
-    it {should validate_presence_of :zip}
 
-    it {should validate_presence_of :email}
-    it {should validate_presence_of :password_digest}
-  end
-
-  describe 'relationships' do
-    it {should have_many :items}
-    it {should have_many :orders}
-  end
-
-  describe 'class methods' do
-    describe '.active_merhants' do
-      it 'should return all active merchants' do
-        active_merchant_1 = create(:merchant)
-        active_merchant_2 = create(:merchant)
-        inactive_merchant = create(:inactive_merchant)
-        regular_active_user = create(:user)
-
-        expect(User.active_merchants).to eq([active_merchant_1, active_merchant_2])
-      end
-    end
-  end
-
-  describe 'instance methods' do
+RSpec.describe "As a merchant" do
+  describe "When I visit my dashboard, I see an area with statistics" do
     before :each do
       @user_1 = create(:user, city: "Glendale", state: "CO")
       @user_2 = create(:user, city: "Glendale", state: "IA")
@@ -93,22 +71,24 @@ RSpec.describe User, type: :model do
       #include previously active item that were shipped. Item is now inactive.
     end
 
-    it "can find top five items by quantity" do
-      top_five = [@item_2, @item_5, @item_3, @item_4, @item_6]
-      expect(@merchant_1.top_five_items).to eq(top_five)
+    it "displays top five items sold by quantity" do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_1)
+      visit merchant_dashboard_path
+
+      within "#stats-top-five" do
+        expect(page.all('li')[0]).to have_content("Item: #{@item_2.name}, Quantity: #{@merchant_1.top_five_items[0].total_sold}")
+        expect(page.all('li')[1]).to have_content("Item: #{@item_5.name}, Quantity: #{@merchant_1.top_five_items[1].total_sold}")
+        expect(page.all('li')[2]).to have_content("Item: #{@item_3.name}, Quantity: #{@merchant_1.top_five_items[2].total_sold}")
+        expect(page.all('li')[3]).to have_content("Item: #{@item_4.name}, Quantity: #{@merchant_1.top_five_items[3].total_sold}")
+        expect(page.all('li')[4]).to have_content("Item: #{@item_6.name}, Quantity: #{@merchant_1.top_five_items[4].total_sold}")
+      end
     end
 
-    it "can calculate total quantities sold and inventory ratio" do
-      total_sold = 38
-      inventory_ratio = (38/120.0)*100
-      expect(@merchant_1.total_sold).to eq(total_sold)
-      expect(number_to_percentage(@merchant_1.inventory_ratio)).to eq(number_to_percentage(inventory_ratio))
-    end
-# top 3 states where my items were shipped, and their quantities
-# - top 3 city/state where my items were shipped, and their quantities (Springfield, MI should not be grouped with Springfield, CO)
-    it "calculates top 3 city/state where items were shipped and their quantities " do
-      top_three = ["CO", "CA", "IA"]
-      expect(@merchant_1.top_three_states).to eq(top_three)
+    it "displays total items sold and inventory ratio" do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_1)
+      visit merchant_dashboard_path
+
+      expect(page).to have_content("Sold #{@merchant_1.total_sold} items, which is #{number_to_percentage(@merchant_1.inventory_ratio, precision: 0)} of your total inventory")
     end
   end
 end
