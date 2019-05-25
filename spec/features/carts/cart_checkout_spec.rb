@@ -33,7 +33,7 @@ RSpec.describe "Cart checkout functionality: " do
 
       expect(current_path).to eq(user_orders_path)
       expect(page).to have_link("Order #{Order.last.id}")
-      expect(page).to have_content("Pending")
+      expect(page).to have_content("pending")
       expect(page).to have_content("Cart: 0")
     end
   end
