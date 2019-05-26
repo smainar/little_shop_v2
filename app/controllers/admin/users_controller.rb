@@ -3,5 +3,6 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def index
+    @users = User.regular_users
   end
 end

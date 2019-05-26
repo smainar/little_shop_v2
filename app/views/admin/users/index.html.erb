@@ -1,0 +1,8 @@
+<h1>All Regular Users</h1>
+
+<% @users.each do |user| %>
+  <div id="user-<%= user.id %>">
+    <h3><%= link_to user.name, admin_user_path(user) %></h3>
+    <p>Registered: <%= Date.strptime(user.created_at.to_s) %></p>
+  </div>
+<% end %>
