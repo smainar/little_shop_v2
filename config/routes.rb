@@ -15,16 +15,18 @@ Rails.application.routes.draw do
   post '/login', to: "sessions#create"
   get '/logout', to: "sessions#destroy"
 
-  # CART ROUTESS
-  # to-do: clean up using cart scope
-  resources :carts, only: :create
-  get '/cart', to: "carts#show"
-  delete '/cart', to: "carts#destroy"
-  post '/cart', to: 'carts#checkout'
-  post '/cart/:id', to: 'carts#add_from_show_page',  as: :add_to_cart
-  patch '/cart/:id/increment', to: 'carts#increment', as: :increment
-  patch '/cart/:id/decrement', to: 'carts#decrement', as: :decrement
-  patch '/cart/:id/remove', to: 'carts#remove', as: :remove
+  # CART ROUTES
+  post '/carts', to: "carts#create"
+
+  scope :cart, as: :cart do
+    get '/', to: "carts#show"
+    delete '/', to: "carts#destroy"
+    post '/', to: 'carts#checkout'
+    post '/:id', to: 'carts#add_from_show_page',  as: :add_item
+    patch '/:id/increment', to: 'carts#increment', as: :increment_item
+    patch '/:id/decrement', to: 'carts#decrement', as: :decrement_item
+    patch '/:id/remove', to: 'carts#remove_item', as: :remove_item
+  end
 
   # PROFILE ROUTES (AS A USER)
   scope :profile, module: :user, as: :profile do

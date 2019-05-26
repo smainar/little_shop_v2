@@ -25,7 +25,7 @@ class CartsController < ApplicationController
     redirect_back fallback_location: cart_path
   end
 
-  def remove
+  def remove_item
     item = Item.find(params[:id])
     cart.remove_all_item(item.id)
     flash[:notice] = "You now removed all #{item.name} in your cart."
