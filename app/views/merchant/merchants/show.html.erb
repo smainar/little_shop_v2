@@ -1,1 +1,9 @@
 <%= link_to 'View all items for sale', merchant_items_path %>
+
+<div id="dashboard-show">
+  <h1><%= @merchant.name %></h1>
+  <p><%= @merchant.email %></p>
+  <p><%= @merchant.address %></p>
+  <p><%= @merchant.city %>, <%= @merchant.state %></p>
+  <p><%= @merchant.zip %></p>
+</div>
