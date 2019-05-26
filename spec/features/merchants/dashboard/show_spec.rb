@@ -6,6 +6,7 @@ RSpec.describe 'As a merchant user: ' do
       @merchant = create(:merchant)
       @bad_merchant = create(:merchant)
     end
+    
     it "displays my profile data" do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
       visit merchant_dashboard_path
