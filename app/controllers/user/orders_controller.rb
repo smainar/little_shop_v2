@@ -11,13 +11,11 @@ class User::OrdersController < User::BaseController
   def cancel
     order = Order.find(params[:id])
     order.update(status: "cancelled")
+
     order.order_items.each do |order_item|
-      if order_item.fulfilled?
-        order_item.update(fulfilled: false)
-        item = order_item.item
-        item.update(inventory: (item.inventory + order_item.quantity))
-      end
+      order_item.cancel
     end
+
     flash[:notice] = "Order #{order.id} has been cancelled"
     redirect_to profile_path
   end
