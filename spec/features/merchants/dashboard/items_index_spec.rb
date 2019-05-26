@@ -69,12 +69,12 @@ RSpec.describe "Merchant Items Index", type: :feature do
         expect(page).to_not have_link("Delete Item")
       end
 
-      within("#item-#{@disabled_never_ordered_item.id}") do
-        expect(page).to have_link(@disabled_never_ordered_item.name)
-        expect(page).to have_content("ID: #{@disabled_never_ordered_item.id}")
-        expect(page).to have_css("img[src*='#{@disabled_never_ordered_item.image}']")
-        expect(page).to have_content(number_to_currency(@disabled_never_ordered_item.price))
-        expect(page).to have_content("#{@disabled_never_ordered_item.inventory} in stock")
+      within("#item-#{@disabled_ordered_item.id}") do
+        expect(page).to have_link(@disabled_ordered_item.name)
+        expect(page).to have_content("ID: #{@disabled_ordered_item.id}")
+        expect(page).to have_css("img[src*='#{@disabled_ordered_item.image}']")
+        expect(page).to have_content(number_to_currency(@disabled_ordered_item.price))
+        expect(page).to have_content("#{@disabled_ordered_item.inventory} in stock")
         expect(page).to have_link("Edit Item")
         expect(page).to have_link("Enable Item")
         expect(page).to_not have_link("Disable Item")

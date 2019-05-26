@@ -10,10 +10,15 @@
     <p><%= number_to_currency(item.price) %></p>
     <p><%= item.inventory %> in stock</p>
     <%= link_to "Edit Item", edit_merchant_item_path(item) %>
+
     <% if item.active %>
       <%= link_to "Disable Item", merchant_disable_item_path(item) %>
     <% else %>
       <%= link_to "Enable Item", merchant_enable_item_path(item) %>
+    <% end %>
+
+    <% if item.order_count == 0 %>
+      <%= link_to "Delete Item", merchant_delete_item_path(item) %>
     <% end %>
   </div>
 <% end %>
