@@ -65,12 +65,27 @@ RSpec.describe "Merchant Index", type: :feature do
     end
 
     it "has links to all merchant dashboards" do
-      # The merchant's name is a link to their Merchant Dashboard at routes such as "/admin/merchants/5"
+      visit merchants_path
+      click_link(@active_merchant.name)
+      expect(current_path).to eq("/admin/merchants/#{@active_merchant.id}")
+
+      visit merchants_path
+      click_link(@disabled_merchant.name)
+      expect(current_path).to eq("/admin/merchants/#{@disabled_merchant.id}")
     end
 
-    it "has buttons to enable/disable merchants" do
-      # I see a "disable" button next to any merchants who are not yet disabled
-      # I see an "enable" button next to any merchants whose accounts are disabled
+    xit "has buttons to enable/disable merchants" do
+      visit merchants_path
+
+      within("#merchant-id-#{@active_merchant.id}") do
+        expect(page).to have_button("Disable Merchant")
+        expect(page).to_not have_button("Enable Merchant")
+      end
+
+      within("#merchant-id-#{@disabled_merchant.id}") do
+        expect(page).to_not have_button("Disable Merchant")
+        expect(page).to have_button("Enable Merchant")
+      end
     end
   end
 end
