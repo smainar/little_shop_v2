@@ -56,6 +56,18 @@ RSpec.describe "cart show page", type: :feature do
     end
   end
 
+  context "as a visitor with an empty cart" do
+    it "should only display, your cart is empty" do
+      visit root_path
+
+      click_on "My Cart"
+
+      expect(page).to have_content("There is nothing in your cart!")
+      expect(page).to_not have_link("Empty Cart")
+      expect(page).to_not have_content("Grand Total")
+    end
+  end
+
   context "as a user" do
     before(:each) do
       @merchant_1 = create(:merchant)
@@ -111,6 +123,22 @@ RSpec.describe "cart show page", type: :feature do
       expect(page).to have_content("Cart: 0")
       expect(page).to_not have_link(@item_1.name)
       expect(page).to_not have_link(@item_2.name)
+    end
+  end
+
+
+  context "as a user with an empty cart" do
+    it "should only display, your cart is empty" do
+      user = create(:user)
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
+
+      visit root_path
+
+      click_on "My Cart"
+
+      expect(page).to have_content("There is nothing in your cart!")
+      expect(page).to_not have_link("Empty Cart")
+      expect(page).to_not have_content("Grand Total")
     end
   end
 end

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe "User Login Workflow", type: :feature do
-
   scenario 'correct user login information entered' do
     user = User.create!(email: "abc@abc.com", password: "password", name: "user1", address: "kgysdfklvysgu", city: 'city town', state: 'state place', zip: '987123', role: 'user')
 
