@@ -7,5 +7,5 @@
 <p>Average Fulfillment Time: <%= @item.average_fulfillment_time %> days</p>
 
 <% if (current_user == nil) || current_user.user? %>
-  <%= button_to "Add to Cart", carts_path(item_id: @item.id) %>
+  <%= button_to "Add to Cart",add_to_cart_path(@item)  %>
 <% end %>
