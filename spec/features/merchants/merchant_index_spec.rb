@@ -30,13 +30,38 @@ RSpec.describe "Merchant Index", type: :feature do
 
   context "as an admin" do
     before(:each) do
-      # admin login stuff
+      @admin = User.create!(email:    "abc@def.com",
+                            password: "pw123",
+                            name:     "Abc Def",
+                            address:  "123 Abc St",
+                            city:     "NYC",
+                            state:    "NY",
+                            zip:      "12345",
+                            role:     :admin
+                           )
+      allow_any_instance_of(ApplicationController).to receive(:current_user)
+                                                  .and_return(@admin)
+
+      @active_merchant = create(:merchant)
+      @disabled_merchant = create(:inactive_merchant)
     end
 
     it "shows all merchants - even inactive ones" do
-      # When I visit the merchant's index page at "/merchants"
-      # I see all merchants in the system
-      # Next to each merchant's name I see their city and state
+      visit merchants_path
+
+      expect(current_path).to eq("/merchants")
+
+      within("#merchant-id-#{@active_merchant.id}") do
+        expect(page).to have_link(@active_merchant.name)
+        expect(page).to have_content(@active_merchant.city)
+        expect(page).to have_content(@active_merchant.state)
+      end
+
+      within("#merchant-id-#{@disabled_merchant.id}") do
+        expect(page).to have_link(@disabled_merchant.name)
+        expect(page).to have_content(@disabled_merchant.city)
+        expect(page).to have_content(@disabled_merchant.state)
+      end
     end
 
     it "has links to all merchant dashboards" do
