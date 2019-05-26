@@ -43,6 +43,6 @@ Rails.application.routes.draw do
 
   scope :dashboard, module: :merchant, as: :merchant do
     get '/', to: "merchants#show", as: :dashboard
-    resources :items, only: [:index]
+    resources :items, only: [:index, :new]
   end
 end

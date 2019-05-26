@@ -13,6 +13,8 @@ RSpec.describe "Merchant Items Index", type: :feature do
       click_link "View all items for sale"
 
       expect(current_path).to eq(merchant_items_path)
+
+      # to-do: make test actually check for presence of data for the items (but at the time of this writing, the page is not yet built out)
     end
   end
 end
