@@ -39,7 +39,8 @@ Rails.application.routes.draw do
 
   namespace :admin do
     get '/dashboard', to: "users#show"
-    resources :users, only: [:index]
+    resources :users, only: [:index, :show]
+    patch '/users/:id/upgrade', to: "users#upgrade", as: :upgrade_user
   end
 
   scope :dashboard, module: :merchant, as: :merchant do
