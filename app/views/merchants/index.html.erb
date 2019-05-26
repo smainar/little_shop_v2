@@ -15,8 +15,12 @@
       <li>Location: <%= merchant.city %>, <%= merchant.state %>.</li>
       <li>Account Created: <%= Date.strptime(merchant.created_at.to_s) %></li>
     </ul>
+    <% if current_admin? %>
+      <%= button_to "Disable Merchant", admin_disable_merchant_path(merchant), method: "patch", data: { confirm: 'Are you sure?', disable_with: 'loading...' } %>
+    <% end %>
   </div>
 <% end %>
+
 <% if current_admin? %>
   <h2>Inactive Merchants</h2>
   <% @inactive_merchants.each do |merchant| %>
@@ -32,6 +36,7 @@
         <li>Location: <%= merchant.city %>, <%= merchant.state %>.</li>
         <li>Account Created: <%= Date.strptime(merchant.created_at.to_s) %></li>
       </ul>
+      <%= button_to "Enable Merchant", admin_enable_merchant_path(merchant), method: "patch", data: { confirm: 'Are you sure?', disable_with: 'loading...' } %>
     </div>
   <% end %>
 <% end %>

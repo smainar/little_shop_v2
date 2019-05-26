@@ -74,7 +74,7 @@ RSpec.describe "Merchant Index", type: :feature do
       expect(current_path).to eq("/admin/merchants/#{@disabled_merchant.id}")
     end
 
-    xit "has buttons to enable/disable merchants" do
+    it "has buttons to enable/disable merchants" do
       visit merchants_path
 
       within("#merchant-id-#{@active_merchant.id}") do
