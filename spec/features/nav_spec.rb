@@ -255,6 +255,19 @@ RSpec.describe "navigation bar", type: :feature do
       end
     end
 
+    it "has a link to view all users" do
+      allow_any_instance_of(ApplicationController).to receive(:current_user)
+      .and_return(@admin)
+
+      visit items_path
+
+      within("nav") do
+        click_link "Users"
+      end
+
+      expect(current_path).to eq("/admin/users")
+    end
+
     it "has a working log out link" do
       visit login_path
 
