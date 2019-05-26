@@ -31,5 +31,17 @@ RSpec.describe User, type: :model do
         expect(User.active_merchants).to eq([active_merchant_1, active_merchant_2])
       end
     end
+
+    describe '::regular_users' do
+      it 'should return all regular users' do
+        user_1 = create(:user)
+        user_2 = create(:user)
+        inactive_user = create(:inactive_user)
+        active_merchant = create(:merchant)
+        active_admin = create(:admin)
+
+        expect(User.regular_users).to eq([inactive_user, user_1, user_2])
+      end
+    end
   end
 end
