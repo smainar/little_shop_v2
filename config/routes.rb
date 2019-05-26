@@ -16,8 +16,6 @@ Rails.application.routes.draw do
   get '/logout', to: "sessions#destroy"
 
   # CART ROUTES
-  post '/carts', to: "carts#create"
-
   scope :cart, as: :cart do
     get '/', to: "carts#show"
     delete '/', to: "carts#destroy"
