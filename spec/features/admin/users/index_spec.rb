@@ -61,8 +61,13 @@ RSpec.describe "admin - users index page, " do
       expect(page).to_not have_content(@other_admin.name)
     end
 
-    xit "the users' names are links to a show page" do
-      # Each user's name is a link to a show page for that user ("/admin/users/5")
+    it "the users' names are links to a show page" do
+      visit admin_users_path
+
+      click_link(@user.name)
+
+      expect(current_path).to eq("/admin/users/#{@user.id}")
+      expect(current_path).to eq(admin_user_path(@user))
     end
   end
 end
