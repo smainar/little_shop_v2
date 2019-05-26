@@ -1,1 +1,19 @@
+<h1>Items I'm Selling</h1>
+
 <%= link_to "Add a New Item", new_merchant_item_path  %>
+
+<% @items.each do |item| %>
+  <div id="item-<%= item.id %>">
+    <h3><%= link_to item.name, item_path(item) %></h3>
+    <p>ID: <%= item.id %></p>
+    <%= image_tag item.image || @default_image, alt: "image of #{item.name}" %>
+    <p><%= number_to_currency(item.price) %></p>
+    <p><%= item.inventory %> in stock</p>
+    <%= link_to "Edit Item", edit_item_path(item) %>
+    <% if item.active %>
+      <%= link_to "Disable Item", disable_item_path(item) %>
+    <% else %>
+      <%= link_to "Enable Item", enable_item_path(item) %>
+    <% end %>
+  </div>
+<% end %>
