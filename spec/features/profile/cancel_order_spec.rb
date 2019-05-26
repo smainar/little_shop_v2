@@ -19,8 +19,13 @@ RSpec.describe "Cancelling an order", type: :feature do
       @shipped_order = create(:shipped_order, user: @user)
       @cancelled_order = create(:cancelled_order, user: @user)
 
-      @oi_1 = create(:order_item, order: @pending_order)
-      @oi_2 = create(:fulfilled_order_item, order: @pending_order)
+      @item_1_initial_inventory = 30
+      @item_2_initial_inventory = 40
+      @item_1 = create(:item, inventory: @item_1_initial_inventory)
+      @item_2 = create(:item, inventory: @item_2_initial_inventory)
+
+      @oi_1 = create(:order_item, order: @pending_order, item: @item_1, quantity: 10)
+      @oi_2 = create(:fulfilled_order_item, order: @pending_order, item: @item_2, quantity: 5)
     end
 
     it "if order is pending there is a button to cancel" do
@@ -41,7 +46,8 @@ RSpec.describe "Cancelling an order", type: :feature do
         expect(page).to have_content("cancelled")
       end
 
-      # to-do: Any item quantities in the order that were previously fulfilled have their quantities returned to their respective merchant's inventory for that item.
+      expect(@item_1.reload.inventory).to eq(@item_1_initial_inventory)
+      expect(@item_2.reload.inventory).to eq(@item_2_initial_inventory + @oi_2.quantity)
     end
 
     it "if order is not pending there is no button to cancel" do
