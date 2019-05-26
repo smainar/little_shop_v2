@@ -2,8 +2,7 @@
 
 <div id="dashboard-show">
   <h1><%= @merchant.name %></h1>
-  <p><%= @merchant.email %></p>
-  <p><%= @merchant.address %></p>
-  <p><%= @merchant.city %>, <%= @merchant.state %></p>
-  <p><%= @merchant.zip %></p>
+  <p>Email: <%= @merchant.email %></p>
+  <p>Address: <%= @merchant.address %></p>
+  <p><%= @merchant.city %>, <%= @merchant.state %> <%= @merchant.zip %></p>
 </div>
