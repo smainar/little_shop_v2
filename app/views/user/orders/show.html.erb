@@ -16,3 +16,7 @@
     <p>Subtotal: <%= number_to_currency(@order.item_subtotal(item)) %> each</p>
   </div>
 <% end %>
+
+<% if @order.pending? %>
+  <%= button_to "Cancel Order", cancel_order_path(@order), method: "patch" %>
+<% end %>

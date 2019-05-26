@@ -19,6 +19,8 @@ Rails.application.routes.draw do
     resources :orders, only: [:index, :show]
   end
 
+  patch '/profile/orders/:id', to: 'user/orders#cancel', as: :cancel_order
+
   get '/register', to: "users#new"
   get '/merchants', to: "merchants#index"
 
