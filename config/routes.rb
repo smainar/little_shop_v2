@@ -41,7 +41,10 @@ Rails.application.routes.draw do
   # DASHBOARD ROUTES (AS A MERCHANT)
   scope :dashboard, module: :merchant, as: :merchant do
     get '/', to: "merchants#show", as: :dashboard
-    resources :items, only: [:index]
+    resources :items, only: [:index, :new, :edit]
+    patch '/items/:id/disable', to: "items#disable", as: :disable_item
+    patch '/items/:id/enable', to: "items#enable", as: :enable_item
+    delete '/items/:id', to: "items#destroy", as: :delete_item
   end
 
   # ADMIN ROUTES
