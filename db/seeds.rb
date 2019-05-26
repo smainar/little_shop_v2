@@ -13,9 +13,9 @@ Order.destroy_all
 Item.destroy_all
 User.destroy_all
 
-admin = create(:admin)
+admin = create(:admin, email: "admin@email.com", password: "password")
 user = create(:user)
-merchant_1 = create(:merchant)
+merchant_1 = create(:merchant, email: "merchant@email.com", password: "pw123")
 existing_user = create(:user, email: "existingemail@gmail.com")
 
 merchant_2, merchant_3, merchant_4 = create_list(:merchant, 3)

@@ -15,10 +15,6 @@ class Item < ApplicationRecord
     self.where(active: true)
   end
 
-  def average_fulfillment_time
-    order_items.average("updated_at - created_at").to_i
-  end
-
   def self.sort_by_popularity(limit, direction)
     self.joins(:order_items)
     .select("items.*, sum(order_items.quantity) AS total_quantity")
@@ -27,4 +23,13 @@ class Item < ApplicationRecord
     .order("total_quantity #{direction.to_s}")
     .limit(limit)
   end
+
+  def average_fulfillment_time
+    order_items.average("updated_at - created_at").to_i
+  end
+
+  def order_count
+    orders.count
+  end
 end
+
