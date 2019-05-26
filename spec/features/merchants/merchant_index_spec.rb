@@ -27,4 +27,25 @@ RSpec.describe "Merchant Index", type: :feature do
       expect(page).to_not have_content(inactive_merchant.state)
     end
   end
+
+  context "as an admin" do
+    before(:each) do
+      # admin login stuff
+    end
+
+    it "shows all merchants - even inactive ones" do
+      # When I visit the merchant's index page at "/merchants"
+      # I see all merchants in the system
+      # Next to each merchant's name I see their city and state
+    end
+
+    it "has links to all merchant dashboards" do
+      # The merchant's name is a link to their Merchant Dashboard at routes such as "/admin/merchants/5"
+    end
+
+    it "has buttons to enable/disable merchants" do
+      # I see a "disable" button next to any merchants who are not yet disabled
+      # I see an "enable" button next to any merchants whose accounts are disabled
+    end
+  end
 end
