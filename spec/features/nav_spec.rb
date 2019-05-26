@@ -26,6 +26,7 @@ RSpec.describe "navigation bar", type: :feature do
 
         expect(page).to_not have_link "My Profile"
         expect(page).to_not have_link "Log Out"
+        expect(page).to_not have_link "Users"
         expect(page).to_not have_content "Logged in as"
       end
     end
@@ -96,6 +97,7 @@ RSpec.describe "navigation bar", type: :feature do
 
         expect(page).to_not have_link("Login")
         expect(page).to_not have_link("Register")
+        expect(page).to_not have_link("Users")
 
         click_link "My Profile"
         expect(current_path).to eq(profile_path)
@@ -189,6 +191,7 @@ RSpec.describe "navigation bar", type: :feature do
         expect(page).to_not have_link("My Cart")
         expect(page).to_not have_link("Login")
         expect(page).to_not have_link("Register")
+        expect(page).to_not have_link("Users")
 
         click_link "Dashboard"
         expect(current_path).to eq(merchant_dashboard_path)
