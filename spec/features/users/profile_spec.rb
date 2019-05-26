@@ -33,5 +33,13 @@ RSpec.describe "profile page" do
 
       expect(current_path).to eq(profile_edit_path)
     end
+
+    it "displays a link to my orders" do
+      visit profile_path
+
+      click_link "My Orders"
+
+      expect(current_path).to eq(user_orders_path)
+    end
   end
 end
