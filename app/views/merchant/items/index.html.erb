@@ -9,11 +9,11 @@
     <%= image_tag item.image || @default_image, alt: "image of #{item.name}" %>
     <p><%= number_to_currency(item.price) %></p>
     <p><%= item.inventory %> in stock</p>
-    <%= link_to "Edit Item", edit_item_path(item) %>
+    <%= link_to "Edit Item", edit_merchant_item_path(item) %>
     <% if item.active %>
-      <%= link_to "Disable Item", disable_item_path(item) %>
+      <%= link_to "Disable Item", merchant_disable_item_path(item) %>
     <% else %>
-      <%= link_to "Enable Item", enable_item_path(item) %>
+      <%= link_to "Enable Item", merchant_enable_item_path(item) %>
     <% end %>
   </div>
 <% end %>
