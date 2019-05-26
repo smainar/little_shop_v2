@@ -21,8 +21,8 @@ RSpec.describe User, type: :model do
     it {should have_many :orders}
   end
 
-  describe 'class methods' do
-    describe '.active_merhants' do
+  describe 'Class Methods' do
+    describe '.active_merchants' do
       it 'should return all active merchants' do
         active_merchant_1 = create(:merchant)
         active_merchant_2 = create(:merchant)

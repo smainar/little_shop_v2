@@ -19,7 +19,7 @@ class User < ApplicationRecord
   has_secure_password
 
   def self.active_merchants
-    where(active: true, role: 'merchant')
+    where(active: true, role: 'merchant').order(:name)
   end
 
   def top_five_items
