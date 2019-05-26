@@ -13,9 +13,12 @@ RSpec.describe 'As a merchant: ' do
     before :each do
       @merchant = create(:merchant)
       @other_merchant = create(:merchant)
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
+      visit merchant_dashboard_path
     end
     it "I see a list of pending orders with only items I sell" do
-
+      
     end
   end
 end
