@@ -81,5 +81,29 @@ RSpec.describe Item, type: :model do
     it "can calculate average fulfillment time per item" do
       expect(@item_1.average_fulfillment_time).to eq(2)
     end
+
+    it "#order_count returns how many orders include that item" do
+      never_ordered_item = create(:item)
+
+      ordered_item = create(:item)
+      order_1 = create(:order)
+      oi_1 = create(:order_item, order: order_1, item: ordered_item)
+      order_2 = create(:packaged_order)
+      oi_2 = create(:order_item, order: order_2, item: ordered_item)
+      order_3 = create(:shipped_order)
+      oi_3 = create(:fulfilled_order_item, order: order_3, item: ordered_item)
+      order_4 = create(:cancelled_order)
+      oi_4 = create(:order_item, order: order_4, item: ordered_item)
+
+      disabled_ordered_item = create(:inactive_item)
+      order_5 = create(:order)
+      oi_5 = create(:order_item, order: order_5, item: disabled_ordered_item)
+      order_6 = create(:packaged_order)
+      oi_6 = create(:fulfilled_order_item, order: order_6, item: disabled_ordered_item)
+
+      expect(never_ordered_item.order_count).to eq(0)
+      expect(ordered_item.order_count).to eq(4)
+      expect(disabled_ordered_item.order_count).to eq(2)
+    end
   end
 end
