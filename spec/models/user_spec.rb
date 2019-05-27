@@ -44,7 +44,7 @@ RSpec.describe User, type: :model do
       end
     end
 
-    describe '.all_merchants' do
+    describe '::all_merchants' do
       it 'should return all merchants (active and disabled)' do
         user = create(:user)
         admin = create(:admin)
