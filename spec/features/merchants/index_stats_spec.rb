@@ -68,21 +68,21 @@ RSpec.describe "Merchant Index Statistics", type: :feature do
       @oi_8 = create(:fulfilled_order_item, order: @order_6, item: @item_6, quantity: 5, price_per_item: 10000.0)
     end
 
-    it 'shows top 3 merchants who have sold the most by price, and their revenue'
+    xit 'shows top 3 merchants who have sold the most by price, and their revenue'
     # expected = [@merchant_4, @merchant_1, @merchant_2]
     # expected = [50000, 60, 31]
-    it 'shows top 3 merchants who have sold the most by quantity, and their revenue'
+    xit 'shows top 3 merchants who have sold the most by quantity, and their revenue'
     # expected = [@merchant_1, @merchant_4, @merchant_2]
-    # expected = [300, 5, 2]
+    # expected = [60, 50000, 31]
 
-    it 'shows top 3 biggest orders by quantity of items shipped in an order, plus their quantities'
+    xit 'shows top 3 biggest orders by quantity of items shipped in an order, plus their quantities'
     # expected = [@order_2, @order_1, @order_6]
     # expected = [2200, 101, 5]
 
-    it 'shows top 3 states where any orders were shipped (by number of orders), and count of orders'
-    it 'shows top 3 cities where any orders were shipped (by number of orders, also Springfield, MI should not be grouped with Springfield, CO), and the count of orders'
+    xit 'shows top 3 states where any orders were shipped (by number of orders), and count of orders'
+    xit 'shows top 3 cities where any orders were shipped (by number of orders, also Springfield, MI should not be grouped with Springfield, CO), and the count of orders'
 
-    it 'shows top 3 merchants who were fastest at fulfilling items in an order, and their times'
-    it 'worst 3 merchants who were slowest at fulfilling items in an order, and their times'
+    xit 'shows top 3 merchants who were fastest at fulfilling items in an order, and their times'
+    xit 'worst 3 merchants who were slowest at fulfilling items in an order, and their times'
   end
 end
