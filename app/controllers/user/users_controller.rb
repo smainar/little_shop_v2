@@ -1,5 +1,6 @@
 class User::UsersController < User::BaseController
   def show
+    @user_orders = current_user.orders
   end
 
   def edit

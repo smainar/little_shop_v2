@@ -18,5 +18,5 @@
 <% end %>
 
 <% if @order.pending? %>
-  <%= button_to "Cancel Order", cancel_order_path(@order), method: "patch" %>
+  <%= button_to "Cancel Order", user_cancel_order_path(@order), method: "patch" %>
 <% end %>

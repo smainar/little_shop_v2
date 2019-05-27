@@ -21,14 +21,38 @@ RSpec.describe User, type: :model do
   end
 
   describe 'Class Methods' do
-    describe '.active_merchants' do
+    describe '::active_merchants' do
       it 'should return all active merchants' do
         active_merchant_1 = create(:merchant)
         active_merchant_2 = create(:merchant)
         inactive_merchant = create(:inactive_merchant)
         regular_active_user = create(:user)
+        active_admin = create(:admin)
 
         expect(User.active_merchants).to eq([active_merchant_1, active_merchant_2])
+      end
+    end
+
+    describe '::inactive_merchants' do
+      it 'should return all inactive (disabled) merchants' do
+        active_merchant = create(:merchant)
+        inactive_merchant_1 = create(:inactive_merchant)
+        inactive_merchant_2 = create(:inactive_merchant)
+        inactive_user = create(:inactive_user)
+
+        expect(User.inactive_merchants).to eq([inactive_merchant_1, inactive_merchant_2])
+      end
+    end
+
+    describe '::regular_users' do
+      it 'should return all regular users' do
+        user_1 = create(:user)
+        user_2 = create(:user)
+        inactive_user = create(:inactive_user)
+        active_merchant = create(:merchant)
+        active_admin = create(:admin)
+
+        expect(User.regular_users).to eq([inactive_user, user_1, user_2])
       end
     end
   end
