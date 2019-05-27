@@ -50,7 +50,8 @@ Rails.application.routes.draw do
   # ADMIN ROUTES
   namespace :admin do
     get '/dashboard', to: "users#show"
-    get '/merchants/:id', to: "merchants#show", as: :merchant
+    resources :merchants, only: [:index, :show]
+    # get '/merchants/:id', to: "merchants#show", as: :merchant
     patch '/merchants/:id/disable', to: "merchants#disable", as: :disable_merchant
     patch '/merchants/:id/enable', to: "merchants#enable", as: :enable_merchant
   end
