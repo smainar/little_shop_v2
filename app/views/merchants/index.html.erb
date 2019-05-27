@@ -21,7 +21,7 @@
     <h3>Top 3 Merchants by Quantity</h3>
     <ol>
       <% @top_3_merchants_by_quantity.each do |merchant| %>
-        <li><%= merchant.name %>: <%= number_to_currency(merchant.total_revenue) %></li>
+        <li><%= merchant.name %>: <%= number_to_currency(merchant.total_revenue) %> - <%= merchant.total_quantity %> items sold</li>
       <% end %>
     </ol>
   </div>

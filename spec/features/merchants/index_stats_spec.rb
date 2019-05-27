@@ -81,8 +81,6 @@ RSpec.describe "Merchant Index Statistics", type: :feature do
     end
 
     it 'shows top 3 merchants who have sold the most by quantity, and their revenue' do
-      # expected = [@merchant_1, @merchant_4, @merchant_2]
-      # expected = [60, 50000, 31]
       visit merchants_path
 
       within("#statistics") do
