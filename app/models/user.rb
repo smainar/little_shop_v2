@@ -25,4 +25,8 @@ class User < ApplicationRecord
   def self.inactive_merchants
     where(active: false, role: 'merchant').order(:name)
   end
+
+  def self.all_merchants
+    where(role: 1)
+  end
 end
