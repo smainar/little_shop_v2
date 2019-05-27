@@ -88,7 +88,7 @@ RSpec.describe "User Login Workflow", type: :feature do
 
     click_button "Login"
 
-    expect(disabled_merchant.reload.active).to eq(false)
     expect(page).to have_content("Your account has been disabled.")
+    expect(page).to_not have_content("Logged in as")
   end
 end
