@@ -47,8 +47,35 @@ class User < ApplicationRecord
   end
 
   def top_three_states
-    # items.select("users.*, sum(order_items.quantity) as item_quantity").joins(:orders).group("users.state").order("item_quantity").limit(3)
-    require "pry"; binding.pry
-    # self.items.joins(:orders).joins(:users).select("sum(order_items.quantity) as total_quantity").select("users.state, users.city")
+    items.select("users.state, sum(order_items.quantity) as total_quantity")
+    .joins(:orders)
+    .joins("join users On orders.user_id = users.id")
+    .group("users.state")
+    .where("orders.status = 2")
+    .where("order_items.fulfilled = true")
+    .order("total_quantity desc")
+    .limit(3)
   end
+
+  def top_three_cities
+    items.select("users.city, users.state, sum(order_items.quantity) as total_quantity")
+    .joins(:orders)
+    .joins("join users On orders.user_id = users.id")
+    .group("users.city", "users.state")
+    .where("orders.status = 2")
+    .order("total_quantity desc")
+    .limit(3)
+  end
+
+  def top_user_orders
+    select("users.name, count(orders.id) as total_orders")
+    .joins(:orders)
+    .joins("join users On orders.user_id = users.id")
+    .joins("join  ")
+    .group(:id)
+    .where("orders.status = 2")
+    .order("total_orders")
+    .limit(1)
+  end
+
 end
