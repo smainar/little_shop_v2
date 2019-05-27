@@ -88,34 +88,28 @@ RSpec.describe "Merchant Index", type: :feature do
       end
     end
 
-    context "as an admin merchant" do
-      it "when I click on a 'Disable Merchant' button, it displays a flash message that the merchant's account is now disabled" do
-        visit admin_merchants_path
+    it "when I click on a 'Disable Merchant' button, it displays a flash message that the merchant's account is now disabled" do
+      visit admin_merchants_path
 
-        within("#merchant-id-#{@active_merchant.id}") do
-          expect(page).to have_button("Disable Merchant")
-        end
-
+      within("#merchant-id-#{@active_merchant.id}") do
+        expect(page).to_not have_button("Enable Merchant")
         click_button "Disable Merchant"
-
         expect(current_path).to eq(admin_merchants_path)
-        expect(page).to have_content("#{@active_merchant.name}'s account is now disabled.")
       end
+
+      expect(page).to have_content("#{@active_merchant.name}'s account is now disabled.")
     end
 
-    context "as an admin merchant" do
-      it "when I click on a 'Enable Merchant' button, it displays a flash message that the merchant's account is now enabled" do
-        visit admin_merchants_path
+    it "when I click on a 'Enable Merchant' button, it displays a flash message that the merchant's account is now enabled" do
+      visit admin_merchants_path
 
-        within("#merchant-id-#{@disabled_merchant.id}") do
-          expect(page).to have_button("Enable Merchant")
-        end
-
+      within("#merchant-id-#{@disabled_merchant.id}") do
+        expect(page).to_not have_button("Disable Merchant")
         click_button "Enable Merchant"
-
         expect(current_path).to eq(admin_merchants_path)
-        expect(page).to have_content("#{@disabled_merchant.name}'s account is now enabled.")
       end
+
+      expect(page).to have_content("#{@disabled_merchant.name}'s account is now enabled.")
     end
   end
 end
