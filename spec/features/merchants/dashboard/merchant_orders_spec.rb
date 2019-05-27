@@ -45,11 +45,10 @@ RSpec.describe 'As a merchant: ' do
     end
     it "I see a list of pending orders with only items I sell" do
       expect(page).to have_content("Pending Orders")
-# save_and_open_page
+
       within "#merchant-orders-#{@order_1.id}" do
         expect(page).to have_link("Order #{@order_1.id}")
         expect(page).to have_content("Date Ordered: #{@order_1.created_at}")
-        expect(page).to have_content(@item_2.name)
         expect(page).to have_content("Quantity Ordered: #{@oi_2.quantity}")
         expect(page).to have_content("Amount Owed: #{number_to_currency(@oi_2.price_per_item * @oi_2.quantity)}")
       end
@@ -57,10 +56,10 @@ RSpec.describe 'As a merchant: ' do
       within "#merchant-orders-#{@order_2.id}" do
         expect(page).to have_link("Order #{@order_2.id}")
         expect(page).to have_content("Date Ordered: #{@order_2.created_at}")
-        expect(page).to have_content("Number of #{@item_2.name} ordered: #{@oi_3.quantity}")
+        expect(page).to have_content("Quantity Ordered: #{@oi_3.quantity}")
         expect(page).to have_content("Amount Owed: (#{@oi_3.price_per_item} * #{@oi_3.quantity}")
 
-        expect(page).to have_content("Number of #{@item_3.name} ordered: #{@oi_4.quantity}")
+        expect(page).to have_content("Quantity Ordered: #{@oi_4.quantity}")
         expect(page).to have_content("Amount Owed: (#{@oi_4.price_per_item} * #{@oi_4.quantity}")
       end
 

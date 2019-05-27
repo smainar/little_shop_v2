@@ -12,16 +12,11 @@
 
 <% @merchant_orders.each do |order| %>
   <div id="merchant-orders-<%= order.id %>">
-  <p><%= link_to "Order #{order.id}" %>, user_order_path(order)</p>
-  <p>Date Ordered: <%= order.created_at %></p>
-  <% order.items.where("items.user_id = ?", current_user).each do |item| %>
-    <% if item.user_id == current_user.id  %>
-      <p>Item Ordered: <%= item.name %> </p>
-    <% end %>
-      <% item.order_items.each do |oi| %>
-        <p>Quantity Ordered: <%= oi.quantity %></p>
-        <% end %>
-  <% end %>
-  <p>Amount Owed: <%= number_to_currency(order.grand_total) %></p>
+    <p><%= link_to "Order #{order.id}" %>, user_order_path(order)</p>
+    <p>Date Ordered: <%= order.created_at %></p>
+      <% order.order_items.each do |oi| %>
+          <p>Quantity Ordered: <%= oi.quantity %></p>
+          <p>Amount Owed: <%= number_to_currency(order.grand_total) %></p>
+      <% end %>
   </div>
 <% end %>
