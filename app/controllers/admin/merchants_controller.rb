@@ -13,4 +13,12 @@ class Admin::MerchantsController < Admin::BaseController
     flash[:notice] = "#{merchant.name}'s account is now disabled."
     redirect_to admin_merchants_path
   end
+
+  def enable
+    merchant = User.find(params[:id])
+    merchant.update(active: true)
+    merchant.save
+    flash[:notice] = "#{merchant.name}'s account is now enabled.'"
+    redirect_to admin_merchants_path
+  end
 end
