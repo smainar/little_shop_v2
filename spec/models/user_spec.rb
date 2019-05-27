@@ -44,6 +44,22 @@ RSpec.describe User, type: :model do
       end
     end
 
+    describe '::all_merchants' do
+      it 'should return all merchants (active and disabled)' do
+        user = create(:user)
+        admin = create(:admin)
+
+        active_merchant_1 = create(:merchant)
+        active_merchant_2 = create(:merchant)
+
+        inactive_merchant_1 = create(:inactive_merchant)
+
+        all_merchants = [active_merchant_1, active_merchant_2, inactive_merchant_1]
+
+        expect(User.all_merchants).to eq(all_merchants)
+      end
+    end
+
     describe '::regular_users' do
       it 'should return all regular users' do
         user_1 = create(:user)
