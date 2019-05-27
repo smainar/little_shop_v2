@@ -27,6 +27,6 @@ class User < ApplicationRecord
   end
 
   def self.all_merchants
-    where(role: 1)
+    where(role: 'merchant')
   end
 end
