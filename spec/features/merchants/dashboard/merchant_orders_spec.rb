@@ -48,14 +48,14 @@ RSpec.describe 'As a merchant: ' do
 
       within "#merchant-orders-#{@order_1.id}" do
         expect(page).to have_link("Order #{@order_1.id}")
-        expect(page).to have_content("Date Ordered: #{@order_1.created_at}")
+        expect(page).to have_content("Date Ordered: #{Date.strptime(@order_1.created_at.to_s)}")
         expect(page).to have_content("Total Quantity Ordered: #{@order_1.total_quantity_for_merchant(@merchant)}")
         expect(page).to have_content("Total Amount Owed: #{number_to_currency(@order_1.total_value_for_merchant(@merchant))}")
       end
 
       within "#merchant-orders-#{@order_2.id}" do
         expect(page).to have_link("Order #{@order_2.id}")
-        expect(page).to have_content("Date Ordered: #{@order_2.created_at}")
+        expect(page).to have_content("Date Ordered: #{Date.strptime(@order_2.created_at.to_s)}")
         expect(page).to have_content("Total Quantity Ordered: #{@order_2.total_quantity_for_merchant(@merchant)}")
         expect(page).to have_content("Total Amount Owed: #{number_to_currency(@order_2.total_value_for_merchant(@merchant))}")
       end
