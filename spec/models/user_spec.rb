@@ -104,11 +104,38 @@ RSpec.describe User, type: :model do
       expect(@merchant_1.total_sold).to eq(total_sold)
       expect(number_to_percentage(@merchant_1.inventory_ratio)).to eq(number_to_percentage(inventory_ratio))
     end
-# top 3 states where my items were shipped, and their quantities
-# - top 3 city/state where my items were shipped, and their quantities (Springfield, MI should not be grouped with Springfield, CO)
-    it "calculates top 3 city/state where items were shipped and their quantities " do
-      top_three = ["CO", "CA", "IA"]
-      expect(@merchant_1.top_three_states).to eq(top_three)
+
+    it "calculates top 3 state where items were shipped and their quantities " do
+
+      top_three_states = ["CO", "CA", "IA"]
+
+      answer_1 = @merchant_1.top_three_states.map(&:state)
+
+      expect(answer_1).to eq(top_three_states)
+
+      top_three_quantities = [19, 12, 7]
+      answer_2 = @merchant_1.top_three_states.map(&:total_quantity)
+
+      expect(answer_2).to eq(top_three_quantities)
+    end
+
+    it "calculates top 3 city where items were shipped and their quantities " do
+
+      top_three_cities = ["Glendale", "Glendale", "Golden"]
+      top_three_states = ["CA", "CO", "CO"]
+      quantities = [12, 10, 9]
+
+      answer_1 = @merchant_1.top_three_cities.map(&:city)
+      answer_2 = @merchant_1.top_three_cities.map(&:state)
+      answer_3 = @merchant_1.top_three_cities.map(&:total_quantity)
+
+      expect(answer_1).to eq(top_three_cities)
+      expect(answer_2).to eq(top_three_states)
+      expect(answer_3).to eq(quantities)
+    end
+
+    it 'calculates top user with most orders and their orders' do
+      expect(@merchant_1.top_user_orders).to eq(@user_3)
     end
   end
 end
