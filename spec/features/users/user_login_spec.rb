@@ -76,4 +76,19 @@ RSpec.describe "User Login Workflow", type: :feature do
     expect(current_path).to eq(merchant_dashboard_path)
     expect(page).to have_content("Welcome, #{merchant.name}!")
   end
+
+  scenario 'a merchant with a disabled account will not be allowed to log in' do
+    active_merchant = create(:merchant)
+    disabled_merchant = create(:inactive_merchant)
+
+    visit login_path
+
+    fill_in :email, with: disabled_merchant.email
+    fill_in :password, with: disabled_merchant.password
+
+    click_button "Login"
+
+    expect(disabled_merchant.reload.active).to eq(false)
+    expect(page).to have_content("Your account has been disabled.")
+  end
 end
