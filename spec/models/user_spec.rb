@@ -62,7 +62,7 @@ RSpec.describe User, type: :model do
         @item_3 = create(:item, user: @merchant_5)
 
         ####### @user_1
-        @user_1 = create(:user)
+        @user_1 = create(:user, city: "Springfield", state: "KS")
 
         @order_1 = create(:shipped_order, user: @user_1) # total_quantity = 101
         # merchant_1:
@@ -71,7 +71,7 @@ RSpec.describe User, type: :model do
         @oi_2 = create(:fulfilled_order_item, order: @order_1, item: @item_2, quantity: 1, price_per_item: 30.0)
 
         ####### @user_2
-        @user_2 = create(:user)
+        @user_2 = create(:user, city: "Springfield", state: "IL")
 
         @order_2 = create(:shipped_order, user: @user_2) # total_quantity = 2200
         # merchant_1:
@@ -80,7 +80,7 @@ RSpec.describe User, type: :model do
         @oi_3 = create(:fulfilled_order_item, order: @order_2, item: @item_3, quantity: 2000, price_per_item: 100.0)
 
         ####### @user_3
-        @user_3 = create(:user)
+        @user_3 = create(:user, city: "Topeka", state: "KS")
 
         @order_3 = create(:order, user: @user_3) # pending order
         # merchant_3 / pending order -- should not be included in stats for sales:
@@ -98,8 +98,11 @@ RSpec.describe User, type: :model do
         # merchant_2:
         @oi_9 = create(:fulfilled_order_item, order: @order_7, item: @item_2, quantity: 1, price_per_item: 1.0)
 
+        @order_9 = create(:shipped_order, user: @user_3)
+        @order_10 = create(:shipped_order, user: @user_3)
+
         ####### @user_4
-        @user_4 = create(:user)
+        @user_4 = create(:user, city: "Denver", state: "CO")
 
         @order_8 = create(:shipped_order, user: @user_4) # total_quantity = 1
         # merchant_3:
@@ -137,6 +140,26 @@ RSpec.describe User, type: :model do
 
         actual = User.top_3_merch_by_quantity.map(&:total_quantity)
         expect(actual).to eq(top_3_merchant_quantities)
+      end
+
+      it '::top_3_states shows shows the top 3 states where any orders were shipped (by number of orders), and count of orders' do
+        top_3_states = ["KS", "CO", "IL"]
+        top_3_states_order_counts = [4, 2, 1]
+
+        expect(User.top_3_states).to eq(top_3_states)
+
+        actual = User.top_3_states.map(&:order_count)
+        expect(actual).to eq(top_3_states_order_counts)
+      end
+
+      xit '::top_3_cities shows shows the top 3 city/state combos where any orders were shipped (by number of orders), and count of orders' do
+        top_3_cities = ["Topeka, KS", "Denver, CO", "Springfield, KS"]
+        top_3_cities_order_counts = [3, 2, 1]
+
+        expect(User.top_3_cities).to eq(top_3_cities)
+
+        actual = User.top_3_cities.map(&:order_count)
+        expect(actual).to eq(top_3_cities_order_counts)
       end
     end
   end
