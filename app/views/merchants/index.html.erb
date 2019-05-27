@@ -9,6 +9,14 @@
       <% end %>
     </ol>
   </div>
+  <div id="top-3-merchants-by-revenue">
+    <h3>Top 3 Merchants by Revenue</h3>
+    <ol>
+      <% @top_3_merchants_by_revenue.each do |merchant| %>
+        <li><%= merchant.name %>: <%= number_to_currency(merchant.total_revenue) %></li>
+      <% end %>
+    </ol>
+  </div>
 </div>
 <% if current_admin? %>
   <h2>Active Merchants</h2>

@@ -68,9 +68,20 @@ RSpec.describe "Merchant Index Statistics", type: :feature do
       @oi_8 = create(:fulfilled_order_item, order: @order_6, item: @item_6, quantity: 5, price_per_item: 10000.0)
     end
 
-    xit 'shows top 3 merchants who have sold the most by price, and their revenue'
-    # expected = [@merchant_4, @merchant_1, @merchant_2]
-    # expected = [50000, 60, 31]
+    it 'shows top 3 merchants who have sold the most by price, and their revenue' do
+      visit merchants_path
+
+      within("#statistics") do
+        within("#top-3-merchants-by-revenue") do
+          expect(page.all("li")[0]).to have_content("#{@merchant_4.name}: #{number_to_currency(@merchant_4.total_revenue)}")
+          expect(page.all("li")[1]).to have_content("Order #{@merchant_1.name}: #{number_to_currency(@merchant_1.total_revenue)}")
+          expect(page.all("li")[2]).to have_content("Order #{@merchant_2.name}: #{number_to_currency(@merchant_2.total_revenue)}")
+        end
+      end
+      # expected = [@merchant_4, @merchant_1, @merchant_2]
+      # expected = [50000, 60, 31]
+    end
+
     xit 'shows top 3 merchants who have sold the most by quantity, and their revenue'
     # expected = [@merchant_1, @merchant_4, @merchant_2]
     # expected = [60, 50000, 31]
