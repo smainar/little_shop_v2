@@ -40,11 +40,26 @@ class Order < ApplicationRecord
     end
   end
 
+  def total_quantity_for_merchant(merchant)
+    items.joins(:order_items)
+        .select("items.*, order_items.quantity")
+        .where("items.user_id=?",merchant.id)
+        .distinct
+        .sum('order_items.quantity')
+  end
+
+  def total_value_for_merchant(merchant)
+    items.joins(:order_items)
+        .select("items.*, order_items.*")
+        .where("items.user_id=?",merchant.id)
+        .distinct
+        .sum("order_items.quantity * order_items.price_per_item")
+  end
+
   def self.pending_merchant_orders(merchant)
-    Order.joins(:items)
+    Order.joins(items: :order_items)
         .where(status: 0)
         .where("items.user_id = ?", merchant.id)
         .distinct
-    # Order.joins(:items).where(status: 0).where("items.user_id = ?", merchant.id).group(:id).select("orders.*,order_items.*,items.name,items.user_id, SUM(order_items.quantity*order_items.price_per_item) AS total_value")
   end
 end

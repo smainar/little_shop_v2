@@ -71,16 +71,26 @@ RSpec.describe Order, type: :model do
       @oi_2 = create(:order_item, item: @item_2, order: @order_1, quantity: 3, price_per_item: @item_2.price)
 
       #order 2 with current merchant's items only.
-      @oi_3 = create(:order_item, item: @item_2, order: @order_2, quantity: 4, price_per_item: @item_1.price)
-      @oi_4 = create(:order_item, item: @item_3, order: @order_2, quantity: 5, price_per_item: @item_2.price - 0.25)
+      @oi_3 = create(:order_item, item: @item_2, order: @order_2, quantity: 4, price_per_item: @item_2.price)
+      @oi_4 = create(:order_item, item: @item_3, order: @order_2, quantity: 5, price_per_item: @item_3.price - 0.25)
 
       #order 3 with shipped status for current merchant's item.
-      @oi_5 = create(:order_item, item: @item_3, order: @order_3, quantity: 6, price_per_item: @item_2.price)
+      @oi_5 = create(:order_item, item: @item_3, order: @order_3, quantity: 6, price_per_item: @item_3.price)
     end
 
     it "should return pending orders for a specific merchant's items in the orders" do
       pending_orders = [@order_1, @order_2]
       expect(Order.pending_merchant_orders(@merchant)).to eq(pending_orders)
+    end
+
+    it "should return total quantity of items for a specific merchant's items" do
+      expect(@order_1.total_quantity_for_merchant(@merchant)).to eq(3)
+      expect(@order_2.total_quantity_for_merchant(@merchant)).to eq(9)
+    end
+
+    it "should return total value of items in a specific merchant's order" do
+      expect(@order_1.total_value_for_merchant(@merchant)).to eq(6)
+      expect(@order_2.total_value_for_merchant(@merchant)).to eq(11.75)
     end
   end
 end
