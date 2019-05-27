@@ -1,6 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe "As a Registered User ", type: :feature do
+# to-do: consider combining / renaming to avoid confusion with carts/add_item_spec.rb
+
+RSpec.describe "As a visitor", type: :feature do
   before :each do
     @merchant_1 = create(:merchant)
     @item_1 = create(:item, user: @merchant_1, name: "Sofa", inventory: 3)
@@ -16,7 +18,7 @@ RSpec.describe "As a Registered User ", type: :feature do
     click_button "Add to Cart"
   end
 
-  context 'I visit my cart with items ' do
+  context 'I visit my cart with items' do
     it 'I see a button to add items to my cart' do
 
       visit cart_path
