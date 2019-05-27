@@ -52,6 +52,7 @@ RSpec.describe Order, type: :model do
       #create 2 pending orders and 1 shipped order.
       @user_1 = create(:user)
       @order_1 = create(:order, user: @user_1)
+      @order_4 = create(:order, user: @user_1)
 
       @user_2 = create(:user)
       @order_2 = create(:order, user: @user_2)
@@ -76,6 +77,9 @@ RSpec.describe Order, type: :model do
 
       #order 3 with shipped status for current merchant's item.
       @oi_5 = create(:order_item, item: @item_3, order: @order_3, quantity: 6, price_per_item: @item_3.price)
+
+      #order 4 with only other merchant's items.
+      @oi_6 = create(:order_item, item: @item_1, order: @order_4, quantity: 5, price_per_item: @item_1.price)
     end
 
     it "should return pending orders for a specific merchant's items in the orders" do

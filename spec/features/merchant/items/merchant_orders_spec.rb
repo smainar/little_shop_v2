@@ -7,6 +7,7 @@ RSpec.describe 'As a merchant: ' do
       #create 2 pending orders and 1 shipped order.
       @user = create(:user)
       @order_1 = create(:order, user: @user)
+      @order_4 = create(:order, user: @user)
 
       @user_2 = create(:user)
       @order_2 = create(:order, user: @user_2)
@@ -31,6 +32,9 @@ RSpec.describe 'As a merchant: ' do
 
       #order 3 with shipped status for current merchant's item.
       @oi_5 = create(:order_item, item: @item_3, order: @order_3, quantity: 6, price_per_item: @item_2.price)
+
+      #order 4 with only other merchant's items.
+      @oi_6 = create(:order_item, item: @item_1, order: @order_4, quantity: 5, price_per_item: @item_1.price)
 
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
       visit merchant_dashboard_path
