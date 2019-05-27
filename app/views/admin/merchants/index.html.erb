@@ -9,5 +9,9 @@
     <p>State: <%= merchant.state %></p>
     <p>Zip code: <%= merchant.zip %></p>
     <p>Account Created: <%= Date.strptime(merchant.created_at.to_s) %></p>
+
+    <% if merchant.active? %>
+      <%= button_to "Disable Merchant", admin_disable_merchant_path(merchant), method: "patch" %>
+    <% end %>
   </div>
 <% end %>
