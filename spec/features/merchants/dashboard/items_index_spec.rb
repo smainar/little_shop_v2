@@ -39,10 +39,10 @@ RSpec.describe "Merchant Items Index", type: :feature do
         expect(page).to have_css("img[src*='#{@active_never_ordered_item.image}']")
         expect(page).to have_content(number_to_currency(@active_never_ordered_item.price))
         expect(page).to have_content("#{@active_never_ordered_item.inventory} in stock")
-        expect(page).to have_link("Edit Item")
-        expect(page).to_not have_link("Enable Item")
-        expect(page).to have_link("Disable Item")
-        expect(page).to have_link("Delete Item")
+        expect(page).to have_button("Edit Item")
+        expect(page).to_not have_button("Enable Item")
+        expect(page).to have_button("Disable Item")
+        expect(page).to have_button("Delete Item")
       end
 
       within("#item-#{@disabled_never_ordered_item.id}") do
@@ -51,10 +51,10 @@ RSpec.describe "Merchant Items Index", type: :feature do
         expect(page).to have_css("img[src*='#{@disabled_never_ordered_item.image}']")
         expect(page).to have_content(number_to_currency(@disabled_never_ordered_item.price))
         expect(page).to have_content("#{@disabled_never_ordered_item.inventory} in stock")
-        expect(page).to have_link("Edit Item")
-        expect(page).to have_link("Enable Item")
-        expect(page).to_not have_link("Disable Item")
-        expect(page).to have_link("Delete Item")
+        expect(page).to have_button("Edit Item")
+        expect(page).to have_button("Enable Item")
+        expect(page).to_not have_button("Disable Item")
+        expect(page).to have_button("Delete Item")
       end
 
       within("#item-#{@active_ordered_item.id}") do
@@ -63,10 +63,10 @@ RSpec.describe "Merchant Items Index", type: :feature do
         expect(page).to have_css("img[src*='#{@active_ordered_item.image}']")
         expect(page).to have_content(number_to_currency(@active_ordered_item.price))
         expect(page).to have_content("#{@active_ordered_item.inventory} in stock")
-        expect(page).to have_link("Edit Item")
-        expect(page).to_not have_link("Enable Item")
-        expect(page).to have_link("Disable Item")
-        expect(page).to_not have_link("Delete Item")
+        expect(page).to have_button("Edit Item")
+        expect(page).to_not have_button("Enable Item")
+        expect(page).to have_button("Disable Item")
+        expect(page).to_not have_button("Delete Item")
       end
 
       within("#item-#{@disabled_ordered_item.id}") do
@@ -75,10 +75,10 @@ RSpec.describe "Merchant Items Index", type: :feature do
         expect(page).to have_css("img[src*='#{@disabled_ordered_item.image}']")
         expect(page).to have_content(number_to_currency(@disabled_ordered_item.price))
         expect(page).to have_content("#{@disabled_ordered_item.inventory} in stock")
-        expect(page).to have_link("Edit Item")
-        expect(page).to have_link("Enable Item")
-        expect(page).to_not have_link("Disable Item")
-        expect(page).to_not have_link("Delete Item")
+        expect(page).to have_button("Edit Item")
+        expect(page).to have_button("Enable Item")
+        expect(page).to_not have_button("Disable Item")
+        expect(page).to_not have_button("Delete Item")
       end
     end
   end
