@@ -40,6 +40,10 @@ class Order < ApplicationRecord
     end
   end
 
+  def merchant_items(merchant)
+    items.where("items.user_id = ?", merchant.id).order("items.name")
+  end
+
   def total_quantity_for_merchant(merchant)
     items.joins(:order_items)
         .select("items.*, order_items.quantity")

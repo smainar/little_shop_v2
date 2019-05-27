@@ -2,3 +2,10 @@
 
 <h4>Customer Name: <%= @order.user.name %></h4>
 <h3>Customer Address: <%= @order.user.address %></h3>
+
+<% @order.merchant_items(@merchant).each do |item| %>
+  <div id="items-index-<%= item.id  %>">
+    <p><%= link_to item.name, item_path(item) %></p>
+    <%= image_tag item.image || @default_image, alt: "image of #{item.name}" %>
+  </div>
+<% end %>

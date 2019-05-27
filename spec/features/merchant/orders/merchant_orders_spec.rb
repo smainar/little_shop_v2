@@ -59,20 +59,26 @@ RSpec.describe 'As a merchant: ' do
       expect(page).to_not have_content(@order_3.id)
     end
 
-    # I see the customer's name and address
-    # I only the items in the order that are being purchased from my inventory
-    # I do not see any items in the order being purchased from other merchants
-    # For each item, I see the following information:
-    # - the name of the item, which is a link to my item's show page
-    # - a small thumbnail of the item
     # - my price for the item
     # - the quantity the user wants to purchase
-    it "I am taken to order show page from my dashboard" do
-      click_on "Order #{@order_1.id}"
-      expect(current_path).to eq(merchant_order_path(@order_1))
-      expect(page).to have_content(@order_1.id)
-      expect(page).to have_content("Customer Name: #{@order_1.user.name}")
-      expect(page).to have_content("Customer Address: #{@order_1.user.address}")
+    it "I am taken to order show page from my dashboard where I see details about the order" do
+      click_on "Order #{@order_2.id}"
+      expect(current_path).to eq(merchant_order_path(@order_2))
+      expect(page).to have_content(@order_2.id)
+      expect(page).to have_content("Customer Name: #{@order_2.user.name}")
+      expect(page).to have_content("Customer Address: #{@order_2.user.address}")
+
+      within "#items-index-#{@item_2.id}" do
+        expect(page).to have_link(@item_2.name)
+        expect(page).to have_css("img[src*='#{@item_2.image}']")
+      end
+
+      within "#items-index-#{@item_3.id}" do
+        expect(page).to have_link(@item_3.name)
+        expect(page).to have_css("img[src*='#{@item_3.image}']")
+      end
+
+      expect(page).to_not have_content(@item_1.name)
     end
   end
 end
