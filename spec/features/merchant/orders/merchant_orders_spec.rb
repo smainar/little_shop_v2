@@ -58,8 +58,7 @@ RSpec.describe 'As a merchant: ' do
 
       expect(page).to_not have_content(@order_3.id)
     end
-    # As a merchant
-    # When I visit an order show page from my dashboard
+
     # I see the customer's name and address
     # I only the items in the order that are being purchased from my inventory
     # I do not see any items in the order being purchased from other merchants
@@ -72,6 +71,8 @@ RSpec.describe 'As a merchant: ' do
       click_on "Order #{@order_1.id}"
       expect(current_path).to eq(merchant_order_path(@order_1))
       expect(page).to have_content(@order_1.id)
+      expect(page).to have_content("Customer Name: #{@order_1.user.name}")
+      expect(page).to have_content("Customer Address: #{@order_1.user.address}")
     end
   end
 end
