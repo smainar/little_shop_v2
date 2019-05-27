@@ -27,4 +27,65 @@ RSpec.describe "Merchant Index", type: :feature do
       expect(page).to_not have_content(inactive_merchant.state)
     end
   end
+
+  context "as an admin" do
+    before(:each) do
+      @admin = User.create!(email:    "abc@def.com",
+                            password: "pw123",
+                            name:     "Abc Def",
+                            address:  "123 Abc St",
+                            city:     "NYC",
+                            state:    "NY",
+                            zip:      "12345",
+                            role:     :admin
+                           )
+      allow_any_instance_of(ApplicationController).to receive(:current_user)
+                                                  .and_return(@admin)
+
+      @active_merchant = create(:merchant)
+      @disabled_merchant = create(:inactive_merchant)
+    end
+
+    it "shows all merchants - even inactive ones" do
+      visit merchants_path
+
+      expect(current_path).to eq("/merchants")
+
+      within("#merchant-id-#{@active_merchant.id}") do
+        expect(page).to have_link(@active_merchant.name)
+        expect(page).to have_content(@active_merchant.city)
+        expect(page).to have_content(@active_merchant.state)
+      end
+
+      within("#merchant-id-#{@disabled_merchant.id}") do
+        expect(page).to have_link(@disabled_merchant.name)
+        expect(page).to have_content(@disabled_merchant.city)
+        expect(page).to have_content(@disabled_merchant.state)
+      end
+    end
+
+    it "has links to all merchant dashboards" do
+      visit merchants_path
+      click_link(@active_merchant.name)
+      expect(current_path).to eq("/admin/merchants/#{@active_merchant.id}")
+
+      visit merchants_path
+      click_link(@disabled_merchant.name)
+      expect(current_path).to eq("/admin/merchants/#{@disabled_merchant.id}")
+    end
+
+    it "has buttons to enable/disable merchants" do
+      visit merchants_path
+
+      within("#merchant-id-#{@active_merchant.id}") do
+        expect(page).to have_button("Disable Merchant")
+        expect(page).to_not have_button("Enable Merchant")
+      end
+
+      within("#merchant-id-#{@disabled_merchant.id}") do
+        expect(page).to_not have_button("Disable Merchant")
+        expect(page).to have_button("Enable Merchant")
+      end
+    end
+  end
 end

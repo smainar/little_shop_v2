@@ -5,3 +5,7 @@
 <p><%= current_user.zip %></p>
 
 <%= link_to "Edit My Profile or Password", profile_edit_path %>
+
+<% if @user_orders.any? %>
+  <p><%= link_to "My Orders", user_orders_path %></p>
+<% end %>
