@@ -40,8 +40,10 @@ group :development, :test do
   gem 'simplecov'
   gem 'rspec-rails'
   gem 'shoulda-matchers'
-  gem 'factory_bot_rails'
+  # gem 'factory_bot_rails'
 end
+
+gem 'factory_bot_rails'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
