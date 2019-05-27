@@ -75,9 +75,17 @@ RSpec.describe "Merchant Index Statistics", type: :feature do
     # expected = [@merchant_1, @merchant_4, @merchant_2]
     # expected = [60, 50000, 31]
 
-    xit 'shows top 3 biggest orders by quantity of items shipped in an order, plus their quantities'
-    # expected = [@order_2, @order_1, @order_6]
-    # expected = [2200, 101, 5]
+    it 'shows top 3 biggest orders by quantity of items shipped in an order, plus their quantities' do
+      visit merchants_path
+
+      within("#statistics") do
+        within("#top-3-orders-by-quantity") do
+          expect(page.all("li")[0]).to have_content("Order #{@order_2.id}: #{@order_2.total_quantity}")
+          expect(page.all("li")[1]).to have_content("Order #{@order_1.id}: #{@order_1.total_quantity}")
+          expect(page.all("li")[2]).to have_content("Order #{@order_6.id}: #{@order_6.total_quantity}")
+        end
+      end
+    end
 
     xit 'shows top 3 states where any orders were shipped (by number of orders), and count of orders'
     xit 'shows top 3 cities where any orders were shipped (by number of orders, also Springfield, MI should not be grouped with Springfield, CO), and the count of orders'

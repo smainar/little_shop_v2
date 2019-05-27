@@ -1,15 +1,26 @@
 <h1>All Merchants</h1>
+<div id="statistics">
+  <h2>Statistics</h2>
+  <div id="top-3-orders-by-quantity">
+    <h3>Top 3 Orders by Quantity</h3>
+    <ol>
+      <% @top_3_orders_by_quantity.each do |order| %>
+        <li>Order <%= order.id %>: <%= order.total_quantity %></li>
+      <% end %>
+    </ol>
+  </div>
+</div>
 <% if current_admin? %>
   <h2>Active Merchants</h2>
 <% end %>
 <% @active_merchants.each do |merchant| %>
   <div id="merchant-id-<%= merchant.id %>">
     <h3>Merchant:
-      if current_admin?
+      <% if current_admin? %>
         <%= link_to merchant.name, admin_merchant_path(merchant) %>
-      else
+      <% else %>
         <%= merchant.name %>
-      end
+      <% end %>
     </h3>
     <ul>
       <li>Location: <%= merchant.city %>, <%= merchant.state %>.</li>
@@ -26,11 +37,11 @@
   <% @inactive_merchants.each do |merchant| %>
     <div id="merchant-id-<%= merchant.id %>">
       <h3>Merchant:
-        if current_admin?
+        <% if current_admin? %>
           <%= link_to merchant.name, admin_merchant_path(merchant) %>
-        else
+        <% else %>
           <%= merchant.name %>
-        end
+        <% end %>
       </h3>
       <ul>
         <li>Location: <%= merchant.city %>, <%= merchant.state %>.</li>
