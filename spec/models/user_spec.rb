@@ -124,16 +124,19 @@ RSpec.describe User, type: :model do
         expect(@merchant_4.total_revenue).to eq(50000)
         expect(@merchant_1.total_revenue).to eq(60)
         expect(@merchant_2.total_revenue).to eq(31)
+
+        merchant = create(:merchant)
+        expect(merchant.total_revenue).to eq(0)
       end
 
-      xit '::top_3_merch_by_quantity shows top 3 merchants who have sold the most by quantity, and their revenue' do
+      it '::top_3_merch_by_quantity shows top 3 merchants who have sold the most by quantity, and their quantities' do
         top_3_merchants = [@merchant_1, @merchant_4, @merchant_2]
-        top_3_merchants_revenues = [60, 50000, 31]
+        top_3_merchant_quantities = [300, 5, 2]
 
         expect(User.top_3_merch_by_quantity).to eq(top_3_merchants)
 
-        actual = User.top_3_merch_by_quantity.map(&:total_revenue)
-        expect(actual).to eq(top_3_merchants_revenues)
+        actual = User.top_3_merch_by_quantity.map(&:total_quantity)
+        expect(actual).to eq(top_3_merchant_quantities)
       end
     end
   end

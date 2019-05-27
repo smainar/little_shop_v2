@@ -37,6 +37,17 @@ class User < ApplicationRecord
         .limit(3)
   end
 
+  def self.top_3_merch_by_quantity
+    self.joins(items: :order_items)
+        .joins("JOIN orders ON order_items.order_id = orders.id")
+        .group(:id)
+        .select("users.*, SUM(order_items.quantity) AS total_quantity")
+        .where(active: true)
+        .where("orders.status = 2")
+        .order("total_quantity DESC")
+        .limit(3)
+  end
+
   def total_revenue
     items.joins(:order_items)
          .joins("JOIN orders ON order_items.order_id = orders.id")
