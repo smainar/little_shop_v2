@@ -70,7 +70,8 @@ RSpec.describe 'As a merchant: ' do
     # - the quantity the user wants to purchase
     it "I am taken to order show page from my dashboard" do
       click_on "Order #{@order_1.id}"
-      expect(current_path).to eq(dashboard_order_path(@order))
+      expect(current_path).to eq(merchant_order_path(@order_1))
+      expect(page).to have_content(@order_1.id)
     end
   end
 end
