@@ -74,8 +74,8 @@ RSpec.describe "Merchant Index Statistics", type: :feature do
       within("#statistics") do
         within("#top-3-merchants-by-revenue") do
           expect(page.all("li")[0]).to have_content("#{@merchant_4.name}: #{number_to_currency(@merchant_4.total_revenue)}")
-          expect(page.all("li")[1]).to have_content("Order #{@merchant_1.name}: #{number_to_currency(@merchant_1.total_revenue)}")
-          expect(page.all("li")[2]).to have_content("Order #{@merchant_2.name}: #{number_to_currency(@merchant_2.total_revenue)}")
+          expect(page.all("li")[1]).to have_content("#{@merchant_1.name}: #{number_to_currency(@merchant_1.total_revenue)}")
+          expect(page.all("li")[2]).to have_content("#{@merchant_2.name}: #{number_to_currency(@merchant_2.total_revenue)}")
         end
       end
       # expected = [@merchant_4, @merchant_1, @merchant_2]
