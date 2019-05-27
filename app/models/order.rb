@@ -7,6 +7,15 @@ class Order < ApplicationRecord
 
   enum status: ['pending', 'packaged', 'shipped', 'cancelled']
 
+  def self.top_3_by_quantity
+    self.joins(:order_items)
+        .select("sum(order_items.quantity) as total_quantity, orders.*")
+        .where(status: "shipped")
+        .group(:id)
+        .order("total_quantity DESC")
+        .limit(3)
+  end
+
   def grand_total
     order_items.sum do |order_item|
       order_item.price_per_item * order_item.quantity

@@ -70,11 +70,11 @@ RSpec.describe Order, type: :model do
       ####### @user_4
       @user_4 = create(:user)
 
-      @order_8 = create(:order, user: @user_4) # total_quantity = 1
+      @order_8 = create(:shipped_order, user: @user_4) # total_quantity = 1
       # merchant_3:
       @oi_10 = create(:fulfilled_order_item, order: @order_8, item: @item_4, quantity: 1, price_per_item: 1.0)
 
-      @order_6 = create(:order, user: @user_4) # total_quantity = 5
+      @order_6 = create(:shipped_order, user: @user_4) # total_quantity = 5
       # merchant_4:
       @oi_8 = create(:fulfilled_order_item, order: @order_6, item: @item_6, quantity: 5, price_per_item: 10000.0)
     end
