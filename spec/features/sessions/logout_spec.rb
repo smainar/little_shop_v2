@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe "User logout, " do
-
   it "can log out A USER who is logged in" do
     user = create(:user)
 
