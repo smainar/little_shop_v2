@@ -25,4 +25,15 @@ class User < ApplicationRecord
   def self.inactive_merchants
     where(active: false, role: 'merchant').order(:name)
   end
+
+  def self.top_3_by_revenue
+    self.joins(items: :order_items)
+        .joins("JOIN orders ON order_items.order_id = orders.id")
+        .group(:id)
+        .select("users.*, SUM(order_items.quantity * order_items.price_per_item) AS total_revenue")
+        .where(active: true)
+        .where("orders.status = 2")
+        .order("total_revenue DESC")
+        .limit(3)
+  end
 end

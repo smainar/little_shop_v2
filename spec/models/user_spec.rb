@@ -110,7 +110,7 @@ RSpec.describe User, type: :model do
         @oi_8 = create(:fulfilled_order_item, order: @order_6, item: @item_6, quantity: 5, price_per_item: 10000.0)
       end
 
-      xit '::top_3_by_revenue shows top 3 merchants who have sold the most by price, and their revenue' do
+      it '::top_3_by_revenue shows top 3 merchants who have sold the most by price, and their revenue' do
         top_3_merchants = [@merchant_4, @merchant_1, @merchant_2]
         top_3_revenues = [50000, 60, 31]
 
