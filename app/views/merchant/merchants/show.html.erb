@@ -1,5 +1,8 @@
 <%= link_to 'View all items for sale', merchant_items_path %>
+
+<h2>Statistics</h2>
 <div id="stats-top-five">
+  <h4>Top five items </h4>
   <ol>
     <% @merchant.top_five_items.each do |item|  %>
       <li>Item: <%= item.name %>, Quantity: <%= item.total_sold %></li>
@@ -8,6 +11,26 @@
 </div>
 
 <p>Sold <%= @merchant.total_sold %> items, which is <%= number_to_percentage(@merchant.inventory_ratio, precision: 0) %> of your total inventory.</p>
+
+<div class='top-3-states'>
+  <h4>Top 3 States </h4>
+  <ol>
+    <% @merchant.top_three_states.each do |item| %>
+      <li>State: <%= item.state %> Quantity: <%= item.total_quantity %>
+    <% end %>
+  </ol>
+</div>
+
+<div class='top-3-cities'>
+  <h4>Top 3 Cities </h4>
+  <ol>
+    <% @merchant.top_three_cities.each do |item| %>
+      <li>City: <%= item.city %>, <%= item.state %> Quantity: <%= item.total_quantity %>
+    <% end %>
+  </ol>
+</div>
+
+
 
 <div id="dashboard-show">
   <h1><%= @merchant.name %></h1>
