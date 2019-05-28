@@ -121,13 +121,13 @@ class User < ApplicationRecord
     end
 
     def top_three_states
-      items.select("users.state, sum(order_items.quantity) as total_quantity")
-      .joins(:orders)
-      .joins("join users On orders.user_id = users.id")
-      .group("users.state")
-      .where("orders.status = 2")
-      .where("order_items.fulfilled = true")
-      .order("total_quantity desc")
+      User
+      .select(:state, 'SUM(order_items.quantity) AS total_quantity')
+      .joins(orders: :items)
+      .where('orders.status = ?', 2)
+      .where('items.user_id = ?', self.id)
+      .group(:state)
+      .order('total_quantity DESC')
       .limit(3)
     end
 
@@ -142,13 +142,41 @@ class User < ApplicationRecord
     end
 
     def top_user_orders
-      select("users.name, count(orders.id) as total_orders")
-      .joins(:orders)
-      .joins("join users On orders.user_id = users.id")
-      .joins("join  ")
+      User
+      .select("users.*, count(distinct(orders.id)) as total_orders")
+      .joins(orders: :items)
+      .where("items.user_id = ?", self.id)
+      .where("users.active = ?", true)
+      .where('order_items.fulfilled = ?', true)
+      .where("orders.status = ?", 2)
       .group(:id)
-      .where("orders.status = 2")
-      .order("total_orders")
-      .limit(1)
+      .order("total_orders DESC")
+      .first
+    end
+
+    def top_user_items
+      User
+      .select("users.*, sum(order_items.quantity) as total_items")
+      .joins(orders: :items)
+      .where("items.user_id = ?", self.id)
+      .where("users.active = ?", true)
+      .where('order_items.fulfilled = ?', true)
+      .where("orders.status = ?", 2)
+      .group(:id)
+      .order("total_items DESC")
+      .first
+    end
+
+    def top_3_users_moneys
+      User
+      .select("users.*, sum(order_items.quantity * order_items.price_per_item) as total_moneys")
+      .joins(orders: :items)
+      .where("items.user_id = ?", self.id)
+      .where("users.active = ?", true)
+      .where('order_items.fulfilled = ?', true)
+      .where("orders.status = ?", 2)
+      .group(:id)
+      .order("total_moneys DESC")
+      .limit(3)
     end
 end
