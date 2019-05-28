@@ -41,13 +41,6 @@ RSpec.describe 'As a merchant: ' do
       visit merchant_order_path(@order_2)
     end
 
-# - When I click on that link or button I am returned to the order show page
-# - I see the item is now fulfilled
-# - I also see a flash message indicating that I have fulfilled that item
-# - My inventory quantity is permanently reduced by the user's desired quantity
-#
-# If I have already fulfilled this item, I see text indicating such.
-
     it "if the user's desired quantity <= merchant's current inventory, I see a button to fulfill the item " do
       expect(page).to_not have_content(@item_1.name)
 
@@ -73,7 +66,9 @@ RSpec.describe 'As a merchant: ' do
         expect(page).to have_button("Fulfill Item")
         click_button "Fulfill Item"
         expect(current_path).to eq(merchant_order_path(@order_2))
+        expect(page).to have_content("Status: Fulfilled")
       end
+      expect(page).to have_content("Your item was fulfilled.")
     end
   end
 end

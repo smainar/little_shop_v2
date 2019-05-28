@@ -172,5 +172,22 @@ RSpec.describe Item, type: :model do
       expect(item_2.sufficient_inventory(order_2)).to eq(true)
       expect(item_2.sufficient_inventory(order_1)).to eq(true)
     end
+
+    it "#item_orders returns order_item objects for a specific item in an order" do
+      user = create(:user)
+      order_1 = create(:order, user: user)
+
+      user_2 = create(:user)
+      order_2 = create(:order, user: user_2)
+
+      merchant = create(:merchant)
+      item_1 = create(:item, user: merchant)
+
+      oi_1 = create(:order_item, item: item_1, order: order_1, quantity: 3, price_per_item: item_1.price)
+      oi_2 = create(:order_item, item: item_1, order: order_2, quantity: 5, price_per_item: item_1.price)
+
+      expect(item_1.item_orders(order_1)).to eq([oi_1])
+      expect(item_1.item_orders(order_2)).to eq([oi_2])
+    end
   end
 end

@@ -31,10 +31,4 @@ class Merchant::ItemsController < Merchant::BaseController
 
     redirect_to merchant_items_path
   end
-
-  def fulfill
-    item = Item.find(params[:id])
-
-    binding.pry
-  end
 end
