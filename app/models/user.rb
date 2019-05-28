@@ -49,9 +49,18 @@ class User < ApplicationRecord
   end
 
   def self.top_3_states
-    thing = self.joins(:orders)
+    self.joins(:orders)
         .select("users.state, count(orders) as order_count")
         .group("users.state")
+        .where("orders.status = 2")
+        .order("order_count DESC")
+        .limit(3)
+  end
+
+  def self.top_3_cities
+    thing = self.joins(:orders)
+        .select("users.state, users.city, count(orders) as order_count")
+        .group("users.state, users.city")
         .where("orders.status = 2")
         .order("order_count DESC")
         .limit(3)

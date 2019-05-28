@@ -153,14 +153,19 @@ RSpec.describe User, type: :model do
         expect(actual_counts).to eq(top_3_states_order_counts)
       end
 
-      xit '::top_3_cities shows shows the top 3 city/state combos where any orders were shipped (by number of orders), and count of orders' do
-        top_3_cities = ["Topeka, KS", "Denver, CO", "Springfield, KS"]
+      it '::top_3_cities shows shows the top 3 city/state combos where any orders were shipped (by number of orders), and count of orders' do
+        top_3_cities = ["Topeka", "Denver", "Springfield"]
+        top_3_states = ["KS", "CO", "IL"]
         top_3_cities_order_counts = [3, 2, 1]
 
-        expect(User.top_3_cities).to eq(top_3_cities)
+        actual_cities = User.top_3_cities.map(&:city)
+        expect(actual_cities).to eq(top_3_cities)
 
-        actual = User.top_3_cities.map(&:order_count)
-        expect(actual).to eq(top_3_cities_order_counts)
+        actual_states = User.top_3_cities.map(&:state)
+        expect(actual_states).to eq(top_3_states)
+
+        actual_counts = User.top_3_cities.map(&:order_count)
+        expect(actual_counts).to eq(top_3_cities_order_counts)
       end
     end
   end
