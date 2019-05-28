@@ -19,15 +19,15 @@ class User < ApplicationRecord
   has_secure_password
 
   def self.active_merchants
-    where(active: true, role: 'merchant')
+    where(active: true, role: 'merchant').order(:id)
   end
 
   def self.inactive_merchants
-    where(active: false, role: 'merchant')
+    where(active: false, role: 'merchant').order(:id)
   end
 
   def self.all_merchants
-    where(role: 'merchant')
+    where(role: 'merchant').order(:id)
   end
 
   def self.regular_users
