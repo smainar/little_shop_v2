@@ -216,8 +216,17 @@ RSpec.describe User, type: :model do
         expect(times_actual).to eq(avg_times)
       end
 
-      xit '::slowest_3_merchants shows worst 3 merchants who were slowest at fulfilling items in an order, and their times' do
-        # to-do
+      it '::slowest_3_merchants shows worst 3 merchants who were slowest at fulfilling items in an order, and their times' do
+        merchants = [@merchant_4, @merchant_2, @merchant_1]
+        avg_times = [5, 4, 2]
+
+        merchants_actual = User.slowest_3_merchants
+        times_actual = User.slowest_3_merchants.map do |merchant|
+          merchant.avg_time.to_i
+        end
+
+        expect(merchants_actual).to eq(merchants)
+        expect(times_actual).to eq(avg_times)
       end
     end
   end
