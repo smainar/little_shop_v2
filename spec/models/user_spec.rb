@@ -300,25 +300,25 @@ RSpec.describe User, type: :model do
       @order_8 = create(:packaged_order, user: @user_2)
 
       #shipped orders
-      @order_item_1 = create(:fulfilled_order_item, item: @item_1, quantity: 2, order: @order_1)
-      @order_item_2 = create(:fulfilled_order_item, item: @item_2, quantity: 7, order: @order_2)
-      @order_item_3 = create(:fulfilled_order_item, item: @item_5, quantity: 10, order: @order_3)
-      @order_item_4 = create(:fulfilled_order_item, item: @item_4, quantity: 5, order: @order_4)
-      @order_item_5 = create(:fulfilled_order_item, item: @item_3, quantity: 4, order: @order_4)
-      @order_item_6 = create(:fulfilled_order_item, item: @item_3, quantity: 2, order: @order_5)
+      @order_item_1 = create(:fulfilled_order_item, item: @item_1, quantity: 2, order: @order_1, price_per_item: 100)
+      @order_item_2 = create(:fulfilled_order_item, item: @item_2, quantity: 7, order: @order_2, price_per_item: 100)
+      @order_item_3 = create(:fulfilled_order_item, item: @item_5, quantity: 10, order: @order_3, price_per_item: 100)
+      @order_item_4 = create(:fulfilled_order_item, item: @item_4, quantity: 5, order: @order_4, price_per_item: 100)
+      @order_item_5 = create(:fulfilled_order_item, item: @item_3, quantity: 4, order: @order_4, price_per_item: 100)
+      @order_item_6 = create(:fulfilled_order_item, item: @item_3, quantity: 2, order: @order_5, price_per_item: 100)
 
-      @order_item_13 = create(:fulfilled_order_item, item: @item_2, quantity: 5, order: @order_1)
-      @order_item_14 = create(:fulfilled_order_item, item: @item_6, quantity: 3, order: @order_1)
-      @order_item_15 = create(:fulfilled_order_item, item: @item_8, quantity: 18, order: @order_1)
+      @order_item_13 = create(:fulfilled_order_item, item: @item_2, quantity: 5, order: @order_1, price_per_item: 100)
+      @order_item_14 = create(:fulfilled_order_item, item: @item_6, quantity: 3, order: @order_1, price_per_item: 100)
+      @order_item_15 = create(:fulfilled_order_item, item: @item_8, quantity: 18, order: @order_1, price_per_item: 100)
 
       #not shipped orders
-      @order_item_7 = create(:order_item, item: @item_1, order: @order_6)
-      @order_item_8 = create(:order_item, item: @item_1, order: @order_7)
-      @order_item_9 = create(:order_item, item: @item_1, order: @order_8)
+      @order_item_7 = create(:order_item, item: @item_1, order: @order_6, price_per_item: 100)
+      @order_item_8 = create(:order_item, item: @item_1, order: @order_7, price_per_item: 100)
+      @order_item_9 = create(:order_item, item: @item_1, order: @order_8, price_per_item: 100)
 
-      @order_item_10 = create(:fulfilled_order_item, item: @item_2, order: @order_6)
-      @order_item_11 = create(:fulfilled_order_item, item: @item_2, order: @order_7)
-      @order_item_12 = create(:fulfilled_order_item, item: @item_2, order: @order_8)
+      @order_item_10 = create(:fulfilled_order_item, item: @item_2, order: @order_6, price_per_item: 100)
+      @order_item_11 = create(:fulfilled_order_item, item: @item_2, order: @order_7, price_per_item: 100)
+      @order_item_12 = create(:fulfilled_order_item, item: @item_2, order: @order_8, price_per_item: 100)
 
       #include previously active item that were shipped. Item is now inactive.
     end
@@ -364,8 +364,17 @@ RSpec.describe User, type: :model do
       expect(answer_3).to eq(quantities)
     end
 
-    it 'calculates top user with most orders and their orders' do
+    it 'calculates top user with most orders and their orders quantity' do
       expect(@merchant_1.top_user_orders).to eq(@user_3)
     end
+
+    it 'calculates top user with most items and their items quantity' do
+      expect(@merchant_1.top_user_items).to eq(@user_3)
+    end
+
+    it 'calculates top 3 users with most money spent and their totals' do
+      expect(@merchant_1.top_3_users_moneys).to eq([@user_3, @user_1, @user_4])
+    end
+
   end
 end
