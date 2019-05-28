@@ -56,14 +56,17 @@ RSpec.describe 'As a merchant: ' do
 
       within "#items-index-#{@item_2.id}" do
         expect(page).to have_content("Status: Not Fulfilled")
+        expect(page).to have_button("Fulfill Item")
       end
 
       within "#items-index-#{@item_3.id}" do
         expect(page).to have_content("Status: Fulfilled")
+        expect(page).to_not have_button("Fulfill Item")
       end
 
       within "#items-index-#{@item_4.id}" do
         expect(page).to have_content("Status: Not Fulfilled")
+        expect(page).to_not have_button("Fulfill Item")
       end
 
     end

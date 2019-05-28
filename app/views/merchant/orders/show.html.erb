@@ -14,6 +14,10 @@
     <% else %>
     <p>Status: Not Fulfilled</p>
     <% end %>
-
+    <% if (item.item_status(@order) == false) && (item.sufficient_inventory(@order)) %>
+      <p><%= button_to "Fulfill Item" %></p>
+    <% elsif (item.item_status(@order) == false) && !(item.sufficient_inventory(@order)) %>
+      <p>You do not have sufficient inventory to fulfill this item.</p>
+    <% end %>
   </div>
 <% end %>

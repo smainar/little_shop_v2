@@ -129,7 +129,7 @@ RSpec.describe Item, type: :model do
       expect(item_2.purchase_quantity(order_2)).to eq(oi_3.quantity)
     end
 
-    it "#item_status returns true/false for fulfilled" do
+    it "#item_status returns true/false for fulfilled, #sufficient_inventory returns true/false" do
       user = create(:user)
       order_1 = create(:order, user: user)
       order_4 = create(:order, user: user)
@@ -167,6 +167,10 @@ RSpec.describe Item, type: :model do
       expect(item_3.item_status(order_2)).to eq(true)
       expect(item_2.item_status(order_2)).to eq(false)
       expect(item_2.item_status(order_1)).to eq(false)
+
+      expect(item_4.sufficient_inventory(order_2)).to eq(false)
+      expect(item_2.sufficient_inventory(order_2)).to eq(true)
+      expect(item_2.sufficient_inventory(order_1)).to eq(true)
     end
   end
 end
