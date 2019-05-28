@@ -33,6 +33,14 @@
       <% end %>
     </ol>
   </div>
+  <div id="3-slowest-merchants">
+    <h3>3 Slowest Merchants by Average Fulfillment Time</h3>
+    <ol>
+      <% @slowest_3_merchants.each do |merchant| %>
+        <li><%= merchant.name %>: <%= merchant.avg_time.to_i %> day(s)</li>
+      <% end %>
+    </ol>
+  </div>
   <div id="top-3-states">
     <h3>Top 3 States by Number of Orders</h3>
     <ol>

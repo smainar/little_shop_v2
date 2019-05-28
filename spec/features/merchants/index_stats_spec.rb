@@ -165,7 +165,16 @@ RSpec.describe "Merchant Index Statistics", type: :feature do
       end
     end
 
-    xit 'shows worst 3 merchants who were slowest at fulfilling items in an order, and their times'
+    it 'shows worst 3 merchants who were slowest at fulfilling items in an order, and their times' do
+      visit merchants_path
 
+      within("#statistics") do
+        within("#3-slowest-merchants") do
+          expect(page.all("li")[0]).to have_content("#{@merchant_4.name}: 5 day(s)")
+          expect(page.all("li")[1]).to have_content("#{@merchant_2.name}: 4 day(s)")
+          expect(page.all("li")[2]).to have_content("#{@merchant_1.name}: 2 day(s)")
+        end
+      end
+    end
   end
 end
