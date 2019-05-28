@@ -7,5 +7,7 @@
   <div id="items-index-<%= item.id  %>">
     <p><%= link_to item.name, item_path(item) %></p>
     <%= image_tag item.image || @default_image, alt: "image of #{item.name}" %>
+    <p>Purchase Price: <%= number_to_currency(item.purchase_price(@order)) %></p>
+    <p>Purchase Quantity: <%= item.purchase_quantity(@order) %></p>
   </div>
 <% end %>

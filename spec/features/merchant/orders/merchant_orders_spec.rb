@@ -4,7 +4,6 @@ include ActionView::Helpers::TextHelper
 RSpec.describe 'As a merchant: ' do
   describe "when I visit my dashboard, " do
     before :each do
-      #create 2 pending orders and 1 shipped order.
       @user = create(:user)
       @order_1 = create(:order, user: @user)
       @order_4 = create(:order, user: @user)
@@ -27,7 +26,7 @@ RSpec.describe 'As a merchant: ' do
       @oi_2 = create(:order_item, item: @item_2, order: @order_1, quantity: 3, price_per_item: @item_2.price)
 
       #order 2 with current merchant's items only.
-      @oi_3 = create(:order_item, item: @item_2, order: @order_2, quantity: 4, price_per_item: @item_2.price)
+      @oi_3 = create(:order_item, item: @item_2, order: @order_2, quantity: 4, price_per_item: @item_2.price + 0.75)
       @oi_4 = create(:order_item, item: @item_3, order: @order_2, quantity: 5, price_per_item: @item_3.price - 0.25)
 
       #order 3 with shipped status for current merchant's item.
@@ -59,8 +58,6 @@ RSpec.describe 'As a merchant: ' do
       expect(page).to_not have_content(@order_3.id)
     end
 
-    # - my price for the item
-    # - the quantity the user wants to purchase
     it "I am taken to order show page from my dashboard where I see details about the order" do
       click_on "Order #{@order_2.id}"
       expect(current_path).to eq(merchant_order_path(@order_2))
@@ -71,11 +68,15 @@ RSpec.describe 'As a merchant: ' do
       within "#items-index-#{@item_2.id}" do
         expect(page).to have_link(@item_2.name)
         expect(page).to have_css("img[src*='#{@item_2.image}']")
+        expect(page).to have_content("Purchase Price: #{number_to_currency(@oi_3.price_per_item)}")
+        expect(page).to have_content("Purchase Quantity: #{(@oi_3.quantity)}")
       end
 
       within "#items-index-#{@item_3.id}" do
         expect(page).to have_link(@item_3.name)
         expect(page).to have_css("img[src*='#{@item_3.image}']")
+        expect(page).to have_content("Purchase Price: #{number_to_currency(@oi_4.price_per_item)}")
+        expect(page).to have_content("Purchase Quantity: #{(@oi_4.quantity)}")
       end
 
       expect(page).to_not have_content(@item_1.name)
