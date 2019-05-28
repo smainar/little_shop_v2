@@ -3,9 +3,6 @@ class Admin::UsersController < Admin::BaseController
     @user = User.find(params[:id])
   end
 
-  def merchant_show
-  end
-
   def index
     @users = User.regular_users
   end
