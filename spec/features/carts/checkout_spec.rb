@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Cart checkout functionality: " do
-  describe "as a logged in user" do
+  describe "as a logged in regular user" do
     before(:each) do
       @merchant_1 = create(:merchant)
       @item_1 = create(:item, user: @merchant_1, name: "Sofa")
@@ -35,6 +35,36 @@ RSpec.describe "Cart checkout functionality: " do
       expect(page).to have_link("Order #{Order.last.id}")
       expect(page).to have_content("pending")
       expect(page).to have_content("Cart: 0")
+    end
+  end
+
+  describe "as a visitor" do
+    it "doesn't show a checkout button" do
+      visit cart_path
+
+      expect(page).to_not have_button("Check Out")
+    end
+  end
+
+  describe "as a merchant" do
+    it "doesn't show a checkout button" do
+      merchant = create(:merchant)
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(merchant)
+
+      visit cart_path
+
+      expect(page).to_not have_button("Check Out")
+    end
+  end
+
+  describe "as an admin" do
+    it "doesn't show a checkout button" do
+      admin = create(:admin)
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(admin)
+
+      visit cart_path
+
+      expect(page).to_not have_button("Check Out")
     end
   end
 end
