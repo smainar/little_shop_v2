@@ -1,0 +1,13 @@
+<h1>Order Number: <%= @order.id %></h1>
+
+<h4>Customer Name: <%= @order.user.name %></h4>
+<h3>Customer Address: <%= @order.user.address %></h3>
+
+<% @order.merchant_items(@merchant).each do |item| %>
+  <div id="items-index-<%= item.id  %>">
+    <p><%= link_to item.name, item_path(item) %></p>
+    <%= image_tag item.image || @default_image, alt: "image of #{item.name}" %>
+    <p>Purchase Price: <%= number_to_currency(item.purchase_price(@order)) %></p>
+    <p>Purchase Quantity: <%= item.purchase_quantity(@order) %></p>
+  </div>
+<% end %>

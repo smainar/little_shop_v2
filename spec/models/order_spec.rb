@@ -15,14 +15,24 @@ RSpec.describe Order, type: :model do
   describe "instance methods" do
     before(:each) do
       @user = create(:user)
-      @merchant = create(:merchant)
       @order_1 = create(:order, user: @user)
+      @order_2 = create(:order, user: @user)
+
+      @merchant = create(:merchant)
       @item_1 = create(:item, user: @merchant, price: 4.50)
       @item_2 = create(:item, user: @merchant, price: 2.33)
       @item_3 = create(:item, user: @merchant, price: 1.99)
+
       @oi_1 = create(:order_item, item: @item_1, order: @order_1, quantity: 3, price_per_item: @item_1.price)
       # note: in @oi_2 below, the price_per_item is intentionally different than the item's price, to make sure that the methods are using the price_per_item instead of the price in certain methods
       @oi_2 = create(:order_item, item: @item_2, order: @order_1, quantity: 1, price_per_item: @item_2.price - 0.33)
+
+      @other_merchant = create(:merchant)
+      @item_4 = create(:item, user: @other_merchant, price: 5.00)
+
+      @oi_3 = create(:order_item, item: @item_4, order: @order_2, quantity: 2, price_per_item: 4.00)
+      @oi_4 = create(:order_item, item: @item_3, order: @order_2, quantity: 1, price_per_item: @item_3.price + 1.01)
+      @oi_5 = create(:order_item, item: @item_2, order: @order_2, quantity: 2, price_per_item: @item_2.price + 0.17)
     end
 
     it "#grand_total returns the total cost" do
@@ -44,6 +54,10 @@ RSpec.describe Order, type: :model do
     it "#item_quantity returns the quantity of a particular item in the order" do
       expect(@order_1.item_quantity(@item_2)).to eq(@oi_2.quantity)
       expect(@order_1.item_quantity(@item_3)).to eq(0)
+    end
+
+    it "#merchant_items returns items in a single order for a specific merchant" do
+      expect(@order_2.merchant_items(@merchant)).to eq([@item_2, @item_3])
     end
   end
 

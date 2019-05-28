@@ -31,7 +31,7 @@ RSpec.describe Item, type: :model do
     it "can filter active items only" do
       expect(Item.active_items).to eq([@item_1, @item_2, @item_3])
     end
-    
+
     it "can filter the most/least popular items by quantity purchased" do
       merchant = create(:merchant)
 
@@ -70,16 +70,14 @@ RSpec.describe Item, type: :model do
   end
 
   describe "instance methods" do
-    before :each do
-      @merchant_1 = create(:merchant)
-      @item_1 = create(:item, user: @merchant_1)
-      @order_item_1 = create(:fulfilled_order_item, item: @item_1, created_at: 3.days.ago, updated_at: 1.days.ago)
-      @order_item_2 = create(:fulfilled_order_item, item: @item_1, created_at: 2.days.ago, updated_at: 1.days.ago)
-      @order_item_3 = create(:fulfilled_order_item, item: @item_1, created_at: 4.days.ago, updated_at: 1.days.ago)
-    end
-
     it "can calculate average fulfillment time per item" do
-      expect(@item_1.average_fulfillment_time).to eq(2)
+      merchant_1 = create(:merchant)
+      item_1 = create(:item, user: merchant_1)
+      order_item_1 = create(:fulfilled_order_item, item: item_1, created_at: 3.days.ago, updated_at: 1.days.ago)
+      order_item_2 = create(:fulfilled_order_item, item: item_1, created_at: 2.days.ago, updated_at: 1.days.ago)
+      order_item_3 = create(:fulfilled_order_item, item: item_1, created_at: 4.days.ago, updated_at: 1.days.ago)
+
+      expect(item_1.average_fulfillment_time).to eq(2)
     end
 
     it "#order_count returns how many orders include that item" do
@@ -104,6 +102,31 @@ RSpec.describe Item, type: :model do
       expect(never_ordered_item.order_count).to eq(0)
       expect(ordered_item.order_count).to eq(4)
       expect(disabled_ordered_item.order_count).to eq(2)
+    end
+
+    it "#purchase_price finds price_per_item for an item, #purchase_quantity finds quantity of item sold in an order" do
+      user = create(:user)
+      order_1 = create(:order, user: user)
+      order_2 = create(:order, user: user)
+
+      other_merchant = create(:merchant)
+      item_1 = create(:item, user: other_merchant, price: 1.00)
+
+      merchant = create(:merchant)
+      item_2 = create(:item, user: merchant, price: 2.00)
+      item_3 = create(:item, user: merchant, price: 3.00)
+
+      oi_1 = create(:order_item, item: item_1, order: order_1, quantity: 2, price_per_item: item_1.price)
+      oi_2 = create(:order_item, item: item_2, order: order_1, quantity: 3, price_per_item: item_2.price + 0.75)
+
+      oi_3 = create(:order_item, item: item_2, order: order_2, quantity: 4, price_per_item: item_2.price + 0.25)
+      oi_4 = create(:order_item, item: item_3, order: order_2, quantity: 5, price_per_item: item_3.price + 0.20)
+
+      expect(item_2.purchase_price(order_1)).to eq(oi_2.price_per_item)
+      expect(item_2.purchase_price(order_2)).to eq(oi_3.price_per_item)
+
+      expect(item_2.purchase_quantity(order_1)).to eq(oi_2.quantity)
+      expect(item_2.purchase_quantity(order_2)).to eq(oi_3.quantity)
     end
   end
 end
