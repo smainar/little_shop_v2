@@ -49,16 +49,12 @@ class User < ApplicationRecord
   end
 
   def self.top_3_states
-    self.joins(:orders)
-        .
-     # items.select("users.state, sum(order_items.quantity) as total_quantity")
-     # .joins(:orders)
-     # .joins("join users On orders.user_id = users.id")
-     # .group("users.state")
-     # .where("orders.status = 2")
-     # .where("order_items.fulfilled = true")
-     # .order("total_quantity desc")
-     # .limit(3)
+    thing = self.joins(:orders)
+        .select("users.state, count(orders) as order_count")
+        .group("users.state")
+        .where("orders.status = 2")
+        .order("order_count DESC")
+        .limit(3)
   end
 
   def total_revenue
