@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Merchant Index Statistics", type: :feature do
-  context "as a visitor" do
+  context "as a visitor - most stats" do
     before(:each) do
       @merchant_1 = create(:merchant)
       @item_1 = create(:item, user: @merchant_1)
@@ -130,8 +130,42 @@ RSpec.describe "Merchant Index Statistics", type: :feature do
         end
       end
     end
+  end
 
-    xit 'shows top 3 merchants who were fastest at fulfilling items in an order, and their times'
+  context "as a visitor - merchant fulfillment speed stats" do
+    before(:each) do
+      @merchant_1 = create(:merchant) # avg_time = 2 days
+      @item_1 = create(:item, user: @merchant_1)
+      @order_item_1 = create(:fulfilled_order_item, item: @item_1, created_at: 3.days.ago, updated_at: 1.days.ago)
+      @order_item_2 = create(:fulfilled_order_item, item: @item_1, created_at: 2.days.ago, updated_at: 1.days.ago)
+      @order_item_3 = create(:fulfilled_order_item, item: @item_1, created_at: 4.days.ago, updated_at: 1.days.ago)
+
+      @merchant_2 = create(:merchant) # avg_time = 4 days
+      @item_2 = create(:item, user: @merchant_2)
+      @order_item_4 = create(:fulfilled_order_item, item: @item_2, created_at: 5.days.ago, updated_at: 1.days.ago)
+
+      @merchant_3 = create(:merchant) # avg_time = 1 day
+      @item_3 = create(:item, user: @merchant_3)
+      @order_item_5 = create(:fulfilled_order_item, item: @item_3, created_at: 2.days.ago, updated_at: 1.days.ago)
+
+      @merchant_4 = create(:merchant) # avg_time = 5 days
+      @item_4 = create(:item, user: @merchant_4)
+      @order_item_6 = create(:fulfilled_order_item, item: @item_4, created_at: 6.days.ago, updated_at: 1.days.ago)
+    end
+
+    it 'shows top 3 merchants who were fastest at fulfilling items in an order, and their times' do
+      visit merchants_path
+
+      within("#statistics") do
+        within("#3-fastest-merchants") do
+          expect(page.all("li")[0]).to have_content("#{@merchant_3.name}: 1 day(s)")
+          expect(page.all("li")[1]).to have_content("#{@merchant_1.name}: 2 day(s)")
+          expect(page.all("li")[2]).to have_content("#{@merchant_2.name}: 4 day(s)")
+        end
+      end
+    end
+
     xit 'shows worst 3 merchants who were slowest at fulfilling items in an order, and their times'
+
   end
 end
