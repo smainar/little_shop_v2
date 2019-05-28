@@ -1,14 +1,32 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
+  # PUBLIC PAGE ROUTES
   root to: "welcome#index"
-
   resources :items, only: [:index, :show]
+  get '/merchants', to: "merchants#index"
 
+  # NEW USER REGISTRATION ROUTES
+  get '/register', to: "users#new"
+  resources :users, only: [:create]
+
+  # LOGIN/LOGOUT ROUTES
   get '/login', to: "sessions#new"
   post '/login', to: "sessions#create"
   get '/logout', to: "sessions#destroy"
 
+  # CART ROUTES
+  scope :cart, as: :cart do
+    get '/', to: "carts#show"
+    delete '/', to: "carts#destroy"
+    post '/', to: 'carts#checkout'
+    post '/:id', to: 'carts#add_from_show_page',  as: :add_item
+    patch '/:id/increment', to: 'carts#increment', as: :increment_item
+    patch '/:id/decrement', to: 'carts#decrement', as: :decrement_item
+    patch '/:id/remove', to: 'carts#remove_item', as: :remove_item
+  end
+
+  # PROFILE ROUTES (AS A USER)
   scope :profile, module: :user, as: :profile do
     get '/', to: "users#show"
     patch '/', to: "users#update"
@@ -17,32 +35,27 @@ Rails.application.routes.draw do
 
   scope :profile, module: :user, as: :user do
     resources :orders, only: [:index, :show]
+    patch '/orders/:id/cancel', to: 'orders#cancel', as: :cancel_order
   end
 
-  patch '/profile/orders/:id', to: 'user/orders#cancel', as: :cancel_order
-
-  get '/register', to: "users#new"
-  get '/merchants', to: "merchants#index"
-
-  resources :carts, only: :create
-  get '/cart', to: "carts#show"
-  delete '/cart', to: "carts#destroy"
-  post '/cart', to: 'carts#checkout'
-
-  post '/cart/:id', to: 'carts#add_from_show_page',  as: :add_to_cart
-  patch '/cart/:id/increment', to: 'carts#increment', as: :increment
-  patch '/cart/:id/decrement', to: 'carts#decrement', as: :decrement
-  patch '/cart/:id/remove', to: 'carts#remove', as: :remove
-
-
-  resources :users, only: [:create]
-
-  namespace :admin do
-    get '/dashboard', to: "users#show"
-  end
-
+  # DASHBOARD ROUTES (AS A MERCHANT)
   scope :dashboard, module: :merchant, as: :merchant do
     get '/', to: "merchants#show", as: :dashboard
-    resources :items, only: [:index]
+    resources :items, only: [:index, :new, :edit]
+    patch '/items/:id/disable', to: "items#disable", as: :disable_item
+    patch '/items/:id/enable', to: "items#enable", as: :enable_item
+    delete '/items/:id', to: "items#destroy", as: :delete_item
+    resources :orders, only: :show
+  end
+
+  # ADMIN ROUTES
+  namespace :admin do
+    get '/dashboard', to: "users#show"
+    resources :merchants, only: [:index, :show]
+    patch '/merchants/:id/disable', to: "merchants#disable", as: :disable_merchant
+    patch '/merchants/:id/enable', to: "merchants#enable", as: :enable_merchant
+
+    resources :users, only: [:index, :show]
+    patch '/users/:id/upgrade', to: "users#upgrade", as: :upgrade_user
   end
 end

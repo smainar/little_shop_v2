@@ -1,0 +1,24 @@
+<h1>Items I'm Selling</h1>
+
+<%= link_to "Add a New Item", new_merchant_item_path  %>
+
+<% @items.each do |item| %>
+  <div id="item-<%= item.id %>">
+    <h3><%= link_to item.name, item_path(item) %></h3>
+    <%= image_tag item.image || @default_image, alt: "image of #{item.name}" %>
+    <p>ID: <%= item.id %></p>
+    <p><%= number_to_currency(item.price) %></p>
+    <p><%= item.inventory %> in stock</p>
+    <%= button_to "Edit Item", edit_merchant_item_path(item) %>
+
+    <% if item.reload.active %>
+      <%= button_to "Disable Item", merchant_disable_item_path(item), method: "patch", data: { confirm: 'Are you sure?', disable_with: 'loading...' } %>
+    <% else %>
+      <%= button_to "Enable Item", merchant_enable_item_path(item), method: "patch", data: { confirm: 'Are you sure?', disable_with: 'loading...' } %>
+    <% end %>
+
+    <% if item.order_count == 0 %>
+      <%= button_to "Delete Item", merchant_delete_item_path(item), method: "delete", data: { confirm: 'Are you sure?', disable_with: 'loading...' } %>
+    <% end %>
+  </div>
+<% end %>

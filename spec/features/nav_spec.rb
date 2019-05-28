@@ -26,6 +26,7 @@ RSpec.describe "navigation bar", type: :feature do
 
         expect(page).to_not have_link "My Profile"
         expect(page).to_not have_link "Log Out"
+        expect(page).to_not have_link "Users"
         expect(page).to_not have_content "Logged in as"
       end
     end
@@ -96,6 +97,7 @@ RSpec.describe "navigation bar", type: :feature do
 
         expect(page).to_not have_link("Login")
         expect(page).to_not have_link("Register")
+        expect(page).to_not have_link("Users")
 
         click_link "My Profile"
         expect(current_path).to eq(profile_path)
@@ -189,6 +191,7 @@ RSpec.describe "navigation bar", type: :feature do
         expect(page).to_not have_link("My Cart")
         expect(page).to_not have_link("Login")
         expect(page).to_not have_link("Register")
+        expect(page).to_not have_link("Users")
 
         click_link "Dashboard"
         expect(current_path).to eq(merchant_dashboard_path)
@@ -253,6 +256,19 @@ RSpec.describe "navigation bar", type: :feature do
 
         expect(page).to have_content "Logged in as #{@admin.name}"
       end
+    end
+
+    it "has a link to view all users" do
+      allow_any_instance_of(ApplicationController).to receive(:current_user)
+      .and_return(@admin)
+
+      visit items_path
+
+      within("nav") do
+        click_link "Users"
+      end
+
+      expect(current_path).to eq("/admin/users")
     end
 
     it "has a working log out link" do

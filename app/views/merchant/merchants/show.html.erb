@@ -36,5 +36,17 @@
   <h1><%= @merchant.name %></h1>
   <p>Email: <%= @merchant.email %></p>
   <p>Address: <%= @merchant.address %></p>
-  <p><%= @merchant.city %>, <%= @merchant.state %> <%= @merchant.zip %></p>
+  <p><%= @merchant.city %>, <%= @merchant.state %></p>
+  <p>Zip: <%= @merchant.zip %></p>
 </div>
+
+<h4>Pending Orders</h4>
+
+<% @merchant_orders.each do |order| %>
+  <div id="merchant-orders-<%= order.id %>">
+    <p><%= link_to "Order #{order.id}", merchant_order_path(order) %></p>
+    <p>Date Ordered: <%= Date.strptime(order.created_at.to_s) %></p>
+    <p>Total Quantity Ordered: <%= order.total_quantity_for_merchant(@merchant) %></p>
+    <p>Total Amount Owed: <%= number_to_currency(order.total_value_for_merchant(@merchant)) %></p>
+  </div>
+<% end %>

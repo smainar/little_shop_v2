@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>LittleShop</title>
+    <title>Little Shop of Furniture</title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all' %>
@@ -28,6 +28,7 @@
           <%= link_to "Dashboard", merchant_dashboard_path %>
         <% elsif current_user.admin? %>
           <%= link_to "Dashboard", admin_dashboard_path %>
+          <%= link_to "Users", admin_users_path %>
         <% end %>
         <%= link_to "Log Out", logout_path %>
         Logged in as <%= current_user.name %>
