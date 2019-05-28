@@ -45,6 +45,7 @@ Rails.application.routes.draw do
     patch '/items/:id/disable', to: "items#disable", as: :disable_item
     patch '/items/:id/enable', to: "items#enable", as: :enable_item
     delete '/items/:id', to: "items#destroy", as: :delete_item
+    patch '/items/:id/fulfill', to: 'items#fulfill', as: :fulfill_item
     resources :orders, only: :show
   end
 

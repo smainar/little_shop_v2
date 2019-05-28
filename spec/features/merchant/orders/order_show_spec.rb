@@ -40,10 +40,7 @@ RSpec.describe 'As a merchant: ' do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
       visit merchant_order_path(@order_2)
     end
-# For each item of mine in the order
-# If the user's desired quantity is equal to or less than my current inventory quantity for that item
 
-# - Then I see a button or link to "fulfill" that item
 # - When I click on that link or button I am returned to the order show page
 # - I see the item is now fulfilled
 # - I also see a flash message indicating that I have fulfilled that item
@@ -68,7 +65,15 @@ RSpec.describe 'As a merchant: ' do
         expect(page).to have_content("Status: Not Fulfilled")
         expect(page).to_not have_button("Fulfill Item")
       end
+    end
 
+    it "I click on Fulfill Item, I am returned to the order show page" do
+      within "#items-index-#{@item_2.id}" do
+        expect(page).to have_content("Status: Not Fulfilled")
+        expect(page).to have_button("Fulfill Item")
+        click_button "Fulfill Item"
+        expect(current_path).to eq(merchant_order_path(@order_2))
+      end
     end
   end
 end
