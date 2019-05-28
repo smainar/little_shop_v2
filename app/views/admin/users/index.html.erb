@@ -1,0 +1,9 @@
+<h1>All Regular Users</h1>
+
+<% @users.each do |user| %>
+  <div id="user-<%= user.id %>">
+    <h3><%= link_to user.name, admin_user_path(user) %></h3>
+    <p>Registered: <%= Date.strptime(user.created_at.to_s) %></p>
+    <%= button_to "Upgrade to Merchant", admin_upgrade_user_path(user), method: "patch", data: { confirm: 'Are you sure?', disable_with: 'loading...' } %>
+  </div>
+<% end %>

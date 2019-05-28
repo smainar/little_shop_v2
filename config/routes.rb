@@ -45,13 +45,17 @@ Rails.application.routes.draw do
     patch '/items/:id/disable', to: "items#disable", as: :disable_item
     patch '/items/:id/enable', to: "items#enable", as: :enable_item
     delete '/items/:id', to: "items#destroy", as: :delete_item
+    resources :orders, only: :show
   end
 
   # ADMIN ROUTES
   namespace :admin do
-    get '/dashboard', to: "users#show"
-    get '/merchants/:id', to: "merchants#show", as: :merchant
+    get '/dashboard', to: "users#merchant_show"
+    resources :merchants, only: [:index, :show]
     patch '/merchants/:id/disable', to: "merchants#disable", as: :disable_merchant
     patch '/merchants/:id/enable', to: "merchants#enable", as: :enable_merchant
+
+    resources :users, only: [:index, :show]
+    patch '/users/:id/upgrade', to: "users#upgrade", as: :upgrade_user
   end
 end

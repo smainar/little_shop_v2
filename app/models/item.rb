@@ -31,5 +31,16 @@ class Item < ApplicationRecord
   def order_count
     orders.count
   end
-end
 
+  def purchase_price(order)
+    order_items.where("order_items.order_id=?", order.id)
+              .first
+              .price_per_item
+  end
+
+  def purchase_quantity(order)
+    order_items.where("order_items.order_id=?", order.id)
+              .first
+              .quantity
+  end
+end

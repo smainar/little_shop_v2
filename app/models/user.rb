@@ -26,6 +26,14 @@ class User < ApplicationRecord
     where(active: false, role: 'merchant')
   end
 
+  def self.all_merchants
+    where(role: 'merchant')
+  end
+
+  def self.regular_users
+    where(role: 'user').order(:id)
+  end
+
   def self.top_3_by_revenue
     self.joins(items: :order_items)
         .joins("JOIN orders ON order_items.order_id = orders.id")

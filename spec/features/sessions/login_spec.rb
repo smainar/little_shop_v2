@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe "User Login Workflow", type: :feature do
-
   scenario 'correct user login information entered' do
     user = User.create!(email: "abc@abc.com", password: "password", name: "user1", address: "kgysdfklvysgu", city: 'city town', state: 'state place', zip: '987123', role: 'user')
 
@@ -75,5 +74,20 @@ RSpec.describe "User Login Workflow", type: :feature do
 
     expect(current_path).to eq(merchant_dashboard_path)
     expect(page).to have_content("Welcome, #{merchant.name}!")
+  end
+
+  scenario 'a merchant with a disabled account will not be allowed to log in' do
+    active_merchant = create(:merchant)
+    disabled_merchant = create(:inactive_merchant)
+
+    visit login_path
+
+    fill_in :email, with: disabled_merchant.email
+    fill_in :password, with: disabled_merchant.password
+
+    click_button "Login"
+
+    expect(page).to have_content("Your account has been disabled.")
+    expect(page).to_not have_content("Logged in as")
   end
 end

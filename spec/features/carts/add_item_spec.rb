@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe "adding items to their cart" do
   context "as a visitor" do
-
     before(:each) do
       @merchant_1 = create(:merchant)
       @item_1 = create(:item, user: @merchant_1, name: "Sofa")
@@ -52,7 +51,6 @@ RSpec.describe "adding items to their cart" do
   end
 
   context "as a user" do
-
     before(:each) do
       @merchant_1 = create(:merchant)
       @item_1 = create(:item, user: @merchant_1, name: "Sofa")
