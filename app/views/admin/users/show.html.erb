@@ -1,0 +1,8 @@
+<div id="user-profile-<%= @user.id %>">
+  <h2>Name: <%= link_to @user.name, admin_user_path(@user) %></h2>
+  <p>Email: <%= @user.email %></p>
+  <p>Street address: <%= @user.address %></p>
+  <p>City: <%= @user.city %></p>
+  <p>State: <%= @user.state %></p>
+  <p>Zip: <%= @user.zip %></p>
+</div>
