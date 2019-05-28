@@ -4,6 +4,7 @@ class Merchant::ItemsController < Merchant::BaseController
   end
 
   def new
+    @item = Item.new
   end
 
   def disable
