@@ -16,14 +16,16 @@
 
   <h2>Grand Total: <%= number_to_currency(cart.grand_total) %></h2>
 
-  <%= button_to "Check Out", cart_path %>
+  <% if current_user?  %>
+    <%= button_to "Check Out", cart_path %>
+  <% end %>
   <%= button_to "Empty Cart", { controller: :carts, action: :destroy }, method: :delete %>
 <% else %>
   <h1>There is nothing in your cart!</h1>
 <% end %>
 
-<% if !current_user  %>
+<% if !current_user?  %>
   <div id="visitor-checkout">
-    <h1>You must <%= link_to "register", register_path %> or <%= link_to "log in", login_path %> to finish the checkout process.</h1>
+    <h1>You must <%= link_to "register", register_path %> or <%= link_to "log in", login_path %> (as a regular user) to finish the checkout process.</h1>
   </div>
 <% end %>

@@ -16,3 +16,10 @@
 .quantities {
   display: flex;
 }
+
+img {
+  height: 250px;
+  padding: 20px;
+  align-content: center;
+  object-fit: contain;
+}
