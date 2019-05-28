@@ -43,4 +43,8 @@ class Item < ApplicationRecord
               .first
               .quantity
   end
+
+  def item_status(order)
+    order_items.where("order_items.order_id=?", order.id).first.fulfilled
+  end
 end

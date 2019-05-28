@@ -128,5 +128,45 @@ RSpec.describe Item, type: :model do
       expect(item_2.purchase_quantity(order_1)).to eq(oi_2.quantity)
       expect(item_2.purchase_quantity(order_2)).to eq(oi_3.quantity)
     end
+
+    it "#item_status returns true/false for fulfilled" do
+      user = create(:user)
+      order_1 = create(:order, user: user)
+      order_4 = create(:order, user: user)
+
+      user_2 = create(:user)
+      order_2 = create(:order, user: user_2)
+      order_3 = create(:shipped_order, user: user_2)
+
+      #create an item for another merchant that is part of one of our merchant's orders.
+      other_merchant = create(:merchant)
+      item_1 = create(:item, user: other_merchant, price: 4.00)
+
+      #items that are sold by current merchant.
+      merchant = create(:merchant)
+      item_2 = create(:item, user: merchant, price: 2.00, inventory: 10)
+      item_3 = create(:item, user: merchant, price: 3.00)
+      item_4 = create(:item, user: merchant, price: 4.00, inventory: 5)
+
+      #order1 with current merchant and other merchant's items.
+      oi_1 = create(:order_item, item: item_1, order: order_1, quantity: 2, price_per_item: item_1.price)
+      oi_2 = create(:order_item, item: item_2, order: order_1, quantity: 3, price_per_item: item_2.price)
+
+      #order 2 with current merchant's items only.
+      oi_3 = create(:order_item, item: item_2, order: order_2, quantity: 4, price_per_item: item_2.price + 0.75)
+      oi_4 = create(:order_item, fulfilled: true, item: item_3, order: order_2, quantity: 5, price_per_item: item_3.price - 0.25)
+      oi_5 = create(:order_item, item: item_1, order: order_2, quantity: 2, price_per_item: item_1.price)
+      oi_6 = create(:order_item, item: item_4, order: order_2, quantity: 6, price_per_item: item_4.price)
+
+      #order 3 with shipped status for current merchant's item.
+      oi_7 = create(:order_item, item: item_3, order: order_3, quantity: 6, price_per_item: item_2.price)
+
+      #order 4 with only other merchant's items.
+      oi_8 = create(:order_item, item: item_1, order: order_4, quantity: 5, price_per_item: item_1.price)
+
+      expect(item_3.item_status(order_2)).to eq(true)
+      expect(item_2.item_status(order_2)).to eq(false)
+      expect(item_2.item_status(order_1)).to eq(false)
+    end
   end
 end

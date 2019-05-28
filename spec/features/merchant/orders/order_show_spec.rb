@@ -27,7 +27,7 @@ RSpec.describe 'As a merchant: ' do
 
       #order 2 with current merchant's items only.
       @oi_3 = create(:order_item, item: @item_2, order: @order_2, quantity: 4, price_per_item: @item_2.price + 0.75)
-      @oi_4 = create(:fulfilled_order_item, item: @item_3, order: @order_2, quantity: 5, price_per_item: @item_3.price - 0.25)
+      @oi_4 = create(:order_item, fulfilled: true, item: @item_3, order: @order_2, quantity: 5, price_per_item: @item_3.price - 0.25)
       @oi_5 = create(:order_item, item: @item_1, order: @order_2, quantity: 2, price_per_item: @item_1.price)
       @oi_6 = create(:order_item, item: @item_4, order: @order_2, quantity: 6, price_per_item: @item_4.price)
 
@@ -40,12 +40,9 @@ RSpec.describe 'As a merchant: ' do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
       visit merchant_order_path(@order_2)
     end
-
-#     As a merchant
-# When I visit an order show page from my dashboard
 # For each item of mine in the order
 # If the user's desired quantity is equal to or less than my current inventory quantity for that item
-# And I have not already "fulfilled" that item:
+
 # - Then I see a button or link to "fulfill" that item
 # - When I click on that link or button I am returned to the order show page
 # - I see the item is now fulfilled
@@ -57,8 +54,16 @@ RSpec.describe 'As a merchant: ' do
     it "if the user's desired quantity <= merchant's current inventory, I see a button to fulfill the item " do
       expect(page).to_not have_content(@item_1.name)
 
+      within "#items-index-#{@item_2.id}" do
+        expect(page).to have_content("Status: Not Fulfilled")
+      end
+
       within "#items-index-#{@item_3.id}" do
-        expect(page).to have_content("Status: #{@item_3.item_status(@item_3)}")
+        expect(page).to have_content("Status: Fulfilled")
+      end
+
+      within "#items-index-#{@item_4.id}" do
+        expect(page).to have_content("Status: Not Fulfilled")
       end
 
     end

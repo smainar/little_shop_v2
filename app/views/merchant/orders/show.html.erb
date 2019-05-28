@@ -9,5 +9,11 @@
     <%= image_tag item.image || @default_image, alt: "image of #{item.name}" %>
     <p>Purchase Price: <%= number_to_currency(item.purchase_price(@order)) %></p>
     <p>Purchase Quantity: <%= item.purchase_quantity(@order) %></p>
+    <% if item.item_status(@order) == true %>
+      <p>Status: Fulfilled</p>
+    <% else %>
+    <p>Status: Not Fulfilled</p>
+    <% end %>
+
   </div>
 <% end %>
