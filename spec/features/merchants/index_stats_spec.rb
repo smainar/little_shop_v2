@@ -119,7 +119,17 @@ RSpec.describe "Merchant Index Statistics", type: :feature do
       end
     end
 
-    xit 'shows top 3 cities where any orders were shipped (by number of orders, also Springfield, MI should not be grouped with Springfield, CO), and the count of orders'
+    it 'shows top 3 cities where any orders were shipped (by number of orders, also Springfield, MI should not be grouped with Springfield, CO), and the count of orders' do
+      visit merchants_path
+
+      within("#statistics") do
+        within("#top-3-cities") do
+          expect(page.all("li")[0]).to have_content("Topeka, KS: 3 order(s)")
+          expect(page.all("li")[1]).to have_content("Denver, CO: 2 order(s)")
+          expect(page.all("li")[2]).to have_content("Springfield, IL: 1 order(s)")
+        end
+      end
+    end
 
     xit 'shows top 3 merchants who were fastest at fulfilling items in an order, and their times'
     xit 'worst 3 merchants who were slowest at fulfilling items in an order, and their times'
