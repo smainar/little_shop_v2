@@ -1,16 +1,5 @@
 require 'rails_helper'
 
-# As a merchant
-# When I visit my dashboard, I see an area with statistics:
-# - top 5 items I have sold by quantity, and the quantity of each that I've sold
-# - total quantity of items I've sold, and as a percentage against my sold units plus remaining inventory (eg, if I have sold 1,000 things and still have 9,000 things in inventory, the message would say something like "Sold 1,000 items, which is 10% of your total inventory")
-# - top 3 states where my items were shipped, and their quantities
-# - top 3 city/state where my items were shipped, and their quantities (Springfield, MI should not be grouped with Springfield, CO)
-# - name of the user with the most orders from me (pick one if there's a tie), and number of orders
-# - name of the user who bought the most total items from me (pick one if there's a tie), and the total quantity
-# - top 3 users who have spent the most money on my items, and the total amount they've spent
-
-
 RSpec.describe "As a merchant" do
   describe "When I visit my dashboard, I see an area with statistics" do
     before :each do
@@ -48,25 +37,25 @@ RSpec.describe "As a merchant" do
       @order_8 = create(:packaged_order, user: @user_2)
 
       #shipped orders
-      @order_item_1 = create(:fulfilled_order_item, item: @item_1, quantity: 2, order: @order_1)
-      @order_item_2 = create(:fulfilled_order_item, item: @item_2, quantity: 7, order: @order_2)
-      @order_item_3 = create(:fulfilled_order_item, item: @item_5, quantity: 10, order: @order_3)
-      @order_item_4 = create(:fulfilled_order_item, item: @item_4, quantity: 5, order: @order_4)
-      @order_item_5 = create(:fulfilled_order_item, item: @item_3, quantity: 4, order: @order_4)
-      @order_item_6 = create(:fulfilled_order_item, item: @item_3, quantity: 2, order: @order_5)
+      @order_item_1 = create(:fulfilled_order_item, item: @item_1, quantity: 2, order: @order_1, price_per_item: 100)
+      @order_item_2 = create(:fulfilled_order_item, item: @item_2, quantity: 7, order: @order_2, price_per_item: 100)
+      @order_item_3 = create(:fulfilled_order_item, item: @item_5, quantity: 10, order: @order_3, price_per_item: 100)
+      @order_item_4 = create(:fulfilled_order_item, item: @item_4, quantity: 5, order: @order_4, price_per_item: 100)
+      @order_item_5 = create(:fulfilled_order_item, item: @item_3, quantity: 4, order: @order_4, price_per_item: 100)
+      @order_item_6 = create(:fulfilled_order_item, item: @item_3, quantity: 2, order: @order_5, price_per_item: 100)
 
-      @order_item_13 = create(:fulfilled_order_item, item: @item_2, quantity: 5, order: @order_1)
-      @order_item_14 = create(:fulfilled_order_item, item: @item_6, quantity: 3, order: @order_1)
-      @order_item_15 = create(:fulfilled_order_item, item: @item_8, quantity: 18, order: @order_1)
+      @order_item_13 = create(:fulfilled_order_item, item: @item_2, quantity: 5, order: @order_1, price_per_item: 100)
+      @order_item_14 = create(:fulfilled_order_item, item: @item_6, quantity: 3, order: @order_1, price_per_item: 100)
+      @order_item_15 = create(:fulfilled_order_item, item: @item_8, quantity: 18, order: @order_1, price_per_item: 100)
 
       #not shipped orders
-      @order_item_7 = create(:order_item, item: @item_1, order: @order_6)
-      @order_item_8 = create(:order_item, item: @item_1, order: @order_7)
-      @order_item_9 = create(:order_item, item: @item_1, order: @order_8)
+      @order_item_7 = create(:order_item, item: @item_1, order: @order_6, price_per_item: 100)
+      @order_item_8 = create(:order_item, item: @item_1, order: @order_7, price_per_item: 100)
+      @order_item_9 = create(:order_item, item: @item_1, order: @order_8, price_per_item: 100)
 
-      @order_item_10 = create(:fulfilled_order_item, item: @item_2, order: @order_6)
-      @order_item_11 = create(:fulfilled_order_item, item: @item_2, order: @order_7)
-      @order_item_12 = create(:fulfilled_order_item, item: @item_2, order: @order_8)
+      @order_item_10 = create(:fulfilled_order_item, item: @item_2, order: @order_6, price_per_item: 100)
+      @order_item_11 = create(:fulfilled_order_item, item: @item_2, order: @order_7, price_per_item: 100)
+      @order_item_12 = create(:fulfilled_order_item, item: @item_2, order: @order_8, price_per_item: 100)
 
       #include previously active item that were shipped. Item is now inactive.
     end
@@ -127,8 +116,32 @@ RSpec.describe "As a merchant" do
 
       visit merchant_dashboard_path
 
-      expect(page).to have_content(@user_3.name)
-      expect(page).to have_content(@user_3.orders.count)
+      within ".top-user-with-most-orders" do
+        expect(page).to have_content("User: #{@user_3.name} Count: 2")
+      end
     end
+
+    it "displays user with the most total items and the total quantity" do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_1)
+
+      visit merchant_dashboard_path
+
+      within ".top-user-with-most-items" do
+        expect(page).to have_content("User: #{@user_3.name} Count: 12")
+      end
+    end
+
+    it "displays top 3 users with most money spent and the total" do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_1)
+
+      visit merchant_dashboard_path
+
+      within ".top-user-with-most-money" do
+        expect(page.all('li')[0]).to have_content("User: #{@user_3.name}, Total Money Spent: 1200")
+        expect(page.all('li')[1]).to have_content("User: #{@user_1.name}, Total Money Spent: 1000")
+        expect(page.all('li')[2]).to have_content("User: #{@user_4.name}, Total Money Spent: 900")
+      end
+    end
+
   end
 end
