@@ -28,7 +28,7 @@ RSpec.describe User, type: :model do
         regular_active_user = create(:user)
         active_admin = create(:admin)
 
-        expect(User.active_merchants).to eq([active_merchant_1, active_merchant_2])
+        expect(User.active_merchants.order(:id)).to eq([active_merchant_1, active_merchant_2])
       end
     end
 
@@ -39,7 +39,7 @@ RSpec.describe User, type: :model do
         inactive_merchant_2 = create(:inactive_merchant)
         inactive_user = create(:inactive_user)
 
-        expect(User.inactive_merchants).to eq([inactive_merchant_1, inactive_merchant_2])
+        expect(User.inactive_merchants.order(:id)).to eq([inactive_merchant_1, inactive_merchant_2])
       end
     end
 
@@ -188,6 +188,10 @@ RSpec.describe User, type: :model do
         @merchant_4 = create(:merchant) # avg_time = 5 days
         @item_4 = create(:item, user: @merchant_4)
         @order_item_6 = create(:fulfilled_order_item, item: @item_4, created_at: 6.days.ago, updated_at: 1.days.ago)
+
+        @merchant_5 = create(:merchant) # no fulfilled order_items
+        @item_5 = create(:item, user: @merchant_5)
+        @order_item_6 = create(:order_item, item: @item_5, created_at: 1.days.ago, updated_at: 1.days.ago)
       end
 
       it '::average_fulfillment_times returns the average_fulfillment_time for each merchant' do

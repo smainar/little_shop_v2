@@ -19,7 +19,7 @@ class User < ApplicationRecord
   has_secure_password
 
   def self.active_merchants
-    where(active: true, role: 'merchant').order(:name)
+    where(active: true, role: 'merchant')
   end
 
   def self.inactive_merchants
@@ -70,6 +70,7 @@ class User < ApplicationRecord
     self.joins(items: :order_items)
         .select("AVG(order_items.updated_at - order_items.created_at) AS avg_time, users.*")
         .group(:id)
+        .where("order_items.fulfilled = true")
   end
 
   def self.fastest_3_merchants

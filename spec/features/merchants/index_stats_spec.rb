@@ -151,6 +151,10 @@ RSpec.describe "Merchant Index Statistics", type: :feature do
       @merchant_4 = create(:merchant) # avg_time = 5 days
       @item_4 = create(:item, user: @merchant_4)
       @order_item_6 = create(:fulfilled_order_item, item: @item_4, created_at: 6.days.ago, updated_at: 1.days.ago)
+
+      @merchant_5 = create(:merchant) # no fulfilled order_items
+      @item_5 = create(:item, user: @merchant_5)
+      @order_item_6 = create(:order_item, item: @item_5, created_at: 1.days.ago, updated_at: 1.days.ago)
     end
 
     it 'shows top 3 merchants who were fastest at fulfilling items in an order, and their times' do
