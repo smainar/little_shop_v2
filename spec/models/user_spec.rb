@@ -153,7 +153,7 @@ RSpec.describe User, type: :model do
         expect(actual_counts).to eq(top_3_states_order_counts)
       end
 
-      it '::top_3_cities shows shows the top 3 city/state combos where any orders were shipped (by number of orders), and count of orders' do
+      it '::top_3_cities shows the top 3 city/state combos where any orders were shipped (by number of orders), and count of orders' do
         top_3_cities = ["Topeka", "Denver", "Springfield"]
         top_3_states = ["KS", "CO", "IL"]
         top_3_cities_order_counts = [3, 2, 1]
@@ -166,6 +166,49 @@ RSpec.describe User, type: :model do
 
         actual_counts = User.top_3_cities.map(&:order_count)
         expect(actual_counts).to eq(top_3_cities_order_counts)
+      end
+    end
+
+    describe "merchant speed stats" do
+      before(:each) do
+        @merchant_1 = create(:merchant) # avg_time = 2 days
+        @item_1 = create(:item, user: @merchant_1)
+        @order_item_1 = create(:fulfilled_order_item, item: @item_1, created_at: 3.days.ago, updated_at: 1.days.ago)
+        @order_item_2 = create(:fulfilled_order_item, item: @item_1, created_at: 2.days.ago, updated_at: 1.days.ago)
+        @order_item_3 = create(:fulfilled_order_item, item: @item_1, created_at: 4.days.ago, updated_at: 1.days.ago)
+
+        @merchant_2 = create(:merchant) # avg_time = 4 days
+        @item_2 = create(:item, user: @merchant_2)
+        @order_item_4 = create(:fulfilled_order_item, item: @item_2, created_at: 5.days.ago, updated_at: 1.days.ago)
+
+        @merchant_3 = create(:merchant) # avg_time = 1 day
+        @item_3 = create(:item, user: @merchant_3)
+        @order_item_5 = create(:fulfilled_order_item, item: @item_3, created_at: 2.days.ago, updated_at: 1.days.ago)
+
+        @merchant_4 = create(:merchant) # avg_time = 5 days
+        @item_4 = create(:item, user: @merchant_4)
+        @order_item_6 = create(:fulfilled_order_item, item: @item_4, created_at: 6.days.ago, updated_at: 1.days.ago)
+      end
+
+      it '::average_fulfillment_times returns the average_fulfillment_time for each merchant' do
+        merchants = [@merchant_1, @merchant_2, @merchant_3, @merchant_4]
+        avg_times = [2, 4, 1, 5]
+
+        merchants_actual = User.average_fulfillment_times.order(:id)
+        times_actual = User.average_fulfillment_times.order(:id).map do |merchant|
+          merchant.avg_time.to_i
+        end
+
+        expect(merchants_actual).to eq(merchants)
+        expect(times_actual).to eq(avg_times)
+      end
+
+      xit '::fastest_3_merchants shows top 3 merchants who were fastest at fulfilling items in an order, and their times' do
+        # to-do
+      end
+
+      xit '::slowest_3_merchants shows worst 3 merchants who were slowest at fulfilling items in an order, and their times' do
+        # to-do
       end
     end
   end

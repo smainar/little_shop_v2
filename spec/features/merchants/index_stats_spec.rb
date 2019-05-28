@@ -132,6 +132,6 @@ RSpec.describe "Merchant Index Statistics", type: :feature do
     end
 
     xit 'shows top 3 merchants who were fastest at fulfilling items in an order, and their times'
-    xit 'worst 3 merchants who were slowest at fulfilling items in an order, and their times'
+    xit 'shows worst 3 merchants who were slowest at fulfilling items in an order, and their times'
   end
 end

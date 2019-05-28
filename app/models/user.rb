@@ -66,6 +66,18 @@ class User < ApplicationRecord
         .limit(3)
   end
 
+  def self.average_fulfillment_times
+    self.joins(items: :order_items).select("AVG(order_items.updated_at - order_items.created_at) AS avg_time, users.*").group(:id)
+  end
+
+  def self.fastest_3_merchants
+    # to-do
+  end
+
+  def self.slowest_3_merchants
+    # to-do
+  end
+
   def total_revenue
     items.joins(:order_items)
          .joins("JOIN orders ON order_items.order_id = orders.id")
