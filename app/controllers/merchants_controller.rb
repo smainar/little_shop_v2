@@ -5,5 +5,6 @@ class MerchantsController < ApplicationController
     @top_3_orders_by_quantity = Order.top_3_by_quantity
     @top_3_merchants_by_revenue = User.top_3_by_revenue
     @top_3_merchants_by_quantity = User.top_3_merch_by_quantity
+    @top_3_states = User.top_3_states
   end
 end

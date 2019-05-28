@@ -20,7 +20,7 @@ RSpec.describe "Merchant Index Statistics", type: :feature do
       @item_3 = create(:item, user: @merchant_5)
 
       ####### @user_1
-      @user_1 = create(:user)
+      @user_1 = create(:user, city: "Springfield", state: "KS")
 
       @order_1 = create(:shipped_order, user: @user_1) # total_quantity = 101
       # merchant_1:
@@ -29,7 +29,7 @@ RSpec.describe "Merchant Index Statistics", type: :feature do
       @oi_2 = create(:fulfilled_order_item, order: @order_1, item: @item_2, quantity: 1, price_per_item: 30.0)
 
       ####### @user_2
-      @user_2 = create(:user)
+      @user_2 = create(:user, city: "Springfield", state: "IL")
 
       @order_2 = create(:shipped_order, user: @user_2) # total_quantity = 2200
       # merchant_1:
@@ -38,7 +38,7 @@ RSpec.describe "Merchant Index Statistics", type: :feature do
       @oi_3 = create(:fulfilled_order_item, order: @order_2, item: @item_3, quantity: 2000, price_per_item: 100.0)
 
       ####### @user_3
-      @user_3 = create(:user)
+      @user_3 = create(:user, city: "Topeka", state: "KS")
 
       @order_3 = create(:order, user: @user_3) # pending order
       # merchant_3 / pending order -- should not be included in stats for sales:
@@ -56,8 +56,11 @@ RSpec.describe "Merchant Index Statistics", type: :feature do
       # merchant_2:
       @oi_9 = create(:fulfilled_order_item, order: @order_7, item: @item_2, quantity: 1, price_per_item: 1.0)
 
+      @order_9 = create(:shipped_order, user: @user_3)
+      @order_10 = create(:shipped_order, user: @user_3)
+
       ####### @user_4
-      @user_4 = create(:user)
+      @user_4 = create(:user, city: "Denver", state: "CO")
 
       @order_8 = create(:shipped_order, user: @user_4) # total_quantity = 1
       # merchant_3:
@@ -104,7 +107,18 @@ RSpec.describe "Merchant Index Statistics", type: :feature do
       end
     end
 
-    xit 'shows top 3 states where any orders were shipped (by number of orders), and count of orders'
+    it 'shows top 3 states where any orders were shipped (by number of orders), and count of orders' do
+      visit merchants_path
+
+      within("#statistics") do
+        within("#top-3-states") do
+          expect(page.all("li")[0]).to have_content("KS: 4 order(s)")
+          expect(page.all("li")[1]).to have_content("CO: 2 order(s)")
+          expect(page.all("li")[2]).to have_content("IL: 1 order(s)")
+        end
+      end
+    end
+
     xit 'shows top 3 cities where any orders were shipped (by number of orders, also Springfield, MI should not be grouped with Springfield, CO), and the count of orders'
 
     xit 'shows top 3 merchants who were fastest at fulfilling items in an order, and their times'

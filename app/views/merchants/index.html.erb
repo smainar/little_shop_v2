@@ -25,6 +25,14 @@
       <% end %>
     </ol>
   </div>
+  <div id="top-3-states">
+    <h3>Top 3 States by Number of Orders</h3>
+    <ol>
+      <% @top_3_states.each do |state| %>
+        <li><%= state.state %>: <%= state.order_count %> order(s)</li>
+      <% end %>
+    </ol>
+  </div>
 </div>
 <% if current_admin? %>
   <h2>Active Merchants</h2>
