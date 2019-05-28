@@ -66,7 +66,7 @@ class User < ApplicationRecord
   end
 
   def self.top_3_cities
-    thing = self.joins(:orders)
+   self.joins(:orders)
         .select("users.state, users.city, count(orders) as order_count")
         .group("users.state, users.city")
         .where("orders.status = 2")
