@@ -30,7 +30,6 @@ RSpec.describe "Merchant Items Index", type: :feature do
     it "has info for all the items I'm selling" do
       visit merchant_items_path
 
-      expect(page).to have_link("Add a New Item")
       expect(page).to_not have_content(@other_merchant_item.id)
 
       within("#item-#{@active_never_ordered_item.id}") do
@@ -80,6 +79,14 @@ RSpec.describe "Merchant Items Index", type: :feature do
         expect(page).to_not have_button("Disable Item")
         expect(page).to_not have_button("Delete Item")
       end
+    end
+
+    it "has a link to the new item form" do
+      visit merchant_items_path
+
+      click_link("Add a New Item")
+
+      expect(current_path).to eq(new_merchant_item_path)
     end
   end
 end
