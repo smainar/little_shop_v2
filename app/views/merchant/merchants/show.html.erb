@@ -12,7 +12,7 @@
 
 <p>Sold <%= @merchant.total_sold %> items, which is <%= number_to_percentage(@merchant.inventory_ratio, precision: 0) %> of your total inventory.</p>
 
-<% if @merchant.top_user_items.name %>
+<% if @merchant.top_user_items %>
 
 <div class='top-3-states'>
   <h4>Top 3 States </h4>
