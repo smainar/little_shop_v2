@@ -1,13 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe "Downgrading a merchant", type: :feature do
-  before(:each) do
-    @merchant = create(:merchant)
-
-    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
-  end
-
   context "as a merchant" do
+    before(:each) do
+      @merchant = create(:merchant)
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
+    end
+    
     it "I don't see a button to downgrade my account" do
       visit merchant_dashboard_path
 
