@@ -7,7 +7,7 @@ RSpec.describe "Merchant Items Index", type: :feature do
 
       @other_merchant_item = create(:item)
 
-      @active_never_ordered_item = create(:item, user: @merchant)
+      @active_never_ordered_item = create(:item, user: @merchant, name: "chairs")
       @disabled_never_ordered_item = create(:inactive_item, user: @merchant)
       @active_ordered_item = create(:item, user: @merchant)
       @disabled_ordered_item = create(:inactive_item, user: @merchant)
@@ -80,6 +80,17 @@ RSpec.describe "Merchant Items Index", type: :feature do
         expect(page).to_not have_button("Disable Item")
         expect(page).to_not have_button("Delete Item")
       end
+    end
+
+    it "can delete item on item index page" do
+      visit merchant_items_path
+      name = @active_never_ordered_item.name
+
+      within("#item-#{@active_never_ordered_item.id}") do
+        click_on "Delete Item"
+      end
+      
+      expect(page).to_not have_content(name)
     end
   end
 end
