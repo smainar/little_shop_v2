@@ -48,6 +48,13 @@ class Merchant::ItemsController < Merchant::BaseController
 
   def edit
     @item = Item.find(params[:id])
+    if @item.user != current_user
+      render file: "/public/404", status: 404
+    end
+  end
+
+  def update
+    redirect_to merchant_items_path
   end
 
   private
