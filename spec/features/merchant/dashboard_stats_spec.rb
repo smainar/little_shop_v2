@@ -77,7 +77,7 @@ RSpec.describe "As a merchant" do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_1)
       visit merchant_dashboard_path
 
-      expect(page).to have_content("Sold #{@merchant_1.total_sold} items, which is #{number_to_percentage(@merchant_1.inventory_ratio, precision: 0)} of your total inventory")
+      expect(page).to have_content("Sold #{@merchant_1.total_sold} item(s), which is #{number_to_percentage(@merchant_1.inventory_ratio, precision: 0)} of your total inventory")
     end
 
     it "displays top 3 states with their quantities" do
