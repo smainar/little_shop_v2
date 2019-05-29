@@ -79,8 +79,13 @@ RSpec.describe Item, type: :model do
       order_item_1 = create(:fulfilled_order_item, item: item_1, created_at: 3.days.ago, updated_at: 1.days.ago)
       order_item_2 = create(:fulfilled_order_item, item: item_1, created_at: 2.days.ago, updated_at: 1.days.ago)
       order_item_3 = create(:fulfilled_order_item, item: item_1, created_at: 4.days.ago, updated_at: 1.days.ago)
+      # not fulfilled: should not be included
+      order_item_4 = create(:order_item, item: item_1, created_at: 1.days.ago, updated_at: 1.days.ago)
 
       expect(item_1.average_fulfillment_time).to eq(2)
+
+      item_2 = create(:item, user: merchant_1)
+      expect(item_2.average_fulfillment_time).to eq(nil)
     end
 
     it "#order_count returns how many orders include that item" do

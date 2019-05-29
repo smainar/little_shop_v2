@@ -27,7 +27,9 @@ class Item < ApplicationRecord
   end
 
   def average_fulfillment_time
-    order_items.average("updated_at - created_at").to_i
+    if order_items.where("order_items.fulfilled").count > 0
+      order_items.where("order_items.fulfilled").average("updated_at - created_at").to_i
+    end
   end
 
   def order_count
