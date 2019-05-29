@@ -1,7 +1,7 @@
 <h1>Items I'm Selling</h1>
 
 <%= link_to "Add a New Item", new_merchant_item_path  %>
-
+<div class='merchant-items'>
 <% @items.each do |item| %>
   <div id="item-<%= item.id %>">
     <h3><%= link_to item.name, item_path(item) %></h3>
@@ -21,4 +21,5 @@
       <%= button_to "Delete Item", merchant_delete_item_path(item), method: "delete", data: { confirm: 'Are you sure?', disable_with: 'loading...' } %>
     <% end %>
   </div>
+</div>
 <% end %>
