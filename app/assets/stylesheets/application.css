@@ -19,13 +19,6 @@ body {
   margin-top: 40px;
 }
 
-img {
-   height: 250px;
-   padding: 20px;
-   align-content: center;
-   object-fit: contain;
- }
-
 .navbar {
   background-color: #e3f2fd;
 }
