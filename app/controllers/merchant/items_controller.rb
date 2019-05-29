@@ -1,6 +1,6 @@
 class Merchant::ItemsController < Merchant::BaseController
   def index
-    @items = current_user.items.reload
+    @items = current_user.items
   end
 
   def new
