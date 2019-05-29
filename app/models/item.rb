@@ -8,7 +8,7 @@ class Item < ApplicationRecord
                         :description,
                         :inventory
 
-  validates :price, numericality: { greater_than_or_equal_to: 0.0 }
+  validates :price, numericality: { greater_than_or_equal_to: 0.01 }
   validates :inventory, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
   DEFAULT_IMAGE = "https://www.ultimate-realty.com/wp-content/uploads/sites/6518/2019/04/Image-Coming-Soon.png"

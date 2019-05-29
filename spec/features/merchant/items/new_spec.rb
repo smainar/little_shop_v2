@@ -128,7 +128,7 @@ RSpec.describe "Merchant Adds an Item", type: :feature do
       end
     end
 
-    it "Price must be >= 0.00" do
+    it "Price must be > 0.00" do
       visit new_merchant_item_path
 
       expect(current_path).to eq('/dashboard/items/new')
@@ -142,20 +142,20 @@ RSpec.describe "Merchant Adds an Item", type: :feature do
       click_on "Create Item"
 
       expect(page).to have_field "item[description]"
-      expect(page).to have_content("Price must be greater than or equal to 0.0")
+      expect(page).to have_content("Price must be greater than or equal to 0.01")
       expect(Item.count).to eq(0)
 
-      # fill_in "item[name]", with: "Big Couch"
-      # fill_in "item[description]", with: "It's a very large couch"
-      # fill_in "item[image]", with: "https://cdn.sofadreams.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/m/e/megasofa_leder_wohnlandschaft_big_couch_concept_beleuchtung_schwarz_1_1.jpg"
-      # fill_in "item[price]", with: "0.00"
-      # fill_in "item[inventory]", with: "75"
-      #
-      # click_on "Create Item"
-      #
-      # expect(page).to have_field "item[description]"
-      # expect(page).to have_content("SOME ERROR")
-      # expect(Item.count).to eq(0)
+      fill_in "item[name]", with: "Big Couch"
+      fill_in "item[description]", with: "It's a very large couch"
+      fill_in "item[image]", with: "https://cdn.sofadreams.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/m/e/megasofa_leder_wohnlandschaft_big_couch_concept_beleuchtung_schwarz_1_1.jpg"
+      fill_in "item[price]", with: "0.00"
+      fill_in "item[inventory]", with: "75"
+
+      click_on "Create Item"
+
+      expect(page).to have_field "item[description]"
+      expect(page).to have_content("Price must be greater than or equal to 0.01")
+      expect(Item.count).to eq(0)
     end
 
     xit "Inventory must be >= 0" do
