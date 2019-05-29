@@ -13,13 +13,28 @@
  *= require_tree .
  *= require_self
  */
+
+body {
+  padding: 20px;
+  margin-top: 40px;
+}
+
+img {
+   height: 250px;
+   padding: 20px;
+   align-content: center;
+   object-fit: contain;
+ }
+
+.navbar {
+  background-color: #e3f2fd;
+}
+
 .quantities {
   display: flex;
 }
 
-img {
-  height: 250px;
+#landing-page-image {
   padding: 20px;
   align-content: center;
-  object-fit: contain;
 }
