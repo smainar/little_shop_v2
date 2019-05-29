@@ -6,4 +6,7 @@ class Admin::UsersController < Admin::BaseController
   def index
     @users = User.regular_users
   end
+
+  def upgrade
+  end
 end
