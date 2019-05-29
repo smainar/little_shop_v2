@@ -69,6 +69,22 @@ class Order < ApplicationRecord
         .sum("order_items.quantity * order_items.price_per_item")
   end
 
+  def self.packaged_orders
+    where(status: "packaged")
+  end
+
+  def self.pending_orders
+    where(status: "pending")
+  end
+
+  def self.shipped_orders
+    where(status: "shipped")
+  end
+
+  def self.cancelled_orders
+    where(status: "cancelled")
+  end
+
   def self.pending_merchant_orders(merchant)
     Order.joins(items: :order_items)
         .where(status: 0)

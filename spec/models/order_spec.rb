@@ -94,13 +94,11 @@ RSpec.describe Order, type: :model do
     end
 
     it '::pending_orders returns pending orders' do
-      pending_order_1 = create(:pending_order)
-      pending_order_2 = create(:pending_order)
-      expect(Order.pending_orders).to eq([pending_order_1, pending_order_2])
+      expect(Order.pending_orders).to eq([@order_3])
     end
 
     it '::shipped_orders returns shipped orders' do
-      expect(Order.shipped_orders).to eq([@order_1, @order_2, @order_6, @order_7, @order_8])
+      expect(Order.shipped_orders).to eq([@order_1, @order_2, @order_7, @order_8, @order_6 ])
     end
 
     it '::cancelled_orders returns cancelled orders' do

@@ -9,7 +9,7 @@ RSpec.describe 'Admin Order Index', type: :feature do
       user_w_order_3 = create(:user)
       user_w_order_4 = create(:user)
       order_1 = create(:packaged_order, user: user_w_order_1)
-      order_2 = create(:pending_order, user: user_w_order_2)
+      order_2 = create(:order, user: user_w_order_2)
       order_3 = create(:shipped_order, user: user_w_order_3)
       order_4 = create(:cancelled_order, user: user_w_order_4)
 
