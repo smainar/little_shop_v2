@@ -1,60 +1,75 @@
-# Little Shop of Orders, v2
-BE Mod 2 Week 4/5 Group Project
+# README
+# Project: Little Shop of Furniture
 
-## Background and Description
+The Little Shop of Furniture is a fictitious e-commerce application that has admins, merchants, registered users, and visitors. Our application allows admins to manage all users.
+Merchants can fulfill orders, change order status and enable/disable items.  Registered users and visitors can browse the items, place items in their shopping cart and checkout.
+Customers of the site can register and log in.
 
-"Little Shop of Orders" is a fictitious e-commerce platform where users can register to place items into a shopping cart and 'check out'. Merchant users can mark their items as 'fulfilled'; the last merchant to mark items in an order as 'fulfilled' will automatically set the order status to "shipped". Each user role will have access to some or all CRUD functionality for application models.
+## Visit our app on Heroku
+https://little-shop-of-furniture.herokuapp.com/
 
-Students will be put into 3 or 4 person groups to complete the project.
+## Intent  
 
-## Learning Goals
-- Advanced Rails routing (nested resources and namespacing)
-- Advanced ActiveRecord for calculating statistics
-- Average HTML/CSS layout and design for UX/UI
-- Session management and use of POROs for shopping cart
-- Authentication, Authorization, separation of user roles and permissions
+This group project was completed in 10 days as a requirement for Module 2 at Turing School of Software and Design.
 
-## Requirements
-- must use Rails 5.1.x
-- must use PostgreSQL
-- must use 'bcrypt' for authentication
-- all controller and model code must be tested via feature tests and model tests, respectively
-- must use good GitHub branching, team code reviews via GitHub comments, and use of a project planning tool like waffle.io
-- must include a thorough README to describe their project
+The project was built using Rails which implements the following:
+* MVC design pattern.
+* Object oriented programming principles.
+* CRUD functions - create, read, update, delete.
+* Behavior Driven Development - BDD.
+* Advanced database queries and calculations using ActiveRecord.
+* Authentication using bcrypt.
+* Session management to implement authorization for various users and shopping cart experience.
+* Feature and model testing with test coverage at 99% or better.
+* FactoryBot to create objects for efficient testing.
+* Version control using GitHub.
+* Project management tool: GitHub Projects.
 
-## Permitted
-- use any gems we've used in class (pry, launchy, shoulda-matchers, etc)
-- use FactoryBot to speed up your test development
-- use "rails generators" to speed up your app development
+## Contributors
+* Alexandra Chakeres - @chakeresa
+* Billy Urrutia - @CosmicSpagetti
+* Smitha Hosmani - @hsmitha26
+* Stella Mainar - @smainar
+* Michael Karnes  - @mikekarnes123
 
-## Not Permitted
-- do not use JavaScript for pagination or sorting controls
+## System Requirements
+* Rails 5.x
+* ActiveRecord - PostgreSQL
 
-## Permission
-- if there is a specific gem you'd like to use in the project, please get permission from your instructors first
+## Gems Used
+* Bcrypt
+* Capybara
+* FactoryBot
+* Launchy
+* Pry
+* RSpec
+* Shoulda Matchers
+* Simplecov
 
-## Schema
+## GitHub Repository
+https://github.com/hsmitha26/little_shop_v2
 
-You should use this schema:
+## Database Diagram
+![alt text](app/assests/images/little-shop-schema.png)
 
-![Imgur](https://i.imgur.com/kEcAZdw.png)
+## Instructions
+  ### How to setup:
+      1. Clone the GitHub repository.
+      2. Go to the directory with the new repo.  Run bundle install.
+      3. Run rake db:{create,migrate,seed}
+      4. Run rails s, visit localhost:3000 to view the app and navigate on your local server.
 
-## User Stories
+  ### Run tests:
+        1. Run rspec.
+        2. To run a single test, example: rspec ./spec/features/items/new_spec.rb:11
+        3. The above example can be edited to run spec folders and files.
 
-Your team may not be able to work on these stories in numeric order. Work together to determine the best starting place and work from there.
+  ### Sample login credentials for users:
+        1. Login as an admin: email admin@email.com, password: password
+        2. Login as a merchant: email merchant@email.com, password: pw123
+        3. Login as a customer: *create your own user account*
 
-- [Little Shop v2 stories](stories.md)
+## Ready to shop?
+To visit our shop, click on the link below:
 
-
-## Rubric, Evaluations, and final Assessment
-
-Each team will meet with an instructor at least two times before the project is due.
-
-- At first team progress check-in, about 33% of the work is expected to be completed satisfactorily
-- At second team progress check-in, about 66% of the work is expected to be completed satisfactorily
-- Final submission will expect 100% completion
-
-Each team will have a rubric uploaded to [https://github.com/turingschool/ruby-submissions](https://github.com/turingschool/ruby-submissions)
-
-
-View the [Little Shop Rubric](LittleShopRubric.pdf)
+https://little-shop-of-furniture.herokuapp.com/
