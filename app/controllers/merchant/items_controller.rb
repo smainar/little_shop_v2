@@ -46,6 +46,30 @@ class Merchant::ItemsController < Merchant::BaseController
     redirect_to merchant_items_path
   end
 
+  def edit
+    @item = Item.find(params[:id])
+    if @item.user != current_user
+      render file: "/public/404", status: 404
+      return
+    end
+  end
+
+  def update
+    @item = Item.find(params[:id])
+    if @item.user != current_user
+      render file: "/public/404", status: 404
+      return
+    end
+
+    if @item.update(update_params)
+      flash[:success] = "#{@item.name} has been updated"
+      redirect_to merchant_items_path
+    else
+      flash[:error] = @item.errors.full_messages.join(". ")
+      render :edit
+    end
+  end
+
   private
 
   def item_params
@@ -54,5 +78,13 @@ class Merchant::ItemsController < Merchant::BaseController
     else
       params.require(:item).permit(:name, :description, :image, :price, :inventory)
     end
+  end
+
+  def update_params
+    altered_params = params
+    if params[:item][:image] == ""
+      altered_params[:item][:image] = nil
+    end
+    altered_params.require(:item).permit(:name, :description, :image, :price, :inventory)
   end
 end
