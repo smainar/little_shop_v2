@@ -47,6 +47,7 @@ class Merchant::ItemsController < Merchant::BaseController
   end
 
   def edit
+    @item = Item.find(params[:id])
   end
 
   private
