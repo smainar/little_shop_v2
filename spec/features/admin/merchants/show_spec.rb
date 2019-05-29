@@ -37,5 +37,17 @@ RSpec.describe "as an admin user", type: :feature do
         expect(page).to have_content("Total Amount Owed: #{number_to_currency(@order.total_value_for_merchant(@merchant))}")
       end
     end
+
+    it "when i visit a user's merchant page i'm redirected to the user profile page" do
+      visit admin_merchant_path(@user)
+
+      expect(current_path).to eq(admin_user_path(@user))
+    end
+
+    it "when i visit a merchant's user page i'm redirected to the merchant page" do
+      visit admin_user_path(@merchant)
+
+      expect(current_path).to eq(admin_merchant_path(@merchant))
+    end
   end
 end

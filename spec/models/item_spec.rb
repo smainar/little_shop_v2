@@ -137,7 +137,7 @@ RSpec.describe Item, type: :model do
       expect(item_2.purchase_quantity(order_2)).to eq(oi_3.quantity)
     end
 
-    it "#item_status returns true/false for fulfilled, #sufficient_inventory returns true/false" do
+    it "#item_fulfilled? returns true/false for fulfilled, #sufficient_inventory returns true/false" do
       user = create(:user)
       order_1 = create(:order, user: user)
       order_4 = create(:order, user: user)
@@ -172,9 +172,9 @@ RSpec.describe Item, type: :model do
       #order 4 with only other merchant's items.
       oi_8 = create(:order_item, item: item_1, order: order_4, quantity: 5, price_per_item: item_1.price)
 
-      expect(item_3.item_status(order_2)).to eq(true)
-      expect(item_2.item_status(order_2)).to eq(false)
-      expect(item_2.item_status(order_1)).to eq(false)
+      expect(item_3.item_fulfilled?(order_2)).to eq(true)
+      expect(item_2.item_fulfilled?(order_2)).to eq(false)
+      expect(item_2.item_fulfilled?(order_1)).to eq(false)
 
       expect(item_4.sufficient_inventory(order_2)).to eq(false)
       expect(item_2.sufficient_inventory(order_2)).to eq(true)

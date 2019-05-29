@@ -1,5 +1,6 @@
 require "rails_helper"
 include ActionView::Helpers::TextHelper
+
 RSpec.describe 'As a merchant: ' do
   describe "when I visit an order show page from my dashboard, " do
     before :each do
@@ -60,7 +61,7 @@ RSpec.describe 'As a merchant: ' do
       end
     end
 
-    it "I click on Fulfill Item, I am returned to the order show page" do
+    it "I click on Fulfill Item, I am returned to the order show page, I see item is now fulfilled." do
       within "#items-index-#{@item_2.id}" do
         expect(page).to have_content("Status: Not Fulfilled")
         expect(page).to have_button("Fulfill Item")
