@@ -91,9 +91,10 @@ RSpec.describe "Merchant Items Index", type: :feature do
 
       expect(page).to have_content("You have deleted #{name}.")
 
-      within ".merchant-items" do 
+      within ".merchant-items" do
         expect(page).to_not have_content(name)
       end
+    end
 
     it "has a link to the new item form" do
       visit merchant_items_path
