@@ -23,4 +23,7 @@ class Admin::MerchantsController < Admin::BaseController
     flash[:notice] = "#{merchant.name}'s account is now enabled.'"
     redirect_to admin_merchants_path
   end
+
+  def downgrade
+  end
 end
