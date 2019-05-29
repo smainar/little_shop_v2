@@ -31,6 +31,31 @@ RSpec.describe "Merchant Edits an Item", type: :feature do
       expect(current_path).to eq(edit_merchant_item_path(@item))
     end
 
+    it "I cannot see the form to edit another merchant's item" do
+      other_merchant = create(:merchant)
+      other_item = create(:item, user: other_merchant)
+
+      visit edit_merchant_item_path(other_item)
+
+      expect(status_code).to eq(404)
+    end
+
+    it "I cannot edit another merchant's item" do
+      visit merchant_items_path
+
+      within("#item-#{@item.id}") do
+        click_button "Edit Item"
+      end
+
+      other_merchant = create(:merchant)
+
+      @item.update(user: other_merchant)
+
+      click_on "Update Item"
+
+      expect(status_code).to eq(404)
+    end
+
     it "I can edit an item's name by filling out a form" do
       visit edit_merchant_item_path(@item)
 
@@ -49,7 +74,7 @@ RSpec.describe "Merchant Edits an Item", type: :feature do
       expect(current_path).to eq(merchant_items_path)
 
       expect(page).to have_content("#{new_name} has been updated")
-      expect(@item.reload.name).to eq(new_item)
+      expect(@item.reload.name).to eq(new_name)
 
       within("#item-#{@item.id}") do
         expect(page).to have_link(new_name)
