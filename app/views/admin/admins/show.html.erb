@@ -1,52 +1,52 @@
-<<h1>Dashboard</h1>
-<<h3>Packaged Orders:</h3>
-<<div class="orders-index">
+<h1>Dashboard</h1>
+<h3>Packaged Orders:</h3>
+<div class="orders-index">
   <% @packaged_orders.each do |order| %>
-  <<section id="order-id-<%= order.id %>">
+  <section id="order-id-<%= order.id %>">
     <%= link_to order.user.name, admin_user_path(order.user) %>
-    <<ul>
-      <<li>Order Id: <%= order.id %></li>
-      <<li>Order Status: <%= order.status %></li>
-      <<li>Created At: <%= order.created_at %></li>
+    <ul>
+      <li>Order Id: <%= order.id %></li>
+      <li>Order Status: <%= order.status %></li>
+      <li>Created At: <%= Date.strptime(order.created_at.to_s) %></li>
     </ul>
   </section>
   <% end %>
 </div>
-<<h3>Pending Orders:</h3>
-<<div class="orders-index">
+<h3>Pending Orders:</h3>
+<div class="orders-index">
   <% @pending_orders.each do |order| %>
-  <<section id="order-id-<%= order.id %>">
+  <section id="order-id-<%= order.id %>">
     <%= link_to order.user.name, admin_user_path(order.user) %>
-    <<ul>
-      <<li>Order Id: <%= order.id %></li>
-      <<li>Order Status: <%= order.status %></li>
-      <<li>Created At: <%= order.created_at %></li>
+    <ul>
+      <li>Order Id: <%= order.id %></li>
+      <li>Order Status: <%= order.status %></li>
+      <li>Created At: <%= Date.strptime(order.created_at.to_s) %></li>
     </ul>
   </section>
   <% end %>
 </div>
-<<h3>Shipped Orders:</h3>
-<<div class="orders-index">
+<h3>Shipped Orders:</h3>
+<div class="orders-index">
   <% @shipped_orders.each do |order| %>
-  <<section id="order-id-<%= order.id %>">
+  <section id="order-id-<%= order.id %>">
     <%= link_to order.user.name, admin_user_path(order.user) %>
-    <<ul>
-      <<li>Order Id: <%= order.id %></li>
-      <<li>Order Status: <%= order.status %></li>
-      <<li>Created At: <%= order.created_at %></li>
+    <ul>
+      <li>Order Id: <%= order.id %></li>
+      <li>Order Status: <%= order.status %></li>
+      <li>Created At: <%= Date.strptime(order.created_at.to_s) %></li>
     </ul>
   </section>
   <% end %>
 </div>
-<<h3>Cancelled Orders:</h3>
-<<div class="orders-index">
+<h3>Cancelled Orders:</h3>
+<div class="orders-index">
   <% @cancelled_orders.each do |order| %>
-  <<section id="order-id-<%= order.id %>">
+  <section id="order-id-<%= order.id %>">
     <%= link_to order.user.name, admin_user_path(order.user) %>
-    <<ul>
-      <<li>Order Id: <%= order.id %></li>
-      <<li>Order Status: <%= order.status %></li>
-      <<li>Created At: <%= order.created_at %></li>
+    <ul>
+      <li>Order Id: <%= order.id %></li>
+      <li>Order Status: <%= order.status %></li>
+      <li>Created At: <%= Date.strptime(order.created_at.to_s) %></li>
     </ul>
   </section>
   <% end %>
