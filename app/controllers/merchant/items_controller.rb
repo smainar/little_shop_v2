@@ -1,6 +1,6 @@
 class Merchant::ItemsController < Merchant::BaseController
   def index
-    @items = current_user.items
+    @items = current_user.items.where.not(id: nil)
   end
 
   def new

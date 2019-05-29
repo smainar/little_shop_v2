@@ -158,8 +158,52 @@ RSpec.describe "Merchant Adds an Item", type: :feature do
       expect(Item.count).to eq(0)
     end
 
-    xit "Inventory must be >= 0" do
-      # to-do
+    it "Inventory must be an integer >= 0" do
+      visit new_merchant_item_path
+
+      expect(current_path).to eq('/dashboard/items/new')
+
+      fill_in "item[name]", with: "Big Couch"
+      fill_in "item[description]", with: "It's a very large couch"
+      fill_in "item[image]", with: "https://cdn.sofadreams.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/m/e/megasofa_leder_wohnlandschaft_big_couch_concept_beleuchtung_schwarz_1_1.jpg"
+      fill_in "item[price]", with: "5"
+      fill_in "item[inventory]", with: "-6"
+
+      click_on "Create Item"
+
+      expect(page).to have_field "item[description]"
+      expect(page).to have_content("Inventory must be greater than or equal to 0")
+      expect(Item.count).to eq(0)
+
+      fill_in "item[name]", with: "Big Couch"
+      fill_in "item[description]", with: "It's a very large couch"
+      fill_in "item[image]", with: "https://cdn.sofadreams.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/m/e/megasofa_leder_wohnlandschaft_big_couch_concept_beleuchtung_schwarz_1_1.jpg"
+      fill_in "item[price]", with: "5.00"
+      fill_in "item[inventory]", with: "5.6"
+
+      click_on "Create Item"
+
+      expect(page).to have_field "item[description]"
+      expect(page).to have_content("Inventory must be an integer")
+      expect(Item.count).to eq(0)
+
+      fill_in "item[name]", with: "Big Couch"
+      fill_in "item[description]", with: "It's a very large couch"
+      fill_in "item[image]", with: "https://cdn.sofadreams.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/m/e/megasofa_leder_wohnlandschaft_big_couch_concept_beleuchtung_schwarz_1_1.jpg"
+      fill_in "item[price]", with: "5.00"
+      fill_in "item[inventory]", with: "0"
+
+      click_on "Create Item"
+
+      expect(current_path).to eq(merchant_items_path)
+
+      new_item = Item.last
+
+      expect(page).to have_content("#{new_item.name} has been added")
+
+      within("#item-#{new_item.id}") do
+        expect(page).to have_link(new_item.name)
+      end
     end
   end
 end
