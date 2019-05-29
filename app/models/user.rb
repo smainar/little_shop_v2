@@ -179,4 +179,9 @@ class User < ApplicationRecord
       .order("total_spent DESC")
       .limit(3)
   end
+
+  def downgrade_to_regular_user
+    update(role: "user")
+    items.update_all(active: false)
+  end
 end
