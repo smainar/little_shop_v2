@@ -21,7 +21,7 @@ RSpec.describe "Merchant Edits an Item", type: :feature do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
     end
 
-    xit 'I can get to the edit item page from the merchant items index' do
+    it 'I can get to the edit item page from the merchant items index' do
       visit merchant_items_path
 
       within("#item-#{@item.id}") do
