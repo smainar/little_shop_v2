@@ -1,5 +1,62 @@
 <%= link_to 'View all items for sale', merchant_items_path %>
 
+<h2>Statistics</h2>
+<div id="stats-top-five">
+  <h4>Top five items </h4>
+  <ol>
+    <% @merchant.top_five_items.each do |item|  %>
+      <li>Item: <%= item.name %>, Quantity: <%= item.total_sold %></li>
+    <% end %>
+  </ol>
+</div>
+
+<p>Sold <%= @merchant.total_sold %> items, which is <%= number_to_percentage(@merchant.inventory_ratio, precision: 0) %> of your total inventory.</p>
+
+<% if @merchant.top_user_items %>
+
+<div class='top-3-states'>
+  <h4>Top 3 States </h4>
+  <ol>
+    <% @merchant.top_three_states.each do |item| %>
+      <li>State: <%= item.state %> Quantity: <%= item.total_quantity %>
+    <% end %>
+  </ol>
+</div>
+
+<div class='top-3-cities'>
+  <h4>Top 3 Cities </h4>
+  <ol>
+    <% @merchant.top_three_cities.each do |item| %>
+      <li>City: <%= item.city %>, <%= item.state %> Quantity: <%= item.total_quantity %>
+    <% end %>
+  </ol>
+</div>
+
+<div class='top-user-with-most-orders'>
+  <h4>Top User with Most Orders</h4>
+      <p> User: <%= @merchant.top_user_orders.name %> Count: <%= @merchant.top_user_orders.total_orders %> </p>
+      <p>None Yet</p>
+</div>
+
+<div class='top-user-with-most-items'>
+  <h4>Top User with Most Orders</h4>
+      <p> User: <%= @merchant.top_user_items.name %> Count: <%= @merchant.top_user_items.total_items %> </p>
+      <p>None Yet</p>
+</div>
+
+<div class='top-user-with-most-money'>
+  <h4>Top User with Most Orders</h4>
+    <ol>
+    <% @merchant.top_3_spenders.each do |user| %>
+      <li> User: <%= user.name %>, Total Money Spent: <%= user.total_spent %> </li>
+    <% end %>
+      <p>None Yet</p>
+</div>
+
+<% else %>
+  <h4>No Statistics</h4>
+<% end %>
+
 <div id="dashboard-show">
   <h1><%= @merchant.name %></h1>
   <p>Email: <%= @merchant.email %></p>
