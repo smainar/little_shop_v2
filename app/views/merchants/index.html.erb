@@ -2,7 +2,7 @@
 <div id="statistics">
   <h2>Statistics</h2>
   <div id="top-3-orders-by-quantity">
-    <h3>Top 3 Orders by Quantity</h3>
+    <h3>Orders with Highest Quantity</h3>
     <ol>
       <% @top_3_orders_by_quantity.each do |order| %>
         <li>Order <%= order.id %>: <%= order.total_quantity %></li>
@@ -10,7 +10,7 @@
     </ol>
   </div>
   <div id="top-3-merchants-by-revenue">
-    <h3>Top 3 Merchants by Revenue</h3>
+    <h3>Merchants with Most Revenue</h3>
     <ol>
       <% @top_3_merchants_by_revenue.each do |merchant| %>
         <li><%= merchant.name %>: <%= number_to_currency(merchant.total_revenue) %></li>
@@ -18,7 +18,7 @@
     </ol>
   </div>
   <div id="top-3-merchants-by-quantity">
-    <h3>Top 3 Merchants by Quantity</h3>
+    <h3>Merchants with Most Items Sold</h3>
     <ol>
       <% @top_3_merchants_by_quantity.each do |merchant| %>
         <li><%= merchant.name %>: <%= number_to_currency(merchant.total_revenue) %> - <%= merchant.total_quantity %> items sold</li>
@@ -26,7 +26,7 @@
     </ol>
   </div>
   <div id="3-fastest-merchants">
-    <h3>Top 3 Fastest Merchants by Average Fulfillment Time</h3>
+    <h3>Fastest Merchants by Average Fulfillment Time</h3>
     <ol>
       <% @fastest_3_merchants.each do |merchant| %>
         <li><%= merchant.name %>: <%= merchant.avg_time.to_i %> day(s)</li>
@@ -34,7 +34,7 @@
     </ol>
   </div>
   <div id="3-slowest-merchants">
-    <h3>3 Slowest Merchants by Average Fulfillment Time</h3>
+    <h3>Slowest Merchants by Average Fulfillment Time</h3>
     <ol>
       <% @slowest_3_merchants.each do |merchant| %>
         <li><%= merchant.name %>: <%= merchant.avg_time.to_i %> day(s)</li>
@@ -42,7 +42,7 @@
     </ol>
   </div>
   <div id="top-3-states">
-    <h3>Top 3 States by Number of Orders</h3>
+    <h3>States with Highest Number of Orders</h3>
     <ol>
       <% @top_3_states.each do |state| %>
         <li><%= state.state %>: <%= state.order_count %> order(s)</li>
@@ -50,7 +50,7 @@
     </ol>
   </div>
   <div id="top-3-cities">
-    <h3>Top 3 Cities by Number of Orders</h3>
+    <h3>Cities with Highest Number of Orders</h3>
     <ol>
       <% @top_3_cities.each do |city| %>
         <li><%= city.city %>, <%= city.state %>: <%= city.order_count %> order(s)</li>
@@ -62,21 +62,23 @@
   <h2>Active Merchants</h2>
 <% end %>
 <% @active_merchants.each do |merchant| %>
-  <div id="merchant-id-<%= merchant.id %>">
-    <h3>Merchant:
+  <div id="merchant-id-<%= merchant.id %>" class="card mb-3">
+    <div class="row no-gutters col-md-9 card-body">
+      <h3 class="card-title">Merchant:
+        <% if current_admin? %>
+          <%= link_to merchant.name, admin_merchant_path(merchant) %>
+        <% else %>
+          <%= merchant.name %>
+        <% end %>
+      </h3>
+      <ul>
+        <li>Location: <%= merchant.city %>, <%= merchant.state %>.</li>
+        <li>Account Created: <%= Date.strptime(merchant.created_at.to_s) %></li>
+      </ul>
       <% if current_admin? %>
-        <%= link_to merchant.name, admin_merchant_path(merchant) %>
-      <% else %>
-        <%= merchant.name %>
+        <%= button_to "Disable Merchant", admin_disable_merchant_path(merchant), method: "patch", data: { confirm: 'Are you sure?', disable_with: 'loading...' } %>
       <% end %>
-    </h3>
-    <ul>
-      <li>Location: <%= merchant.city %>, <%= merchant.state %>.</li>
-      <li>Account Created: <%= Date.strptime(merchant.created_at.to_s) %></li>
-    </ul>
-    <% if current_admin? %>
-      <%= button_to "Disable Merchant", admin_disable_merchant_path(merchant), method: "patch", data: { confirm: 'Are you sure?', disable_with: 'loading...' } %>
-    <% end %>
+    </div>
   </div>
 <% end %>
 
