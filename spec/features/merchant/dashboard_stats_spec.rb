@@ -142,6 +142,5 @@ RSpec.describe "As a merchant" do
         expect(page.all('li')[2]).to have_content("User: #{@user_4.name}, Total Money Spent: 900")
       end
     end
-
   end
 end
