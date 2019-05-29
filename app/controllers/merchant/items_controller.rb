@@ -1,6 +1,6 @@
 class Merchant::ItemsController < Merchant::BaseController
   def index
-    @items = current_user.items
+    @items = current_user.items.reload
   end
 
   def new
@@ -27,4 +27,12 @@ class Merchant::ItemsController < Merchant::BaseController
 
     redirect_to merchant_items_path
   end
+
+  def destroy
+    item = Item.destroy(params[:id])
+
+    redirect_to merchant_items_path
+  end
+
+
 end
