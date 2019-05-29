@@ -4,7 +4,7 @@ class Merchant::ItemsController < Merchant::BaseController
   end
 
   def new
-    @item = Item.new(user: current_user)
+    @item = current_user.items.new
   end
 
   def create
