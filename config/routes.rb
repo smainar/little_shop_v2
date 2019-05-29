@@ -55,6 +55,7 @@ Rails.application.routes.draw do
     resources :merchants, only: [:index, :show]
     patch '/merchants/:id/disable', to: "merchants#disable", as: :disable_merchant
     patch '/merchants/:id/enable', to: "merchants#enable", as: :enable_merchant
+    patch '/merchants/:id/downgrade', to: "merchants#downgrade", as: :downgrade_merchant
 
     resources :users, only: [:index, :show]
     patch '/users/:id/upgrade', to: "users#upgrade", as: :upgrade_user
