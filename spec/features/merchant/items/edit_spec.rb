@@ -164,7 +164,7 @@ RSpec.describe "Merchant Edits an Item", type: :feature do
       expect(page).to have_content("Name can't be blank")
     end
 
-    xit "I cannot leave the description field blank" do
+    it "I cannot leave the description field blank" do
       visit edit_merchant_item_path(@item)
 
       fill_in "item[description]", with: ""
@@ -174,7 +174,7 @@ RSpec.describe "Merchant Edits an Item", type: :feature do
       expect(page).to have_content("Description can't be blank")
     end
 
-    xit "I cannot leave the price field blank" do
+    it "I cannot leave the price field blank" do
       visit edit_merchant_item_path(@item)
 
       fill_in "item[price]", with: ""
@@ -184,7 +184,7 @@ RSpec.describe "Merchant Edits an Item", type: :feature do
       expect(page).to have_content("Price can't be blank")
     end
 
-    xit "I cannot leave the inventory field blank" do
+    it "I cannot leave the inventory field blank" do
       visit edit_merchant_item_path(@item)
 
       fill_in "item[inventory]", with: ""
@@ -194,10 +194,8 @@ RSpec.describe "Merchant Edits an Item", type: :feature do
       expect(page).to have_content("Inventory can't be blank")
     end
 
-    xit "I can leave thumbnail URL blank" do
+    it "I can leave thumbnail URL blank" do
       visit edit_merchant_item_path(@item)
-
-      expect(current_path).to eq('/dashboard/items/new')
 
       fill_in "item[image]", with: ""
       click_on "Update Item"
@@ -211,7 +209,7 @@ RSpec.describe "Merchant Edits an Item", type: :feature do
       end
     end
 
-    xit "Price must be > 0.00" do
+    it "Price must be > 0.00" do
       visit edit_merchant_item_path(@item)
 
       fill_in "item[price]", with: "-5.0"
