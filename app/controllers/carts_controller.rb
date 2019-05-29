@@ -34,9 +34,9 @@ class CartsController < ApplicationController
   end
 
   def show
-    if current_user.admin? || current_user.merchant?
+    if current_user && (current_user.admin? || current_user.merchant?)
       render file: "/public/404", status: 404
-    end 
+    end
   end
 
   def destroy
