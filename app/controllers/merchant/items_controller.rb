@@ -30,7 +30,7 @@ class Merchant::ItemsController < Merchant::BaseController
 
   def destroy
     item = Item.destroy(params[:id])
-
+    flash[:notice] = "You have deleted #{item.name}."
     redirect_to merchant_items_path
   end
 
