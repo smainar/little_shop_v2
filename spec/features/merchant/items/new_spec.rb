@@ -45,8 +45,58 @@ RSpec.describe "Merchant Adds an Item", type: :feature do
       end
     end
 
-    xit "I cannot leave most field blank" do
-      # to-do
+    it "I cannot leave most field blank" do
+      visit new_merchant_item_path
+
+      expect(current_path).to eq('/dashboard/items/new')
+
+      # DON'T fill_in "item[name]", with: "Big Couch"
+      fill_in "item[description]", with: "It's a very large couch"
+      fill_in "item[image]", with: "https://cdn.sofadreams.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/m/e/megasofa_leder_wohnlandschaft_big_couch_concept_beleuchtung_schwarz_1_1.jpg"
+      fill_in "item[price]", with: "50.00"
+      fill_in "item[inventory]", with: "75"
+
+      click_on "Create Item"
+
+      expect(page).to have_field "item[description]"
+      expect(page).to have_content("Name can't be blank")
+      expect(Item.count).to eq(0)
+
+      fill_in "item[name]", with: "Big Couch"
+      # DON'T fill_in "item[description]", with: "It's a very large couch"
+      fill_in "item[image]", with: "https://cdn.sofadreams.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/m/e/megasofa_leder_wohnlandschaft_big_couch_concept_beleuchtung_schwarz_1_1.jpg"
+      fill_in "item[price]", with: "50.00"
+      fill_in "item[inventory]", with: "75"
+
+      click_on "Create Item"
+
+      expect(page).to have_field "item[description]"
+      expect(page).to have_content("Description can't be blank")
+      expect(Item.count).to eq(0)
+
+      fill_in "item[name]", with: "Big Couch"
+      fill_in "item[description]", with: "It's a very large couch"
+      fill_in "item[image]", with: "https://cdn.sofadreams.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/m/e/megasofa_leder_wohnlandschaft_big_couch_concept_beleuchtung_schwarz_1_1.jpg"
+      # DON'T fill_in "item[price]", with: "50.00"
+      fill_in "item[inventory]", with: "75"
+
+      click_on "Create Item"
+
+      expect(page).to have_field "item[description]"
+      expect(page).to have_content("Price can't be blank")
+      expect(Item.count).to eq(0)
+
+      fill_in "item[name]", with: "Big Couch"
+      fill_in "item[description]", with: "It's a very large couch"
+      fill_in "item[image]", with: "https://cdn.sofadreams.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/m/e/megasofa_leder_wohnlandschaft_big_couch_concept_beleuchtung_schwarz_1_1.jpg"
+      fill_in "item[price]", with: "50.00"
+      # DON'T fill_in "item[inventory]", with: "75"
+
+      click_on "Create Item"
+
+      expect(page).to have_field "item[description]"
+      expect(page).to have_content("Inventory can't be blank")
+      expect(Item.count).to eq(0)
     end
 
     xit "I can leave thumbnail URL blank" do
