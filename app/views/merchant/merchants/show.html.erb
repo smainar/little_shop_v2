@@ -47,8 +47,8 @@
 <div class='top-user-with-most-money'>
   <h4>Top User with Most Orders</h4>
     <ol>
-    <% @merchant.top_3_users_moneys.each do |user| %>
-      <li> User: <%= user.name %>, Total Money Spent: <%= user.total_moneys %> </li>
+    <% @merchant.top_3_spenders.each do |user| %>
+      <li> User: <%= user.name %>, Total Money Spent: <%= user.total_spent %> </li>
     <% end %>
       <p>None Yet</p>
 </div>
