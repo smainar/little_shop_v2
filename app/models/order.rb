@@ -76,4 +76,8 @@ class Order < ApplicationRecord
         .distinct
         .order(:id)
   end
+
+  def self.packaged?
+    self.where(status: 'packaged').order(:id)
+  end
 end
