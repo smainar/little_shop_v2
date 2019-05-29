@@ -1,7 +1,6 @@
 # When I submit the form
 # I am taken back to my items page
 # I see the item's new information on the page, and it maintains its previous enabled/disabled state
-# If I left the image field blank, I see a placeholder image for the thumbnail
 
 require 'rails_helper'
 
@@ -10,6 +9,7 @@ RSpec.describe "Merchant Edits an Item", type: :feature do
     before(:each) do
       @merchant = create(:merchant)
       @item = create(:item, user: @merchant)
+      @inactive_item = create(:inactive_item, user: @merchant)
 
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
     end
@@ -64,6 +64,7 @@ RSpec.describe "Merchant Edits an Item", type: :feature do
 
       expect(page).to have_content("#{new_name} has been updated")
       expect(@item.reload.name).to eq(new_name)
+      expect(@item.active).to eq(true)
 
       within("#item-#{@item.id}") do
         expect(page).to have_link(new_name)
@@ -75,9 +76,9 @@ RSpec.describe "Merchant Edits an Item", type: :feature do
     end
 
     it "I can edit an item's description by filling out a form" do
-      visit edit_merchant_item_path(@item)
+      visit edit_merchant_item_path(@inactive_item)
 
-      expect(current_path).to eq("/dashboard/items/#{@item.id}/edit")
+      expect(current_path).to eq("/dashboard/items/#{@inactive_item.id}/edit")
 
       new_description = "It's a very large couch"
 
@@ -87,8 +88,9 @@ RSpec.describe "Merchant Edits an Item", type: :feature do
 
       expect(current_path).to eq(merchant_items_path)
 
-      expect(page).to have_content("#{@item.reload.name} has been updated")
-      expect(@item.reload.description).to eq(new_description)
+      expect(page).to have_content("#{@inactive_item.reload.name} has been updated")
+      expect(@inactive_item.reload.description).to eq(new_description)
+      expect(@inactive_item.active).to eq(false)
     end
 
     it "I can edit an item's image by filling out a form" do
