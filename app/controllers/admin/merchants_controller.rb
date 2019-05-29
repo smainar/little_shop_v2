@@ -2,6 +2,9 @@ class Admin::MerchantsController < Admin::BaseController
   def show
     @merchant = User.find(params[:id])
     @pending_orders = Order.pending_merchant_orders(@merchant)
+    if @merchant.user?
+      redirect_to admin_user_path(@merchant)
+    end 
   end
 
   def index
