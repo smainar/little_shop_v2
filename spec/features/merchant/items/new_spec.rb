@@ -99,9 +99,34 @@ RSpec.describe "Merchant Adds an Item", type: :feature do
       expect(Item.count).to eq(0)
     end
 
-    xit "I can leave thumbnail URL blank" do
-      # to-do
-      expect(page).to have_css("img[src*='#{Item::DEFAULT_IMAGE}']")
+    it "I can leave thumbnail URL blank" do
+      visit new_merchant_item_path
+
+      expect(current_path).to eq('/dashboard/items/new')
+
+      fill_in "item[name]", with: "Big Couch"
+      fill_in "item[description]", with: "It's a very large couch"
+      # DON'T fill_in "item[image]", with: "https://cdn.sofadreams.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/m/e/megasofa_leder_wohnlandschaft_big_couch_concept_beleuchtung_schwarz_1_1.jpg"
+      fill_in "item[price]", with: "50.00"
+      fill_in "item[inventory]", with: "75"
+
+      click_on "Create Item"
+      save_and_open_page
+
+      expect(current_path).to eq(merchant_items_path)
+
+      new_item = Item.last
+
+      expect(page).to have_content("#{new_item.name} has been added")
+
+      within("#item-#{new_item.id}") do
+        expect(page).to have_link(new_item.name)
+        expect(page).to have_content("ID: #{new_item.id}")
+        expect(page).to have_css("img[src*='#{Item::DEFAULT_IMAGE}']")
+        expect(page).to have_content(number_to_currency(new_item.price))
+        expect(page).to have_content("#{new_item.inventory} in stock")
+        expect(page).to have_button("Disable Item")
+      end
     end
 
     xit "Price must be > 0.00" do

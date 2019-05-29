@@ -43,6 +43,10 @@ class Merchant::ItemsController < Merchant::BaseController
   private
 
   def item_params
-    params.require(:item).permit(:name, :description, :image, :price, :inventory)
+    if params[:item][:image] == ""
+      params.require(:item).permit(:name, :description, :price, :inventory)
+    else
+      params.require(:item).permit(:name, :description, :image, :price, :inventory)
+    end
   end
 end

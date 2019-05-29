@@ -2,7 +2,6 @@ class Item < ApplicationRecord
   validates_presence_of :name,
                        :price,
                        :description,
-                       :image,
                        :inventory
 
   belongs_to :user
