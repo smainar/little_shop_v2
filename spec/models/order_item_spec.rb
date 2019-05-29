@@ -31,5 +31,25 @@ RSpec.describe OrderItem, type: :model do
       expect(oi_2.reload.fulfilled).to eq(false)
       expect(item_2.reload.inventory).to eq(item_2_initial_inventory + oi_2.quantity)
     end
+
+    it "#update_item_inventory" do
+      user = create(:user)
+      order_1 = create(:order, user: user)
+
+      user_2 = create(:user)
+      order_2 = create(:order, user: user_2)
+
+      merchant = create(:merchant)
+      item_1 = create(:item, user: merchant, inventory: 10)
+
+      oi_1 = create(:order_item, item: item_1, order: order_1, quantity: 3, price_per_item: item_1.price)
+      oi_2 = create(:order_item, item: item_1, order: order_2, quantity: 5, price_per_item: item_1.price)
+
+      oi_1.update_item_inventory
+      expect(item_1.inventory).to eq(7)
+
+      oi_2.update_item_inventory
+      expect(item_1.inventory).to eq(2)
+    end
   end
 end

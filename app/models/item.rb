@@ -43,4 +43,21 @@ class Item < ApplicationRecord
               .first
               .quantity
   end
+
+  def item_status(order)
+    order_items.where("order_items.order_id=?", order.id).first.fulfilled
+  end
+
+  def item_orders(order)
+    order_items.where("order_items.order_id=?", order.id)
+  end
+
+  def sufficient_inventory(order)
+    item_quantity = self.order_items.where("order_items.order_id=?", order.id).first.quantity
+    if (self.inventory) > item_quantity
+      return true
+    else
+      return false
+    end
+  end
 end
