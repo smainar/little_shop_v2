@@ -1,5 +1,7 @@
 class Admin::MerchantsController < Admin::BaseController
   def show
+    @merchant = User.find(params[:id])
+    @pending_orders = Order.pending_merchant_orders(@merchant)
   end
 
   def index
