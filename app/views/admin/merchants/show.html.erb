@@ -1,4 +1,3 @@
-<%# will be similar to the merchant dashboard %>
 <div id="merchant-profile">
   <h1><%= @merchant.name %></h1>
   <p>Email: <%= @merchant.email %></p>
@@ -7,6 +6,8 @@
   <p>State: <%= @merchant.state %></p>
   <p>Zip: <%= @merchant.zip %></p>
 </div>
+
+<%= button_to "Downgrade Account", admin_downgrade_merchant_path(@merchant), method: "patch" %>
 
 <h4>Pending Orders</h4>
 

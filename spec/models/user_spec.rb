@@ -375,5 +375,12 @@ RSpec.describe User, type: :model do
     it 'calculates top 3 users with most money spent and their totals' do
       expect(@merchant_1.top_3_spenders).to eq([@user_3, @user_1, @user_4])
     end
+
+    it "#downgrade_to_regular_user changes a merchant to a regular user and disables their items" do
+      @merchant_1.downgrade_to_regular_user
+
+      expect(@merchant_1.reload.role).to eq("user")
+      expect(@item_1.reload.active).to eq(false)
+    end
   end
 end

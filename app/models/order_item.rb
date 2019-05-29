@@ -13,6 +13,7 @@ class OrderItem < ApplicationRecord
   end
 
   def update_item_inventory
-    item.inventory -= self.quantity
+    new_inventory = item.inventory - self.quantity
+    item.update(inventory: new_inventory)
   end
 end

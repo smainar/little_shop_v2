@@ -64,6 +64,7 @@ RSpec.describe 'As a merchant: ' do
       expect(page).to have_content(@order_2.id)
       expect(page).to have_content("Customer Name: #{@order_2.user.name}")
       expect(page).to have_content("Customer Address: #{@order_2.user.address}")
+      expect(page).to have_content("Order Status: #{@order_2.status.titleize}")
 
       within "#items-index-#{@item_2.id}" do
         expect(page).to have_link(@item_2.name)
