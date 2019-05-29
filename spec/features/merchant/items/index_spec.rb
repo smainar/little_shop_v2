@@ -89,8 +89,12 @@ RSpec.describe "Merchant Items Index", type: :feature do
       within("#item-#{@active_never_ordered_item.id}") do
         click_on "Delete Item"
       end
-      
-      expect(page).to_not have_content(name)
+
+      expect(page).to have_content("You have deleted #{name}.")
+
+      within ".merchant-items" do 
+        expect(page).to_not have_content(name)
+      end
     end
   end
 end
