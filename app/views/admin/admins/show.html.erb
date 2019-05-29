@@ -1,0 +1,14 @@
+<h1>Admin Dashboard</h1>
+
+<% if @packaged_orders.none? %>
+  <h3>There are no packaged orders ready to ship.</h3>
+<% else %>
+  <% @packaged_orders.each do |order| %>
+    <div id="order-<%= order.id %>">
+      <p><%= link_to "Order #{order.id}", merchant_order_path(order) %></p>
+      <p>Date Ordered: <%= Date.strptime(order.created_at.to_s) %></p>
+
+      <%= button_to "Ship", admin_dashboard_path(order), method: :patch %>
+    </div>
+  <% end %>
+<% end %>
