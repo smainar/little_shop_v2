@@ -7,6 +7,30 @@ class Order < ApplicationRecord
 
   enum status: ['pending', 'packaged', 'shipped', 'cancelled']
 
+  def self.packaged_orders
+    where(status: "packaged").order(:id)
+  end
+
+  def self.pending_orders
+    where(status: "pending").order(:id)
+  end
+
+  def self.shipped_orders
+    where(status: "shipped").order(:id)
+  end
+
+  def self.cancelled_orders
+    where(status: "cancelled").order(:id)
+  end
+
+  def self.pending_merchant_orders(merchant)
+    Order.joins(items: :order_items)
+        .where(status: 0)
+        .where("items.user_id = ?", merchant.id)
+        .distinct
+        .order(:id)
+  end
+
   def self.top_3_by_quantity
     self.joins(:order_items)
         .select("sum(order_items.quantity) as total_quantity, orders.*")
@@ -67,13 +91,5 @@ class Order < ApplicationRecord
         .where("items.user_id=?",merchant.id)
         .distinct
         .sum("order_items.quantity * order_items.price_per_item")
-  end
-
-  def self.pending_merchant_orders(merchant)
-    Order.joins(items: :order_items)
-        .where(status: 0)
-        .where("items.user_id = ?", merchant.id)
-        .distinct
-        .order(:id)
   end
 end

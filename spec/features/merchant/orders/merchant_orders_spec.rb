@@ -39,7 +39,7 @@ RSpec.describe 'As a merchant: ' do
       visit merchant_dashboard_path
     end
     it "I see a list of pending orders with only items I sell" do
-      expect(page).to have_content("Pending Orders")
+      expect(page).to have_content("Orders")
 
       within "#merchant-orders-#{@order_1.id}" do
         expect(page).to have_link("Order #{@order_1.id}")

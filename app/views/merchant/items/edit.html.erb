@@ -1,0 +1,19 @@
+<%= form_for @item, url: merchant_item_path(@item) do |f| %>
+
+  <%= f.label :name %>
+  <%= f.text_field :name, required: true %><br>
+
+  <%= f.label :description %>
+  <%= f.text_area :description, required: true %><br>
+
+  <%= f.label :image, "Thumbnail URL" %>
+  <%= f.text_field :image %><br>
+
+  <%= f.label :price, "Price in Dollars" %>
+  <%= f.number_field :price, required: true, min: 0.01, step: 0.01 %><br>
+
+  <%= f.label :inventory %>
+  <%= f.number_field :inventory, required: true, min: 0 %><br>
+
+  <%= f.submit %>
+<% end %>

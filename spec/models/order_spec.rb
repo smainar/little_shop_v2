@@ -88,6 +88,22 @@ RSpec.describe Order, type: :model do
       actual = Order.top_3_by_quantity.map(&:total_quantity)
       expect(actual).to eq(top_3_order_quantities)
     end
+
+    it '::packaged_orders returns packaged orders' do
+      expect(Order.packaged_orders).to eq([@order_5])
+    end
+
+    it '::pending_orders returns pending orders' do
+      expect(Order.pending_orders).to eq([@order_3])
+    end
+
+    it '::shipped_orders returns shipped orders' do
+      expect(Order.shipped_orders).to eq([@order_1, @order_2, @order_7, @order_8, @order_6 ])
+    end
+
+    it '::cancelled_orders returns cancelled orders' do
+      expect(Order.cancelled_orders).to eq([@order_4])
+    end
   end
 
   describe "instance methods" do
