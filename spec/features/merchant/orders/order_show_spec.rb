@@ -70,5 +70,13 @@ RSpec.describe 'As a merchant: ' do
       end
       expect(page).to have_content("Your item was fulfilled.")
     end
+
+    it "displays a message if I don't have sufficient inventory to fulfill order" do
+      within "#items-index-#{@item_4.id}" do
+        expect(page).to have_content("Status: Not Fulfilled")
+        expect(page).to_not have_button("Fulfill Item")
+        expect(page).to have_content("You do not have sufficient inventory to fulfill this item.")
+      end
+    end
   end
 end
