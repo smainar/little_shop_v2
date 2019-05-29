@@ -1,8 +1,44 @@
-# As an admin user
-# When I visit a user's profile page ("/admin/users/5")
-# I see a link to "upgrade" the user's account to become a merchant
-# When I click on that link
-# I am redirected to ("/admin/merchants/5") because the user is now a merchant
-# And I see a flash message indicating the user has been upgraded
-# The next time this user logs in they are now a merchant
-# Only admins can reach any route necessary to upgrade the user to merchant status
+require 'rails_helper'
+
+RSpec.describe "Upgrading a user", type: :feature do
+  before(:each) do
+    @user = create(:user)
+
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+  end
+
+  context "as a user" do
+    it "I don't see a button to upgrade my account" do
+      visit profile_path
+
+      expect(page).to_not have_content("Upgrade")
+    end
+  end
+
+  context "as an admin" do
+    before(:each) do
+      @admin = create(:admin)
+      @user = create(:user)
+    end
+
+    it "I can upgrade a user to a merchant" do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
+
+      visit admin_user_path(@user)
+
+      expect(current_path).to eq("/admin/users/#{@user.id}")
+
+      click_button "Upgrade Account"
+
+      expect(current_path).to eq("/admin/merchants/#{@user.id}")
+      expect(page).to have_content("#{@user.name} has been upgraded to a merchant")
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user.reload)
+
+      visit items_path
+
+      expect(page).to_not have_content("My Cart")
+      expect(page).to have_content("Dashboard")
+    end
+  end
+end
