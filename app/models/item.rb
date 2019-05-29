@@ -1,12 +1,15 @@
 class Item < ApplicationRecord
-  validates_presence_of :name,
-                       :price,
-                       :description,
-                       :inventory
-
   belongs_to :user
   has_many :order_items
   has_many :orders, through: :order_items
+
+  validates_presence_of :name,
+                        :price,
+                        :description,
+                        :inventory
+
+  validates :price, numericality: { greater_than_or_equal_to: 0.0 }
+  validates :inventory, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
   DEFAULT_IMAGE = "https://www.ultimate-realty.com/wp-content/uploads/sites/6518/2019/04/Image-Coming-Soon.png"
 
