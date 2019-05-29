@@ -4,7 +4,9 @@
 <p>Merchant Name: <%= @merchant.name %></p>
 <p><%= @item.inventory %> in stock</p>
 <p><%= number_to_currency(@item.price) %></p>
-<p>Average Fulfillment Time: <%= @item.average_fulfillment_time %> days</p>
+<% if @item.average_fulfillment_time %>
+  <p>Average Fulfillment Time: <%= @item.average_fulfillment_time %> days</p>
+<% end %>
 
 <% if (current_user == nil) || current_user.user? %>
   <%= button_to "Add to Cart", cart_add_item_path(@item)  %>
