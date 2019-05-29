@@ -61,7 +61,7 @@ https://github.com/hsmitha26/little_shop_v2
 
   ### Run tests:
         1. Run rspec.
-        2. To run a single test, example: rspec ./spec/features/items/index_spec.rb:22
+        2. To run a single test, example: rspec ./spec/features/items/new_spec.rb:11
         3. The above example can be edited to run spec folders and files.
 
   ### Sample login credentials for users:
@@ -70,6 +70,6 @@ https://github.com/hsmitha26/little_shop_v2
         3. Login as a customer: *create your own user account*
 
 ## Ready to shop?
-The view with a list of all items for sale when you click on Shop:
+To visit our shop, click on the link below:
 
 https://little-shop-of-furniture.herokuapp.com/
