@@ -167,16 +167,16 @@ class User < ApplicationRecord
       .first
   end
 
-  def top_3_users_moneys
+  def top_3_spenders
     User
-      .select("users.*, sum(order_items.quantity * order_items.price_per_item) as total_moneys")
+      .select("users.*, sum(order_items.quantity * order_items.price_per_item) as total_spent")
       .joins(orders: :items)
       .where("items.user_id = ?", self.id)
       .where("users.active = ?", true)
       .where('order_items.fulfilled = ?', true)
       .where("orders.status = ?", 2)
       .group(:id)
-      .order("total_moneys DESC")
+      .order("total_spent DESC")
       .limit(3)
   end
 end
