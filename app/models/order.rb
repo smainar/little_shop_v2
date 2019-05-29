@@ -74,5 +74,6 @@ class Order < ApplicationRecord
         .where(status: 0)
         .where("items.user_id = ?", merchant.id)
         .distinct
+        .order(:id)
   end
 end

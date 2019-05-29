@@ -6,8 +6,11 @@ RSpec.describe Item, type: :model do
     it {should validate_presence_of :name}
     it {should validate_presence_of :price}
     it {should validate_presence_of :description}
-    it {should validate_presence_of :image}
     it {should validate_presence_of :inventory}
+
+    it {should validate_numericality_of(:price).is_greater_than_or_equal_to(0.01)}
+    it {should validate_numericality_of(:inventory).only_integer}
+    it {should validate_numericality_of(:inventory).is_greater_than_or_equal_to(0)}
   end
 
   describe 'relationships' do
@@ -76,8 +79,13 @@ RSpec.describe Item, type: :model do
       order_item_1 = create(:fulfilled_order_item, item: item_1, created_at: 3.days.ago, updated_at: 1.days.ago)
       order_item_2 = create(:fulfilled_order_item, item: item_1, created_at: 2.days.ago, updated_at: 1.days.ago)
       order_item_3 = create(:fulfilled_order_item, item: item_1, created_at: 4.days.ago, updated_at: 1.days.ago)
+      # not fulfilled: should not be included
+      order_item_4 = create(:order_item, item: item_1, created_at: 1.days.ago, updated_at: 1.days.ago)
 
       expect(item_1.average_fulfillment_time).to eq(2)
+
+      item_2 = create(:item, user: merchant_1)
+      expect(item_2.average_fulfillment_time).to eq(nil)
     end
 
     it "#order_count returns how many orders include that item" do
