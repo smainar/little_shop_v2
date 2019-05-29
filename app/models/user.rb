@@ -67,11 +67,11 @@ class User < ApplicationRecord
 
   def self.top_3_cities
    self.joins(:orders)
-        .select("users.state, users.city, count(orders) as order_count")
-        .group("users.state, users.city")
-        .where("orders.status = 2")
-        .order("order_count DESC")
-        .limit(3)
+       .select("users.state, users.city, count(orders) as order_count")
+       .group("users.state, users.city")
+       .where("orders.status = 2")
+       .order("order_count DESC")
+       .limit(3)
   end
 
   def self.average_fulfillment_times
@@ -97,31 +97,31 @@ class User < ApplicationRecord
   end
 
   def top_five_items
-    items.select("items.* , sum(order_items.quantity) as total_sold")
+    items.select("items.*, sum(order_items.quantity) as total_sold")
          .joins(:orders)
          .group(:id)
          .where("orders.status = 2" )
          .order("total_sold desc")
          .limit(5)
-    end
+  end
 
-    def total_sold
-      items.joins(:orders)
-            .where(active: true)
-            .where("orders.status = 2")
-            .sum("order_items.quantity")
-    end
+  def total_sold
+    items.joins(:orders)
+          .where(active: true)
+          .where("orders.status = 2")
+          .sum("order_items.quantity")
+  end
 
-    def total_inventory
-      items.where(active: true).sum(:inventory)
-    end
+  def total_inventory
+    items.where(active: true).sum(:inventory)
+  end
 
-    def inventory_ratio
-      (total_sold / total_inventory.to_f) * 100
-    end
+  def inventory_ratio
+    (total_sold / total_inventory.to_f) * 100
+  end
 
-    def top_three_states
-      User
+  def top_three_states
+    User
       .select(:state, 'SUM(order_items.quantity) AS total_quantity')
       .joins(orders: :items)
       .where('orders.status = ?', 2)
@@ -129,20 +129,20 @@ class User < ApplicationRecord
       .group(:state)
       .order('total_quantity DESC')
       .limit(3)
-    end
+  end
 
-    def top_three_cities
-      items.select("users.city, users.state, sum(order_items.quantity) as total_quantity")
-      .joins(:orders)
-      .joins("join users On orders.user_id = users.id")
-      .group("users.city", "users.state")
-      .where("orders.status = 2")
-      .order("total_quantity desc")
-      .limit(3)
-    end
+  def top_three_cities
+    items.select("users.city, users.state, sum(order_items.quantity) as total_quantity")
+         .joins(:orders)
+         .joins("join users On orders.user_id = users.id")
+         .group("users.city", "users.state")
+         .where("orders.status = 2")
+         .order("total_quantity desc")
+         .limit(3)
+  end
 
-    def top_user_orders
-      User
+  def top_user_orders
+    User
       .select("users.*, count(distinct(orders.id)) as total_orders")
       .joins(orders: :items)
       .where("items.user_id = ?", self.id)
@@ -152,10 +152,10 @@ class User < ApplicationRecord
       .group(:id)
       .order("total_orders DESC")
       .first
-    end
+  end
 
-    def top_user_items
-      User
+  def top_user_items
+    User
       .select("users.*, sum(order_items.quantity) as total_items")
       .joins(orders: :items)
       .where("items.user_id = ?", self.id)
@@ -165,10 +165,10 @@ class User < ApplicationRecord
       .group(:id)
       .order("total_items DESC")
       .first
-    end
+  end
 
-    def top_3_users_moneys
-      User
+  def top_3_users_moneys
+    User
       .select("users.*, sum(order_items.quantity * order_items.price_per_item) as total_moneys")
       .joins(orders: :items)
       .where("items.user_id = ?", self.id)
@@ -178,5 +178,5 @@ class User < ApplicationRecord
       .group(:id)
       .order("total_moneys DESC")
       .limit(3)
-    end
+  end
 end
