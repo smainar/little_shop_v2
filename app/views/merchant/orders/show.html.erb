@@ -1,31 +1,33 @@
 <h1>Order Number: <%= @order.id %></h1>
-<h2>Order Status: <%= @order.status.titleize %></h2>
-
-<h4>Customer Name: <%= @order.user.name %></h4>
-<h3>Customer Address: <%= @order.user.address %></h3>
+<h5>Order Status: <%= @order.status.titleize %></h5>
+<h5>Customer Name: <%= @order.user.name %></h5>
+<h5>Customer Address: <%= @order.user.address %>, <%= @order.user.city %>, <%= @order.user.state %>, <%= @order.user.zip %></h5>
 
 <% @order.merchant_items(@merchant).each do |item| %>
-  <div id="items-index-<%= item.id  %>">
-    <p><%= link_to item.name, item_path(item) %></p>
-    <%= image_tag item.image || @default_image, alt: "image of #{item.name}" %>
-    <p>Purchase Price: <%= number_to_currency(item.purchase_price(@order)) %></p>
-    <p>Purchase Quantity: <%= item.purchase_quantity(@order) %></p>
+  <div id="items-index-<%= item.id %>" class="card mb-3">
+    <div class="row no-gutters">
+      <%= image_tag item.image || @default_image, alt: "image of #{item.name}", class: "col-md-3 card-img" %>
+      <div class = "col-md-9 card-body">
+        <h5 class="card-title"><%= link_to item.name, item_path(item) %></h5>
+        <p>Purchase Price: <%= number_to_currency(item.purchase_price(@order)) %></p>
+        <p>Purchase Quantity: <%= item.purchase_quantity(@order) %></p>
 
-    <% if item.item_fulfilled?(@order) == true %>
-      <p>Status: Fulfilled</p>
-    <% elsif item.item_fulfilled?(@order) == false %>
-      <p>Status: Not Fulfilled</p>
-    <% end %>
-
-    <% if item.item_fulfilled?(@order) == false %>
-      <% if item.sufficient_inventory(@order) %>
-        <% item.item_orders(@order).each do |oi| %>
-          <p><%= button_to "Fulfill Item", merchant_fulfill_item_path(oi), method: :patch %></p>
+        <% if item.item_fulfilled?(@order) == true %>
+          <p>Status: Fulfilled</p>
+        <% elsif item.item_fulfilled?(@order) == false %>
+          <p>Status: Not Fulfilled</p>
         <% end %>
-      <% elsif (item.item_fulfilled?(@order) == false) && !(item.sufficient_inventory(@order)) %>
-        <p>You do not have sufficient inventory to fulfill this item.</p>
-      <% end %>
-    <% end %>
 
+        <% if item.item_fulfilled?(@order) == false %>
+          <% if item.sufficient_inventory(@order) %>
+            <% item.item_orders(@order).each do |oi| %>
+              <p><%= button_to "Fulfill Item", merchant_fulfill_item_path(oi), method: :patch %></p>
+            <% end %>
+          <% elsif (item.item_fulfilled?(@order) == false) && !(item.sufficient_inventory(@order)) %>
+            <p>You do not have sufficient inventory to fulfill this item.</p>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
   </div>
 <% end %>

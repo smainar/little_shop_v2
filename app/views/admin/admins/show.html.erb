@@ -5,54 +5,69 @@
 <% else %>
   <div class="orders-index" id="packaged-orders">
     <% @packaged_orders.each do |order| %>
-    <section id="order-id-<%= order.id %>">
-      <%= link_to order.user.name, admin_user_path(order.user) %>
-      <ul>
-        <li>Order Id: <%= order.id %></li>
-        <li>Order Status: <%= order.status %></li>
-        <li>Created At: <%= Date.strptime(order.created_at.to_s) %></li>
-      </ul>
-      <%= button_to "Ship", admin_dashboard_path(order), method: :patch %>
+    <section id="order-id-<%= order.id %>" class="card mb-3">
+      <div class="row no-gutters col-md-9 card-body">
+        <%= link_to order.user.name, admin_user_path(order.user), class: "card-title" %>
+        <ul>
+          <li>Order Id: <%= order.id %></li>
+          <li>Order Status: <%= order.status %></li>
+          <li>Created At: <%= Date.strptime(order.created_at.to_s) %></li>
+          <li><%= button_to "Ship", admin_dashboard_path(order), method: :patch %></li>
+        </ul>
+
+      </div>
     </section>
     <% end %>
   </div>
 <% end %>
-<h3>Pending Orders:</h3>
-<div class="orders-index">
-  <% @pending_orders.each do |order| %>
-  <section id="order-id-<%= order.id %>">
-    <%= link_to order.user.name, admin_user_path(order.user) %>
-    <ul>
-      <li>Order Id: <%= order.id %></li>
-      <li>Order Status: <%= order.status %></li>
-      <li>Created At: <%= Date.strptime(order.created_at.to_s) %></li>
-    </ul>
-  </section>
-  <% end %>
-</div>
-<h3>Shipped Orders:</h3>
-<div class="orders-index">
-  <% @shipped_orders.each do |order| %>
-  <section id="order-id-<%= order.id %>">
-    <%= link_to order.user.name, admin_user_path(order.user) %>
-    <ul>
-      <li>Order Id: <%= order.id %></li>
-      <li>Order Status: <%= order.status %></li>
-      <li>Created At: <%= Date.strptime(order.created_at.to_s) %></li>
-    </ul>
-  </section>
-  <% end %>
-</div>
-<h3>Cancelled Orders:</h3>
-<div class="orders-index">
-  <% @cancelled_orders.each do |order| %>
-  <section id="order-id-<%= order.id %>">
-    <%= link_to order.user.name, admin_user_path(order.user) %>
-    <ul>
-      <li>Order Id: <%= order.id %></li>
-      <li>Order Status: <%= order.status %></li>
-      <li>Created At: <%= Date.strptime(order.created_at.to_s) %></li>
-    </ul>
-  </section>
-  <% end %>
-</div>
+<% if @pending_orders.any? %>
+  <h3>Pending Orders:</h3>
+  <div class="orders-index" id="pending-orders">
+    <% @pending_orders.each do |order| %>
+    <section id="order-id-<%= order.id %>" class="card mb-3">
+      <div class="row no-gutters col-md-9 card-body">
+        <%= link_to order.user.name, admin_user_path(order.user), class: "card-title" %>
+        <ul>
+          <li>Order Id: <%= order.id %></li>
+          <li>Order Status: <%= order.status %></li>
+          <li>Created At: <%= Date.strptime(order.created_at.to_s) %></li>
+        </ul>
+      </div>
+    </section>
+    <% end %>
+  </div>
+<% end %>
+<% if @shipped_orders.any? %>
+  <h3>Shipped Orders:</h3>
+  <div class="orders-index" id="shipped-orders">
+    <% @shipped_orders.each do |order| %>
+    <section id="order-id-<%= order.id %>" class="card mb-3">
+      <div class="row no-gutters col-md-9 card-body">
+        <%= link_to order.user.name, admin_user_path(order.user), class: "card-title" %>
+        <ul>
+          <li>Order Id: <%= order.id %></li>
+          <li>Order Status: <%= order.status %></li>
+          <li>Created At: <%= Date.strptime(order.created_at.to_s) %></li>
+        </ul>
+      </div>
+    </section>
+    <% end %>
+  </div>
+<% end %>
+<% if @cancelled_orders.any? %>
+  <h3>Cancelled Orders:</h3>
+  <div class="orders-index" id="cancelled-orders">
+    <% @cancelled_orders.each do |order| %>
+    <section id="order-id-<%= order.id %>" class="card mb-3">
+      <div class="row no-gutters col-md-9 card-body">
+        <%= link_to order.user.name, admin_user_path(order.user), class: "card-title" %>
+        <ul>
+          <li>Order Id: <%= order.id %></li>
+          <li>Order Status: <%= order.status %></li>
+          <li>Created At: <%= Date.strptime(order.created_at.to_s) %></li>
+        </ul>
+      </div>
+    </section>
+    <% end %>
+  </div>
+<% end %>

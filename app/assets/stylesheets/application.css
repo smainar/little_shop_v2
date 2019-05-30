@@ -13,13 +13,22 @@
  *= require_tree .
  *= require_self
  */
+
+body {
+  padding: 20px;
+  margin-top: 40px;
+}
+
+.navbar {
+  background-color: #e3f2fd;
+}
+
 .quantities {
   display: flex;
 }
 
-img {
-  height: 250px;
+#landing-page-image {
+  width: 100%;
   padding: 20px;
   align-content: center;
-  object-fit: contain;
 }
