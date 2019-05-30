@@ -73,3 +73,5 @@ https://github.com/hsmitha26/little_shop_v2
 To visit our shop, click on the link below:
 
 https://little-shop-of-furniture.herokuapp.com/
+
+![alt text](app/assests/images/app-screen-shot.png)
