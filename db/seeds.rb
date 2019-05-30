@@ -8,12 +8,15 @@
 require 'factory_bot_rails'
 include FactoryBot::Syntax::Methods
 
+OrderItem.destroy_all
+Order.destroy_all
 Item.destroy_all
 User.destroy_all
 
-admin = create(:admin)
+admin = create(:admin, email: "admin@email.com", password: "password")
 user = create(:user)
-merchant_1 = create(:merchant)
+merchant_1 = create(:merchant, email: "merchant@email.com", password: "pw123")
+existing_user = create(:user, email: "existingemail@gmail.com")
 
 merchant_2, merchant_3, merchant_4 = create_list(:merchant, 3)
 
@@ -22,34 +25,10 @@ inactive_user_1 = create(:inactive_user)
 
 item_1 = create(:item, user: merchant_1)
 item_2 = create(:item, user: merchant_2)
-item_3 = create(:item, user: merchant_3)
-item_4 = create(:item, user: merchant_4)
 create_list(:item, 10, user: merchant_1)
 
 inactive_item_1 = create(:inactive_item, user: merchant_1)
 inactive_item_2 = create(:inactive_item, user: inactive_merchant_1)
-
-# OrderItem.destroy_all
-# Order.destroy_all
-# Item.destroy_all
-# User.destroy_all
-#
-# admin = create(:admin, email: "admin@email.com", password: "password")
-# user = create(:user)
-# merchant_1 = create(:merchant, email: "merchant@email.com", password: "pw123")
-# existing_user = create(:user, email: "existingemail@gmail.com")
-#
-# merchant_2, merchant_3, merchant_4 = create_list(:merchant, 3)
-#
-# inactive_merchant_1 = create(:inactive_merchant)
-# inactive_user_1 = create(:inactive_user)
-#
-# item_1 = create(:item, user: merchant_1)
-# item_2 = create(:item, user: merchant_2)
-# create_list(:item, 10, user: merchant_1)
-#
-# inactive_item_1 = create(:inactive_item, user: merchant_1)
-# inactive_item_2 = create(:inactive_item, user: inactive_merchant_1)
 #
 # Random.new_seed
 # rng = Random.new
