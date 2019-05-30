@@ -26,11 +26,11 @@ The project was built using Rails which implements the following:
 * Project management tool: GitHub Projects.
 
 ## Contributors
-* Alexandra Chakeres - @chakeresa
-* Billy Urrutia - @CosmicSpagetti
-* Smitha Hosmani - @hsmitha26
-* Stella Mainar - @smainar
-* Michael Karnes  - @mikekarnes123
+* [Alexandra Chakeres](https://github.com/chakeresa)
+* [Billy Urrutia](https://github.com/CosmicSpagetti)
+* [Smitha Hosmani](https://github.com/hsmitha26)
+* [Stella Mainar](https://github.com/smainar)
+* [Michael Karnes](https://github.com/mikekarnes123)
 
 ## System Requirements
 * Rails 5.x
@@ -50,7 +50,7 @@ The project was built using Rails which implements the following:
 https://github.com/hsmitha26/little_shop_v2
 
 ## Database Diagram
-![alt text](app/assests/images/little-shop-schema.png)
+![alt text](app/assets/images/little-shop-schema.png)
 
 ## Instructions
   ### How to setup:
@@ -74,4 +74,4 @@ To visit our shop, click on the link below:
 
 https://little-shop-of-furniture.herokuapp.com/
 
-![alt text](app/assests/images/app-screen-shot.png)
+![alt text](app/assets/images/app-screen-shot.png)
