@@ -64,7 +64,7 @@ RSpec.describe "Cart checkout functionality: " do
       visit cart_path
 
       expect(page).to have_content("Cart: 3")
-      expect(page).to have_content("You must register or log in (as a regular user) to finish the checkout process.")
+      expect(page).to have_content("You must register or log in to finish the checkout process.")
 
       within "#visitor-checkout" do
         expect(page).to have_link("register")
@@ -89,7 +89,7 @@ RSpec.describe "Cart checkout functionality: " do
 
       expect(page).to have_content("Cart: 3")
 
-      expect(page).to_not have_content("You must register or log in (as a regular user) to finish the checkout process.")
+      expect(page).to_not have_content("You must register or log in to finish the checkout process.")
       expect(page).to_not have_link("register")
       expect(page).to_not have_link("log in")
     end

@@ -32,6 +32,6 @@
 
 <% if !current_user?  %>
   <div id="visitor-checkout">
-    <h1>You must <%= link_to "register", register_path %> or <%= link_to "log in", login_path %> (as a regular user) to finish the checkout process.</h1>
+    <h1>You must <%= link_to "register", register_path %> or <%= link_to "log in", login_path %> to finish the checkout process.</h1>
   </div>
 <% end %>
