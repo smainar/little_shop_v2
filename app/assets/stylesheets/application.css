@@ -27,6 +27,10 @@ body {
   display: flex;
 }
 
+.card-img {
+  height: 100%;
+}
+
 #landing-page-image {
   width: 100%;
   padding: 20px;
