@@ -1,4 +1,3 @@
-# README
 # Project: Little Shop of Furniture
 
 The Little Shop of Furniture is a fictitious e-commerce application that has admins, merchants, registered users, and visitors. Our application allows admins to manage all users.
