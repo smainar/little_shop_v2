@@ -3,27 +3,30 @@ require 'rails_helper'
 RSpec.describe "profile page" do
   context "as a user" do
     before(:each) do
-      @user = User.create!(email:    "abc@def.com",
-                           password: "pw123",
-                           name:     "Abc Def",
-                           address:  "123 Abc St",
-                           city:     "NYC",
-                           state:    "NY",
-                           zip:      "12345"
-                          )
+      @user = User.create!(email: "abc@def.com", password: "pw123", name: "Abc Def")
+
+      @address_1 = @user.addresses.create!(street: "123 Abc St", city: "NYC", state: "NY", zip: "12345")
+      @address_2 = @user.addresses.create!(street: "456 Dcf St", city: "Albany", state: "NY", zip: "67890")
 
       allow_any_instance_of(ApplicationController).to receive(:current_user)
         .and_return(@user)
     end
 
-    it "shows my profile data" do
+    it "shows my profile data with multiple addresses" do
       visit profile_path
 
       expect(page).to have_content(@user.name)
       expect(page).to have_content(@user.email)
-      expect(page).to have_content(@user.address)
-      expect(page).to have_content("#{@user.city}, #{@user.state}")
-      expect(page).to have_content(@user.zip)
+
+      expect(page).to have_content(@address_1.street)
+      expect(page).to have_content("#{@address_1.city}")
+      expect(page).to have_content("#{@address_1.state}")
+      expect(page).to have_content(@address_1.zip)
+
+      expect(page).to have_content(@address_2.street)
+      expect(page).to have_content("#{@address_2.city}")
+      expect(page).to have_content("#{@address_2.state}")
+      expect(page).to have_content(@address_2.zip)
     end
 
     it "has a link to edit my profile data" do

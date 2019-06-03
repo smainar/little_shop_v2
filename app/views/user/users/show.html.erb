@@ -1,8 +1,13 @@
-<h1><%= current_user.name %></h1>
-<p><%= current_user.email %></p>
-<p><%= current_user.address %></p>
-<p><%= current_user.city %>, <%= current_user.state %></p>
-<p><%= current_user.zip %></p>
+<h1>Name: <%= current_user.name %></h1>
+<p>Email: <%= current_user.email %></p>
+
+<h3>Addresses</h3>
+<% @addresses.each do |address| %>
+  <p>Street Address: <%= address.street %></p>
+  <p>City: <%= address.city %></p>
+  <p>State: <%= address.state %></p>
+  <p>Zip: <%= address.zip %></p>
+<% end %>
 
 <%= link_to "Edit My Profile or Password", profile_edit_path %>
 
