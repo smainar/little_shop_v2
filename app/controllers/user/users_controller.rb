@@ -28,6 +28,6 @@ class User::UsersController < User::BaseController
   private
 
   def update_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation, addresses_attributes: [:id, :street, :city, :state, :zip])
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, addresses_attributes: [:id, :nickname, :street, :city, :state, :zip])
   end
 end
