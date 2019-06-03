@@ -5,7 +5,6 @@ FactoryBot.define do
     sequence(:city) { |n| "City #{n}" }
     sequence(:state) { |n| "State #{n}" }
     sequence(:zip) { |n| "Zip #{n}" }
-    role { 0 }
-    active { true }
+    sequence(:nickname) { |n| "Nickname #{n}" }
   end
 end
