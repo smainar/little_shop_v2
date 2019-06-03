@@ -8,7 +8,6 @@ class CartsController < ApplicationController
     redirect_to items_path
   end
 
-
   def increment
     item = Item.find(params[:id])
     add_to_cart(item)
