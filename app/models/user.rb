@@ -6,7 +6,9 @@ class User < ApplicationRecord
                         :password_digest
   has_many :orders
   has_many :items
+  
   has_many :addresses
+  accepts_nested_attributes_for :addresses
 
   enum role: ['user', 'merchant', 'admin']
 
