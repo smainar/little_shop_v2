@@ -9,13 +9,13 @@ RSpec.describe "User Registration form" do
     expect(current_path).to eq('/register')
 
     fill_in "user[name]", with: "Billy"
-    fill_in "user[address]", with: "123 go to santa lane"
-    fill_in "user[city]", with: "aurora"
-    fill_in "user[state]", with: "colorado"
     fill_in "user[email]", with: "billyurrutia@gmail.com"
-    fill_in "user[zip]", with: "123311"
     fill_in "user[password]", with: "1233"
     fill_in "user[password_confirmation]", with: "1233"
+    fill_in "user[addresses_attributes][0][street]", with: "123 go to santa lane"
+    fill_in "user[addresses_attributes][0][city]", with: "aurora"
+    fill_in "user[addresses_attributes][0][state]", with: "colorado"
+    fill_in "user[addresses_attributes][0][zip]", with: "123311"
 
     click_on "Register User"
 
@@ -35,13 +35,13 @@ RSpec.describe "User Registration form" do
       expect(current_path).to eq('/register')
 
       fill_in "user[name]", with: "Billy"
-      fill_in "user[address]", with: "123 go to santa lane"
-      fill_in "user[city]", with: "aurora"
-      fill_in "user[state]", with: "colorado"
       fill_in "user[email]", with: "billyurrutia@gmail.com"
-      fill_in "user[zip]", with: "123311"
       fill_in "user[password]", with: "1233"
       fill_in "user[password_confirmation]", with: "123"
+      fill_in "user[addresses_attributes][0][street]", with: "123 go to santa lane"
+      fill_in "user[addresses_attributes][0][city]", with: "aurora"
+      fill_in "user[addresses_attributes][0][state]", with: "colorado"
+      fill_in "user[addresses_attributes][0][zip]", with: "123311"
 
       click_on "Register User"
 
@@ -51,24 +51,18 @@ RSpec.describe "User Registration form" do
 
   context 'email in use already' do
     it 'gives flash error email in use' do
-      User.create!(email: "ABC@gmail.com",
-                  name: "billy",
-                  city: "miami",
-                  state: "colorado",
-                  password: "123",
-                  zip: "111",
-                  address: "1233 s way")
+      create(:user, email: "ABC@gmail.com")
 
       visit '/register'
 
       fill_in "user[name]", with: "Billy"
-      fill_in "user[address]", with: "123 go to santa lane"
-      fill_in "user[city]", with: "aurora"
-      fill_in "user[state]", with: "colorado"
       fill_in "user[email]", with: "abc@gmail.com"
-      fill_in "user[zip]", with: "123311"
       fill_in "user[password]", with: "1233"
       fill_in "user[password_confirmation]", with: "1233"
+      fill_in "user[addresses_attributes][0][street]", with: "123 go to santa lane"
+      fill_in "user[addresses_attributes][0][city]", with: "aurora"
+      fill_in "user[addresses_attributes][0][state]", with: "colorado"
+      fill_in "user[addresses_attributes][0][zip]", with: "123311"
 
       click_on "Register User"
 
