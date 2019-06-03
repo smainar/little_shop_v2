@@ -16,6 +16,7 @@ RSpec.describe "User Registration form" do
     fill_in "user[addresses_attributes][0][city]", with: "aurora"
     fill_in "user[addresses_attributes][0][state]", with: "colorado"
     fill_in "user[addresses_attributes][0][zip]", with: "123311"
+    fill_in "user[addresses_attributes][0][nickname]", with: "home"
 
     click_on "Register User"
 
@@ -42,6 +43,7 @@ RSpec.describe "User Registration form" do
       fill_in "user[addresses_attributes][0][city]", with: "aurora"
       fill_in "user[addresses_attributes][0][state]", with: "colorado"
       fill_in "user[addresses_attributes][0][zip]", with: "123311"
+      fill_in "user[addresses_attributes][0][nickname]", with: "home"
 
       click_on "Register User"
 
@@ -63,6 +65,7 @@ RSpec.describe "User Registration form" do
       fill_in "user[addresses_attributes][0][city]", with: "aurora"
       fill_in "user[addresses_attributes][0][state]", with: "colorado"
       fill_in "user[addresses_attributes][0][zip]", with: "123311"
+      fill_in "user[addresses_attributes][0][nickname]", with: "home"
 
       click_on "Register User"
 
