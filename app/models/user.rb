@@ -4,9 +4,10 @@ class User < ApplicationRecord
   validates_presence_of :name,
                         :role,
                         :password_digest
+                        
   has_many :orders
   has_many :items
-  
+
   has_many :addresses
   accepts_nested_attributes_for :addresses
 
