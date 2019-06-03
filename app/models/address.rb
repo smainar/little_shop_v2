@@ -4,7 +4,6 @@ class Address < ApplicationRecord
   validates_presence_of :street,
                         :city,
                         :state,
-                        :zip
-
-  # enum nickname: [:home, :work]
+                        :zip,
+                        :nickname
 end
