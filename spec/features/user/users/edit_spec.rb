@@ -10,9 +10,10 @@ RSpec.describe "profile edit page" do
       @city = "New York City"
       @state = "NY"
       @zip = "12345"
+      @nickname = "home"
 
       @user = User.create!(name: @name, email: @email, password: @password)
-      @address = @user.addresses.create!(street: @street, city: @city, state: @state, zip: @zip)
+      @address = @user.addresses.create!(street: @street, city: @city, state: @state, zip: @zip, nickname: @nickname)
 
       visit login_path
 
@@ -34,6 +35,7 @@ RSpec.describe "profile edit page" do
       expect(page).to have_field("user[addresses_attributes][0][city]")
       expect(page).to have_field("user[addresses_attributes][0][state]")
       expect(page).to have_field("user[addresses_attributes][0][zip]")
+      expect(page).to have_field("user[addresses_attributes][0][nickname]")
 
       click_button "Submit Changes"
       expect(current_path).to eq(profile_path)
@@ -44,6 +46,7 @@ RSpec.describe "profile edit page" do
       expect(page).to have_content(@address.city)
       expect(page).to have_content(@address.state)
       expect(page).to have_content(@address.zip)
+      expect(page).to have_content(@address.nickname)
     end
 
     it "I can edit my name" do
@@ -112,6 +115,24 @@ RSpec.describe "profile edit page" do
       expect(page).to have_content("Your profile has been updated")
       @user.reload
       expect(@address.reload.zip).to eq(new_zip)
+      expect(@user.password_digest).to eq(original_pw_digest)
+    end
+
+    it "I can edit the nickname (type) of my address" do
+      visit profile_edit_path
+
+      new_nickname = "work"
+      original_pw_digest = @user.password_digest
+
+      fill_in "user[addresses_attributes][0][nickname]", with: new_nickname
+      click_button "Submit Changes"
+
+      expect(page).to have_content(new_nickname)
+      expect(page).to_not have_content(@nickname)
+
+      expect(page).to have_content("Your profile has been updated")
+      @user.reload
+      expect(@address.reload.nickname).to eq(new_nickname)
       expect(@user.password_digest).to eq(original_pw_digest)
     end
 
