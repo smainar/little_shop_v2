@@ -62,13 +62,14 @@ RSpec.describe "profile edit page" do
       expect(page).to_not have_content(@name)
     end
 
-    it "I can edit my address" do
+    it "I can edit my street address" do
       visit profile_edit_path
 
       new_address = "7264 Blah St"
 
       fill_in "user[addresses_attributes][0][street]", with: new_address
       click_button "Submit Changes"
+
       expect(page).to have_content("Your profile has been updated")
       expect(page).to have_content(new_address)
       expect(page).to_not have_content(@street)
