@@ -1,7 +1,7 @@
 <h1>Name: <%= current_user.name %></h1>
-<p>Email: <%= current_user.email %></p>
+<h3>Email: <%= current_user.email %></h3>
 
-<h3>Addresses</h3>
+<h3>Address:</h3>
 <% @addresses.each do |address| %>
   <div id="address-<%= address.id %>">
     <p>Address Type: <%= address.nickname %></p>
@@ -9,11 +9,12 @@
     <p>City: <%= address.city %></p>
     <p>State: <%= address.state %></p>
     <p>Zip Code: <%= address.zip %></p>
+    <%= button_to "Delete Address", profile_address_path(address), method: :delete %>
   </div>
 <% end %>
 
-<%= link_to "Edit My Profile or Password", profile_edit_path %>
-<%= link_to "Add Address", new_profile_address_path %>
+<p><%= link_to "Edit My Profile or Password", profile_edit_path %></p>
+<p><%= link_to "Add Address", new_profile_address_path %></p>
 
 <% if @user_orders.any? %>
   <p><%= link_to "My Orders", user_orders_path %></p>
