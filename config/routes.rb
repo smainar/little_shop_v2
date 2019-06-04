@@ -31,7 +31,7 @@ Rails.application.routes.draw do
     get '/', to: "users#show"
     patch '/', to: "users#update"
     get '/edit', to: "users#edit"
-    resources :addresses, only: [:new, :create]
+    resources :addresses, only: [:new, :create, :destroy]
   end
 
   scope :profile, module: :user, as: :user do
