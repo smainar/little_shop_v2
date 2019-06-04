@@ -8,12 +8,20 @@ class User::AddressesController < User::BaseController
     address = Address.new(address_params)
     address.user_id = params[:format]
     if address.save
-      flash[:notice] = "The address for #{address.street} has been saved."
+      flash[:notice] = "Your address at #{address.street} was saved."
       redirect_to profile_path
     else
       flash[:error] = address.errors.full_messages.join(". ")
       render :new
     end
+  end
+
+  def destroy
+    address = Address.find(params[:id])
+    address.user_id == current_user.id
+    address.destroy
+    flash[:notice] = "Your address was deleted."
+    redirect_to profile_path
   end
 
   private
