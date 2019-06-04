@@ -5,8 +5,20 @@ RSpec.describe "profile page" do
     before(:each) do
       @user = User.create!(email: "abc@def.com", password: "pw123", name: "Abc Def")
 
-      @address_1 = @user.addresses.create!(street: "123 Abc St", city: "NYC", state: "NY", zip: "12345", nickname: "home")
-      @address_2 = @user.addresses.create!(street: "456 Dcf St", city: "Albany", state: "NY", zip: "67890", nickname: "work")
+      @street_1 = "123 Abc St"
+      @city_1 = "NYC"
+      @state_1 = "NY"
+      @zip_1 = "12345"
+      @nickname_1 = "home"
+
+      @street_2 = "456 Dcf St"
+      @city_2 = "Portland"
+      @state_2 = "Maine"
+      @zip_2 = "67890"
+      @nickname_2 = "work"
+
+      @address_1 = @user.addresses.create!(street: @street_1, city: @city_1, state: @state_1, zip: @zip_1, nickname: @nickname_1)
+      @address_2 = @user.addresses.create!(street: @street_2, city: @city_2, state: @state_2, zip: @zip_2, nickname: @nickname_2)
 
       allow_any_instance_of(ApplicationController).to receive(:current_user)
         .and_return(@user)
@@ -93,6 +105,36 @@ RSpec.describe "profile page" do
         expect(page).to have_content(address_3.zip)
         expect(page).to have_content(address_3.nickname)
       end
+    end
+
+    it "has a button to delete an address" do
+      visit profile_path
+
+      expect(page).to have_content(@user.name)
+      expect(page).to have_content(@user.email)
+
+      within "#address-#{@address_1.id}" do
+        expect(page).to have_button("Delete Address")
+        expect(page).to have_content(@address_1.street)
+        expect(page).to have_content(@address_1.city)
+        expect(page).to have_content(@address_1.state)
+        expect(page).to have_content(@address_1.zip)
+        expect(page).to have_content(@address_1.nickname)
+      end
+
+      within "#address-#{@address_2.id}" do
+        expect(page).to have_button("Delete Address")
+
+        click_button "Delete Address"
+
+        expect(current_path).to eq(profile_path)
+      end
+
+      expect(page).to_not have_content(@street_2)
+      expect(page).to_not have_content(@city_2)
+      expect(page).to_not have_content(@state_2)
+      expect(page).to_not have_content(@zip_2)
+      expect(page).to_not have_content(@nickname_2)
     end
   end
 
