@@ -3,14 +3,17 @@
 
 <h3>Addresses</h3>
 <% @addresses.each do |address| %>
-  <p>Street Address: <%= address.street %></p>
-  <p>City: <%= address.city %></p>
-  <p>State: <%= address.state %></p>
-  <p>Zip: <%= address.zip %></p>
-  <p>Type: <%= address.nickname %></p>
+  <div id="address-<%= address.id %>">
+    <p>Address Type: <%= address.nickname %></p>
+    <p>Street Address: <%= address.street %></p>
+    <p>City: <%= address.city %></p>
+    <p>State: <%= address.state %></p>
+    <p>Zip Code: <%= address.zip %></p>
+  </div>
 <% end %>
 
 <%= link_to "Edit My Profile or Password", profile_edit_path %>
+<%= link_to "Add Address", new_profile_address_path %>
 
 <% if @user_orders.any? %>
   <p><%= link_to "My Orders", user_orders_path %></p>
