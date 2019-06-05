@@ -45,7 +45,12 @@ class CartsController < ApplicationController
   end
 
   def checkout
-    new_order = current_user.orders.create
+    address = Address.find(params[:address_id])
+    # new_order = current_user.orders.create
+    new_order = Order.create
+    new_order.address_id = address.id
+    current_user.orders << new_order
+    new_order.save
     cart.item_and_quantity_hash.each do |item, quantity|
       OrderItem.create(item: item, order: new_order, quantity: quantity, price_per_item: item.price)
     end
