@@ -126,7 +126,6 @@ RSpec.describe "cart show page", type: :feature do
     end
   end
 
-
   context "as a user with an empty cart" do
     it "should only display, your cart is empty" do
       user = create(:user)
