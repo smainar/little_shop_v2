@@ -1,20 +1,19 @@
 class User < ApplicationRecord
   before_save { self.email = email.downcase }
 
-  validates_presence_of :email,
-                        :name,
-                        :address,
-                        :city,
-                        :state,
-                        :zip,
-                        :role
+  validates_presence_of :name,
+                        :role,
+                        :password_digest
+                        
   has_many :orders
   has_many :items
+
+  has_many :addresses
+  accepts_nested_attributes_for :addresses
 
   enum role: ['user', 'merchant', 'admin']
 
   validates :email, uniqueness: true, presence: true
-  validates_presence_of :password_digest
 
   has_secure_password
 

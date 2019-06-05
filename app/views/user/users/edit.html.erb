@@ -1,29 +1,35 @@
 <div id="profile-edit-form">
-  <%= form_tag profile_path, method: :patch do %>
-    <%= label_tag :name %>
-    <%= text_field_tag :name, current_user.name, required: true %>
-    <br>
-    <%= label_tag :email %>
-    <%= email_field_tag :email, current_user.email, required: true %>
-    <br>
-    <%= label_tag :password %>
-    <%= password_field_tag :password, nil %>
-    <br>
-    <%= label_tag :password_confirmation %>
-    <%= password_field_tag :password_confirmation, nil %>
-    <br>
-    <%= label_tag :address %>
-    <%= text_field_tag :address, current_user.address, required: true %>
-    <br>
-    <%= label_tag :city %>
-    <%= text_field_tag :city, current_user.city, required: true %>
-    <br>
-    <%= label_tag :state %>
-    <%= text_field_tag :state, current_user.state, required: true %>
-    <br>
-    <%= label_tag :zip %>
-    <%= text_field_tag :zip, current_user.zip, required: true %>
-    <br>
-    <%= submit_tag 'Submit Changes' %>
+  <%= form_for(@user, url: profile_path) do |f| %>
+
+    <%= f.label :name %>
+    <%= f.text_field :name, required: true %><br>
+
+    <%= f.label :email %>
+    <%= f.email_field :email, required: true %><br>
+
+    <%= f.fields_for :addresses do |fa| %>
+      <%= fa.label :nickname %>
+      <%= fa.text_field :nickname, required: true %><br>
+      
+      <%= fa.label :street %>
+      <%= fa.text_field :street, required: true %><br>
+
+      <%= fa.label :city %>
+      <%= fa.text_field :city, required: true %><br>
+
+      <%= fa.label :state %>
+      <%= fa.text_field :state, required: true %><br>
+
+      <%= fa.label :zip %>
+      <%= fa.text_field :zip, required: true %><br>
+    <% end %>
+
+    <%= f.label :password %>
+    <%= f.password_field :password, required: true %><br>
+
+    <%= f.label :password_confirmation %>
+    <%= f.password_field :password_confirmation, required: true %><br>
+
+    <%= f.submit "Submit Changes" %>
   <% end %>
 </div>

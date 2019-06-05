@@ -4,10 +4,18 @@ RSpec.describe "As an admin user" do
   context "When I log into my dashboard" do
     before :each do
       @admin = create(:admin)
-      @user_1 = create(:user, city: "Glendale", state: "CO")
-      @user_2 = create(:user, city: "Glendale", state: "IA")
-      @user_3 = create(:user, city: "Glendale", state: "CA")
-      @user_4 = create(:user, city: "Golden", state: "CO")
+
+      @user_1 = create(:user)
+      @address_1 = create(:address, user: @user_1, city: "Glendale", state: "CO")
+
+      @user_2 = create(:user)
+      @address_2 = create(:address, user: @user_2, city: "Glendale", state: "IA")
+
+      @user_3 = create(:user)
+      @address_3 = create(:address, user: @user_3, city: "Glendale", state: "CA")
+
+      @user_4 = create(:user)
+      @address_4 = create(:address, user: @user_4, city: "Golden", state: "CO")
 
       @merchant_1 = create(:merchant)
       @item_1 = create(:item, user: @merchant_1, inventory: 20)
@@ -22,20 +30,20 @@ RSpec.describe "As an admin user" do
       @item_8 = create(:item, user: @merchant_2)
 
       #shipped orders
-      @order_1 = create(:shipped_order, user: @user_1)
-      @order_2 = create(:shipped_order, user: @user_2)
-      @order_3 = create(:shipped_order, user: @user_3)
-      @order_4 = create(:shipped_order, user: @user_4)
-      @order_5 = create(:shipped_order, user: @user_3)
+      @order_1 = create(:shipped_order, user: @user_1, address: @address_1)
+      @order_2 = create(:shipped_order, user: @user_2, address: @address_2)
+      @order_3 = create(:shipped_order, user: @user_3, address: @address_3)
+      @order_4 = create(:shipped_order, user: @user_4, address: @address_4)
+      @order_5 = create(:shipped_order, user: @user_3, address: @address_3)
 
       #pending order
-      @order_6 = create(:order, user: @user_3)
+      @order_6 = create(:order, user: @user_3, address: @address_3)
 
       #cancelled order
-      @order_7 = create(:cancelled_order, user: @user_1)
+      @order_7 = create(:cancelled_order, user: @user_1, address: @address_1)
 
       #packaged order
-      @order_8 = create(:packaged_order, user: @user_2)
+      @order_8 = create(:packaged_order, user: @user_2, address: @address_2)
 
       #shipped orders
       @order_item_1 = create(:fulfilled_order_item, item: @item_1, quantity: 2, order: @order_1, price_per_item: 100)
@@ -94,14 +102,23 @@ RSpec.describe "As an admin user" do
 
     it 'should display all orders and correct info' do
       admin = create(:admin)
+
       user_w_order_1 = create(:user)
+      address_1 = create(:address, user: user_w_order_1, city: "Glendale", state: "CO")
+
       user_w_order_2 = create(:user)
+      address_2 = create(:address, user: user_w_order_2, city: "Glendale", state: "IA")
+
       user_w_order_3 = create(:user)
+      address_3 = create(:address, user: user_w_order_3, city: "Glendale", state: "CA")
+
       user_w_order_4 = create(:user)
-      order_1 = create(:packaged_order, user: user_w_order_1)
-      order_2 = create(:order, user: user_w_order_2)
-      order_3 = create(:shipped_order, user: user_w_order_3)
-      order_4 = create(:cancelled_order, user: user_w_order_4)
+      address_4 = create(:address, user: user_w_order_4, city: "Golden", state: "CO")
+
+      order_1 = create(:packaged_order, user: user_w_order_1, address: address_1)
+      order_2 = create(:order, user: user_w_order_2, address: address_2)
+      order_3 = create(:shipped_order, user: user_w_order_3, address: address_3)
+      order_4 = create(:cancelled_order, user: user_w_order_4, address: address_4)
 
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(admin)
 

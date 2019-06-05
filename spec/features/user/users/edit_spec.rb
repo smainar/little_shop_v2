@@ -3,21 +3,17 @@ require 'rails_helper'
 RSpec.describe "profile edit page" do
   context "as a user" do
     before(:each) do
+      @name = "Abc Def"
       @email = "abc@def.com"
       @password = "pw123"
-      @name = "Abc Def"
-      @address = "123 Abc St"
+      @street = "123 Abc St"
       @city = "New York City"
       @state = "NY"
       @zip = "12345"
-      @user = User.create!(email:    @email,
-                           password: @password,
-                           name:     @name,
-                           address:  @address,
-                           city:     @city,
-                           state:    @state,
-                           zip:      @zip
-                          )
+      @nickname = "home"
+
+      @user = User.create!(name: @name, email: @email, password: @password)
+      @address = @user.addresses.create!(street: @street, city: @city, state: @state, zip: @zip, nickname: @nickname)
 
       visit login_path
 
@@ -31,24 +27,26 @@ RSpec.describe "profile edit page" do
     it "shows a form to edit my profile data" do
       visit profile_edit_path
 
-      expect(page).to have_field(:name)
-      expect(page).to have_field(:email)
-      expect(page).to have_field(:password)
-      expect(page).to have_field(:password_confirmation)
-      expect(page).to have_field(:address)
-      expect(page).to have_field(:city)
-      expect(page).to have_field(:state)
-      expect(page).to have_field(:zip)
+      expect(page).to have_field("user[name]")
+      expect(page).to have_field("user[email]")
+      expect(page).to have_field("user[password]")
+      expect(page).to have_field("user[password_confirmation]")
+      expect(page).to have_field("user[addresses_attributes][0][street]")
+      expect(page).to have_field("user[addresses_attributes][0][city]")
+      expect(page).to have_field("user[addresses_attributes][0][state]")
+      expect(page).to have_field("user[addresses_attributes][0][zip]")
+      expect(page).to have_field("user[addresses_attributes][0][nickname]")
 
       click_button "Submit Changes"
-
       expect(current_path).to eq(profile_path)
 
       expect(page).to have_content(@user.name)
       expect(page).to have_content(@user.email)
-      expect(page).to have_content(@user.address)
-      expect(page).to have_content("#{@user.city}, #{@user.state}")
-      expect(page).to have_content(@user.zip)
+      expect(page).to have_content(@address.street)
+      expect(page).to have_content(@address.city)
+      expect(page).to have_content(@address.state)
+      expect(page).to have_content(@address.zip)
+      expect(page).to have_content(@address.nickname)
     end
 
     it "I can edit my name" do
@@ -56,7 +54,7 @@ RSpec.describe "profile edit page" do
 
       new_name = "Bob"
 
-      fill_in :name, with: new_name
+      fill_in "user[name]", with: new_name
       click_button "Submit Changes"
 
       expect(page).to have_content("Your profile has been updated")
@@ -64,17 +62,17 @@ RSpec.describe "profile edit page" do
       expect(page).to_not have_content(@name)
     end
 
-    it "I can edit my address" do
+    it "I can edit my street address" do
       visit profile_edit_path
 
       new_address = "7264 Blah St"
 
-      fill_in :address, with: new_address
+      fill_in "user[addresses_attributes][0][street]", with: new_address
       click_button "Submit Changes"
 
       expect(page).to have_content("Your profile has been updated")
       expect(page).to have_content(new_address)
-      expect(page).to_not have_content(@address)
+      expect(page).to_not have_content(@street)
     end
 
     it "I can edit my city" do
@@ -82,7 +80,7 @@ RSpec.describe "profile edit page" do
 
       new_city = "New Orleans"
 
-      fill_in :city, with: new_city
+      fill_in "user[addresses_attributes][0][city]", with: new_city
       click_button "Submit Changes"
 
       expect(page).to have_content("Your profile has been updated")
@@ -95,7 +93,7 @@ RSpec.describe "profile edit page" do
 
       new_state = "LA"
 
-      fill_in :state, with: new_state
+      fill_in "user[addresses_attributes][0][state]", with: new_state
       click_button "Submit Changes"
 
       expect(page).to have_content("Your profile has been updated")
@@ -109,7 +107,7 @@ RSpec.describe "profile edit page" do
       new_zip = "83649"
       original_pw_digest = @user.password_digest
 
-      fill_in :zip, with: new_zip
+      fill_in "user[addresses_attributes][0][zip]", with: new_zip
       click_button "Submit Changes"
 
       expect(page).to have_content(new_zip)
@@ -117,7 +115,25 @@ RSpec.describe "profile edit page" do
 
       expect(page).to have_content("Your profile has been updated")
       @user.reload
-      expect(@user.zip).to eq(new_zip)
+      expect(@address.reload.zip).to eq(new_zip)
+      expect(@user.password_digest).to eq(original_pw_digest)
+    end
+
+    it "I can edit the nickname (type) of my address" do
+      visit profile_edit_path
+
+      new_nickname = "work"
+      original_pw_digest = @user.password_digest
+
+      fill_in "user[addresses_attributes][0][nickname]", with: new_nickname
+      click_button "Submit Changes"
+
+      expect(page).to have_content(new_nickname)
+      expect(page).to_not have_content(@nickname)
+
+      expect(page).to have_content("Your profile has been updated")
+      @user.reload
+      expect(@address.reload.nickname).to eq(new_nickname)
       expect(@user.password_digest).to eq(original_pw_digest)
     end
 
@@ -126,7 +142,7 @@ RSpec.describe "profile edit page" do
 
       new_email = "Bob@Bobbin.com"
 
-      fill_in :email, with: new_email
+      fill_in "user[email]", with: new_email
       click_button "Submit Changes"
 
       expect(page).to have_content("Your profile has been updated")
@@ -140,7 +156,7 @@ RSpec.describe "profile edit page" do
 
       visit profile_edit_path
 
-      fill_in :email, with: new_email
+      fill_in "user[email]", with: new_email
       click_button "Submit Changes"
 
       expect(current_path).to eq(profile_edit_path)
@@ -156,8 +172,8 @@ RSpec.describe "profile edit page" do
       new_password = "newPassword"
       original_pw_digest = @user.password_digest
 
-      fill_in :password, with: new_password
-      fill_in :password_confirmation, with: new_password
+      fill_in "user[password]", with: new_password
+      fill_in "user[password_confirmation]", with: new_password
       click_button "Submit Changes"
 
       expect(page).to have_content("Your profile has been updated")
@@ -171,8 +187,8 @@ RSpec.describe "profile edit page" do
       new_password = "newPassword"
       original_pw_digest = @user.password_digest
 
-      fill_in :password, with: new_password.downcase
-      fill_in :password_confirmation, with: new_password.upcase
+      fill_in "user[password]", with: new_password.downcase
+      fill_in "user[password_confirmation]", with: new_password.upcase
       click_button "Submit Changes"
 
       expect(page).to_not have_content("Your profile has been updated")
