@@ -58,53 +58,57 @@ RSpec.describe User, type: :model do
         @item_3 = create(:item, user: @merchant_5)
 
         ####### @user_1
-        @user_1 = create(:user, city: "Springfield", state: "KS")
+        @user_1 = create(:user)
+        @address_1 = create(:address, user: @user_1, city: "Springfield", state: "KS")
 
-        @order_1 = create(:shipped_order, user: @user_1) # total_quantity = 101
+        @order_1 = create(:shipped_order, user: @user_1, address: @address_1) # total_quantity = 101
         # merchant_1:
         @oi_1 = create(:fulfilled_order_item, order: @order_1, item: @item_1, quantity: 100, price_per_item: 0.50)
         # merchant_2:
         @oi_2 = create(:fulfilled_order_item, order: @order_1, item: @item_2, quantity: 1, price_per_item: 30.0)
 
         ####### @user_2
-        @user_2 = create(:user, city: "Springfield", state: "IL")
+        @user_2 = create(:user)
+        @address_2 = create(:address, user: @user_2, city: "Springfield", state: "IL")
 
-        @order_2 = create(:shipped_order, user: @user_2) # total_quantity = 2200
+        @order_2 = create(:shipped_order, user: @user_2, address: @address_2) # total_quantity = 2200
         # merchant_1:
         @oi_7 = create(:fulfilled_order_item, order: @order_2, item: @item_1, quantity: 200, price_per_item: 0.05)
         # merchant_1:
         @oi_3 = create(:fulfilled_order_item, order: @order_2, item: @item_3, quantity: 2000, price_per_item: 100.0)
 
         ####### @user_3
-        @user_3 = create(:user, city: "Topeka", state: "KS")
+        @user_3 = create(:user)
+        @address_3 = create(:address, user: @user_3, city: "Topeka", state: "KS")
 
-        @order_3 = create(:order, user: @user_3) # pending order
+        @order_3 = create(:order, user: @user_3, address: @address_3) # pending order
         # merchant_3 / pending order -- should not be included in stats for sales:
         @oi_4 = create(:fulfilled_order_item, order: @order_3, item: @item_4, quantity: 300, price_per_item: 20.0)
 
-        @order_4 = create(:cancelled_order, user: @user_3)
+        @order_4 = create(:cancelled_order, user: @user_3, address: @address_3)
         # merchant_3 / cancelled order -- should not be included in stats for sales:
         @oi_5 = create(:fulfilled_order_item, order: @order_4, item: @item_4, quantity: 400, price_per_item: 13.0)
 
-        @order_5 = create(:packaged_order, user: @user_3)
+        @order_5 = create(:packaged_order, user: @user_3, address: @address_3)
         # merchant_3 / packaged order -- should not be included in stats for sales:
         @oi_6 = create(:fulfilled_order_item, order: @order_5, item: @item_5, quantity: 410, price_per_item: 25.0)
 
-        @order_7 = create(:shipped_order, user: @user_3) # total_quantity = 1
+        @order_7 = create(:shipped_order, user: @user_3, address: @address_3) # total_quantity = 1
         # merchant_2:
         @oi_9 = create(:fulfilled_order_item, order: @order_7, item: @item_2, quantity: 1, price_per_item: 1.0)
 
-        @order_9 = create(:shipped_order, user: @user_3)
-        @order_10 = create(:shipped_order, user: @user_3)
+        @order_9 = create(:shipped_order, user: @user_3, address: @address_3)
+        @order_10 = create(:shipped_order, user: @user_3, address: @address_3)
 
         ####### @user_4
-        @user_4 = create(:user, city: "Denver", state: "CO")
+        @user_4 = create(:user)
+        @address_4 = create(:address, user: @user_4, city: "Denver", state: "CO")
 
-        @order_8 = create(:shipped_order, user: @user_4) # total_quantity = 1
+        @order_8 = create(:shipped_order, user: @user_4, address: @address_4) # total_quantity = 1
         # merchant_3:
         @oi_10 = create(:fulfilled_order_item, order: @order_8, item: @item_4, quantity: 1, price_per_item: 1.0)
 
-        @order_6 = create(:shipped_order, user: @user_4) # total_quantity = 5
+        @order_6 = create(:shipped_order, user: @user_4, address: @address_4) # total_quantity = 5
         # merchant_4:
         @oi_8 = create(:fulfilled_order_item, order: @order_6, item: @item_6, quantity: 5, price_per_item: 10000.0)
       end
@@ -261,10 +265,17 @@ RSpec.describe User, type: :model do
 
   describe 'instance methods' do
     before :each do
-      @user_1 = create(:user, city: "Glendale", state: "CO")
-      @user_2 = create(:user, city: "Glendale", state: "IA")
-      @user_3 = create(:user, city: "Glendale", state: "CA")
-      @user_4 = create(:user, city: "Golden", state: "CO")
+      @user_1 = create(:user)
+      @address_1 = create(:address, user: @user_1, city: "Glendale", state: "CO")
+
+      @user_2 = create(:user)
+      @address_2 = create(:address, user: @address_2, city: "Glendale", state: "IA")
+
+      @user_3 = create(:user)
+      @address_3 = create(:address, user: @address_3, city: "Glendale", state: "CA")
+
+      @user_4 = create(:user)
+      @address_4 = create(:address, user: @address_4, city: "Golden", state: "CO")
 
       @merchant_1 = create(:merchant)
       @item_1 = create(:item, user: @merchant_1, inventory: 20)
@@ -279,20 +290,20 @@ RSpec.describe User, type: :model do
       @item_8 = create(:item, user: @merchant_2)
 
       #shipped orders
-      @order_1 = create(:shipped_order, user: @user_1)
-      @order_2 = create(:shipped_order, user: @user_2)
-      @order_3 = create(:shipped_order, user: @user_3)
-      @order_4 = create(:shipped_order, user: @user_4)
-      @order_5 = create(:shipped_order, user: @user_3)
+      @order_1 = create(:shipped_order, user: @user_1, address: @address_1)
+      @order_2 = create(:shipped_order, user: @user_2, address: @address_2)
+      @order_3 = create(:shipped_order, user: @user_3, address: @address_3)
+      @order_4 = create(:shipped_order, user: @user_4, address: @address_4)
+      @order_5 = create(:shipped_order, user: @user_3, address: @address_5)
 
       #pending order
-      @order_6 = create(:order, user: @user_3)
+      @order_6 = create(:order, user: @user_3, address: @user_3)
 
       #cancelled order
-      @order_7 = create(:cancelled_order, user: @user_1)
+      @order_7 = create(:cancelled_order, user: @user_1, address: @address_1)
 
       #packaged order
-      @order_8 = create(:packaged_order, user: @user_2)
+      @order_8 = create(:packaged_order, user: @user_2, address: @address_2)
 
       #shipped orders
       @order_item_1 = create(:fulfilled_order_item, item: @item_1, quantity: 2, order: @order_1, price_per_item: 100)
