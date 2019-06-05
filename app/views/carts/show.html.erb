@@ -23,7 +23,9 @@
   <h2>Grand Total: <%= number_to_currency(cart.grand_total) %></h2>
 
   <% if current_user?  %>
-    <%= button_to "Check Out", cart_path %>
+    <% current_user.addresses.each do |address| %>
+      <%= button_to "Check Out: Ship to #{address.street}, #{address.city}, #{address.state}", cart_path(address_id: address) %>
+      <% end %>
   <% end %>
   <%= button_to "Empty Cart", { controller: :carts, action: :destroy }, method: :delete %>
 <% else %>
