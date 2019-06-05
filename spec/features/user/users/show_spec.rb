@@ -194,8 +194,9 @@ RSpec.describe "profile page" do
     it "displays a link to my orders, if I have orders placed in the system" do
       user = create(:user)
       merchant = create(:merchant)
+      address = create(:address)
 
-      order = create(:order, user: user)
+      order = create(:order, user: user, address: address)
 
       item_1 = create(:item, user: merchant)
       item_2 = create(:item, user: merchant)
