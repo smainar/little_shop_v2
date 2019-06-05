@@ -136,6 +136,58 @@ RSpec.describe "profile page" do
       expect(page).to_not have_content(@zip_2)
       expect(page).to_not have_content(@nickname_2)
     end
+
+    it "has a button to edit an address" do
+
+      new_street = "New Street"
+      new_city = "New City"
+      new_state = "New State"
+      new_zip = "33333"
+      new_nickname = "holiday"
+
+      visit profile_path
+
+      expect(page).to have_content(@user.name)
+      expect(page).to have_content(@user.email)
+
+      within "#address-#{@address_1.id}" do
+        expect(page).to have_button("Edit Address")
+
+        expect(page).to have_content(@street_1)
+        expect(page).to have_content(@city_1)
+        expect(page).to have_content(@state_1)
+        expect(page).to have_content(@zip_1)
+        expect(page).to have_content(@nickname_1)
+      end
+
+      within "#address-#{@address_2.id}" do
+        expect(page).to have_button("Edit Address")
+
+        click_button "Edit Address"
+
+        expect(current_path).to eq(edit_profile_address_path(@address_2))
+      end
+
+      fill_in "address[street]", with: new_street
+      fill_in "address[state]", with: new_state
+      fill_in "address[city]", with: new_city
+      fill_in "address[zip]", with: new_zip
+      fill_in "address[nickname]", with: new_nickname
+
+      click_button "Submit Edits"
+      expect(current_path).to eq(profile_path)
+
+      expect(page).to have_content(@user.name)
+      expect(page).to have_content(@user.email)
+
+      within "#address-#{@address_2.id}" do
+        expect(page).to have_content(new_street)
+        expect(page).to have_content(new_city)
+        expect(page).to have_content(new_state)
+        expect(page).to have_content(new_zip)
+        expect(page).to have_content(new_nickname)
+      end
+    end
   end
 
   context "as a registered user" do
